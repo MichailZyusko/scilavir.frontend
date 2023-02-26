@@ -1,3 +1,5 @@
+'use client';
+
 import { InputHTMLAttributes, useState } from 'react';
 import { useFormContext } from 'react-hook-form';
 import Image from 'next/image';
