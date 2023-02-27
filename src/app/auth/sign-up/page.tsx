@@ -11,7 +11,7 @@ export default function SignUp() {
 
   const onSubmit = async (fieldValues: FieldValues) => {
     const { data } = await axios.post('/auth/sign-up', fieldValues);
-    console.log('🚀 ~ file: page.tsx:12 ~ onSubmit ~ data:', fieldValues);
+    console.log('🚀 ~ file: page.tsx:12 ~ onSubmit ~ data:', data);
 
     router.push('/auth/registration');
   };
