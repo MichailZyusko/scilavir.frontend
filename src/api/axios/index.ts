@@ -2,7 +2,7 @@
 import axios from 'axios';
 
 const instance = axios.create({
-  baseURL: 'http://localhost:3001',
+  baseURL: process.env.BASE_API_URL,
 });
 
 const refreshTokens = async () => {
@@ -10,7 +10,7 @@ const refreshTokens = async () => {
 
   const { data } = await axios<{ accessToken: string, refreshToken: string }>({
     method: 'POST',
-    url: 'http://localhost:3001/auth/refresh',
+    url: `${process.env.BASE_API_URL}/auth/refresh`,
     headers: {
       Authorization: `Bearer ${rToken}`,
     },
