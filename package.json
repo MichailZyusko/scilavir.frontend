@@ -11,6 +11,7 @@
   },
   "dependencies": {
     "@next/font": "13.1.6",
+    "@reduxjs/toolkit": "^1.9.3",
     "@types/node": "18.13.0",
     "@types/react": "18.0.28",
     "@types/react-dom": "18.0.10",
@@ -18,9 +19,11 @@
     "flowbite": "^1.6.3",
     "flowbite-react": "^0.3.8",
     "next": "13.1.6",
+    "next-redux-wrapper": "^8.1.0",
     "react": "18.2.0",
     "react-dom": "18.2.0",
-    "react-hook-form": "^7.43.2"
+    "react-hook-form": "^7.43.2",
+    "react-redux": "^8.0.5"
   },
   "devDependencies": {
     "@typescript-eslint/eslint-plugin": "^5.51.0",

@@ -1,30 +1,20 @@
 'use client';
 
 import axios from '@/api/axios';
-import { useLocalStorage } from '@/hooks/useLocalStorage';
+import { useAppDispatch } from '@/redux/hooks';
 import { TextInput } from '@/ui-kit/inputs';
 import { FieldValues, FormProvider, useForm } from 'react-hook-form';
+import { signIn } from '../auth.slice';
 
 export default function SignIn() {
   const hookFormMethods = useForm();
-  const [aToken, setAToken] = useLocalStorage('a-token');
-  const [rToken, setRToken] = useLocalStorage('r-token');
+  const dispatch = useAppDispatch();
 
   const onSubmit = async (fieldValues: FieldValues) => {
-    // const { data } = await axios.post<{ accessToken: string, refreshToken: string }>('/auth/sign-in', fieldValues);
+    const { data } = await axios.post<{ accessToken: string, refreshToken: string }>('/auth/sign-in', fieldValues);
 
-    // setAToken(data.accessToken);
-    // setRToken(data.refreshToken);
-
-    const { data } = await axios.get('/users', {
-      headers: {
-        Authorization: `Bearer ${aToken}`,
-      },
-    });
-    console.log('🚀 ~ file: page.tsx:24 ~ onSubmit ~ data:', data);
+    dispatch(signIn(data));
   };
-
-  console.log({ aToken, rToken });
 
   return (
     <main>
