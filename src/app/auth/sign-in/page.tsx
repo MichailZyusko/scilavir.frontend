@@ -16,6 +16,8 @@ export default function SignIn() {
     dispatch(signIn(data));
   };
 
+  console.log(process.env);
+
   return (
     <main>
       <FormProvider {...hookFormMethods}>
