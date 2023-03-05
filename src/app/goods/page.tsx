@@ -8,11 +8,15 @@ export default function GoodsPage() {
 
   useEffect(() => {
     (async () => {
-      const { data } = await axios.get<{ goods: any[] }>('/goods');
+      const { data } = await axios.get('/goods');
 
-      setGoods(data.goods);
+      setGoods(data);
     })();
   }, []);
+
+  if (goods?.length === 0) {
+    return <div>Loading...</div>;
+  }
 
   return (
     <main>
