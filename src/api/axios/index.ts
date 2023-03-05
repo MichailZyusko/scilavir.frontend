@@ -24,8 +24,11 @@ const refreshTokens = async () => {
 
 instance.interceptors.request.use((config) => {
   const aToken = window.localStorage.getItem('a-token');
-  // eslint-disable-next-line no-param-reassign
-  config.headers.Authorization = aToken ? `Bearer ${aToken}` : undefined;
+
+  if (aToken) {
+    // eslint-disable-next-line no-param-reassign
+    config.headers.Authorization = `Bearer ${aToken}`;
+  }
 
   return config;
 });
