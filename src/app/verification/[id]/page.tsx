@@ -1,6 +1,6 @@
 'use client';
 
-import { patchUser } from '@/api/patch.user';
+import { patchUser } from '@/api/services/users/patch.user';
 import { useRouter } from 'next/navigation';
 import { useEffect } from 'react';
 

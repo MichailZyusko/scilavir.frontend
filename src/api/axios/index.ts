@@ -25,7 +25,7 @@ const refreshTokens = async () => {
 instance.interceptors.request.use((config) => {
   const aToken = window.localStorage.getItem('a-token');
   // eslint-disable-next-line no-param-reassign
-  config.headers.Authorization = aToken ? `Bearer ${aToken}` : '';
+  config.headers.Authorization = aToken ? `Bearer ${aToken}` : undefined;
 
   return config;
 });
