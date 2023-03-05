@@ -1,7 +1,7 @@
 'use client';
 
-import axios from 'axios';
 import { useState, useEffect } from 'react';
+import axios from '../../api/axios';
 
 export default function GoodsPage() {
   const [goods, setGoods] = useState<any>([]);
