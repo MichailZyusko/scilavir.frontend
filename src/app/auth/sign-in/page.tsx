@@ -16,8 +16,6 @@ export default function SignIn() {
     dispatch(signIn(data));
   };
 
-  console.log(process.env.NEXT_PUBLIC_BASE_API_URL);
-
   return (
     <main>
       <FormProvider {...hookFormMethods}>
