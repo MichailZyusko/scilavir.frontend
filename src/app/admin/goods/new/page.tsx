@@ -19,7 +19,7 @@ export default function NewGood() {
       formData.append(key, value);
     });
 
-    axios.post('/goods', formData);
+    axios.post('/products', formData);
   };
 
   return (

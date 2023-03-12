@@ -9,7 +9,7 @@ export default function GoodsPage() {
 
   useEffect(() => {
     (async () => {
-      const { data } = await axios.get('/goods');
+      const { data } = await axios.get('/products');
 
       setGoods(data);
     })();
