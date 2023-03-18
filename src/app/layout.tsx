@@ -8,17 +8,18 @@ import Providers from './providers';
 
 const inter = Inter({
   subsets: ['cyrillic', 'latin'],
-  weight: ['600', '400'],
+  weight: ['600', '400', '200'],
 });
 
 export default function RootLayout({ children }: PropsWithChildren) {
   return (
     <html lang="ru">
       <Providers>
-        <body className={clsx(
-          'flex flex-col justify-between',
-          inter.className,
-        )}
+        <body
+          className={clsx(
+            'flex flex-col justify-between scroll-smooth',
+            inter.className,
+          )}
         >
           <Header />
           {children}

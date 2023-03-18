@@ -1,9 +1,15 @@
-import { Banner } from '@/ui-kit/components/banner';
+import { AboutUs } from '@/ui-kit/components/overview/about-us';
+import { Banner } from '@/ui-kit/components/overview/banner';
+import { PopularCategories } from '@/ui-kit/components/overview/popular-categories';
+import { ProsList } from '@/ui-kit/components/overview/pros-list';
 
 export default function Home() {
   return (
-    <main>
+    <main className="px-44">
       <Banner />
+      <ProsList />
+      <PopularCategories />
+      <AboutUs />
     </main>
   );
 }

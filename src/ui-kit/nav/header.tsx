@@ -14,7 +14,7 @@ export function Header() {
   if (!domLoaded) return null;
 
   return (
-    <header className="p-2.5">
+    <header className="px-44 py-20">
       <div className="flex justify-between">
         <div>
           <Image src="/images/search.svg" width={24} height={24} alt="logo" />
@@ -53,7 +53,7 @@ export function Header() {
                 </Navbar.Link>
               </Dropdown.Item>
             </Dropdown>
-            <Navbar.Link href="/navbars">
+            <Navbar.Link href="/#about-us">
               О нас
             </Navbar.Link>
             <Navbar.Link href="/navbars">

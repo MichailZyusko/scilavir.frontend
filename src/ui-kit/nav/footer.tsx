@@ -4,7 +4,7 @@ import { YMaps, Map, Placemark } from 'react-yandex-maps';
 
 export function Footer() {
   return (
-    <footer className="flex h-[500px] bg-gray justify-between items-center">
+    <footer className="flex h-[500px] mt-20 bg-gray justify-between items-center">
       <div>
         Info about mag
       </div>
