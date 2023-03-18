@@ -21,7 +21,7 @@ export default function VerificationPage({ params }: TProps) {
 
       router.push('/');
     })();
-  }, [id]);
+  }, [id, router]);
 
   return (
     <>
