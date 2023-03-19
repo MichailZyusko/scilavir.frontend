@@ -75,7 +75,7 @@ export default function ProductPage() {
       <h2 className="w-full text-3xl text-center font-semibold my-10">Похожие товары</h2>
 
       <div className="grid grid-cols-4 gap-8">
-        {PRODUCTS.slice(0, 4).map((product) => <Product {...product} />)}
+        {PRODUCTS.slice(0, 4).map(({ id, ...product }) => <Product key={id} id={id} {...product} />)}
       </div>
 
     </main>

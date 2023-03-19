@@ -4,13 +4,11 @@ import Image from 'next/image';
 import { PRODUCTS } from '@/constants';
 import { Product } from '@/ui-kit/components/products/product';
 import { Dropdown } from 'flowbite-react';
-import { SubCategoryList } from '@/ui-kit/components/products/sub-categorie';
 
-export default function ProductsPage() {
+export default function FavoritePage() {
   return (
     <main className="px-44">
-      <SubCategoryList />
-      <h1 className="w-full text-4xl text-center font-semibold mb-5">Каталог</h1>
+      <h1 className="w-full text-4xl text-center font-semibold mb-5">Избранное</h1>
       <div className="flex justify-between mb-2.5">
         <Dropdown
           label="Сортировать"
@@ -42,6 +40,18 @@ export default function ProductsPage() {
       </div>
       <div className="grid grid-cols-4 gap-8">
         {PRODUCTS.map(({ id, ...product }) => <Product key={id} id={id} {...product} />)}
+      </div>
+
+      <h2 className="w-full text-3xl text-center font-semibold my-10">Похожие товары</h2>
+
+      <div className="grid grid-cols-4 gap-8">
+        {PRODUCTS.slice(0, 4).map(({ id, ...product }) => (
+          <Product
+            key={id}
+            id={id}
+            {...product}
+          />
+        ))}
       </div>
     </main>
   );

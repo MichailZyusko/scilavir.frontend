@@ -17,7 +17,7 @@ export default function RootLayout({ children }: PropsWithChildren) {
       <Providers>
         <body
           className={clsx(
-            'flex flex-col justify-between scroll-smooth',
+            'flex flex-col justify-between scroll-smooth h-screen',
             inter.className,
           )}
         >

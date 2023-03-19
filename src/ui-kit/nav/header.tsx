@@ -1,6 +1,7 @@
 'use client';
 
 import { Navbar, Dropdown } from 'flowbite-react';
+import Link from 'next/link';
 import Image from 'next/image';
 import { useState, useEffect } from 'react';
 
@@ -20,13 +21,17 @@ export function Header() {
           <Image src="/images/search.svg" width={24} height={24} alt="logo" />
         </div>
         <div className="flex">
-          <Image src="/images/like.svg" width={24} height={24} alt="logo" />
+          <Link href="favorite">
+            <Image src="/images/favorite.svg" width={24} height={24} alt="logo" />
+          </Link>
           <Image src="/images/profile.svg" width={24} height={24} alt="logo" className="mx-2.5" />
           <Image src="/images/cart.svg" width={24} height={24} alt="logo" />
         </div>
       </div>
       <div className="flex items-center justify-center mb-2.5">
-        <Image src="/images/logo.svg" width={250} height={125} alt="logo" priority />
+        <Link href="/">
+          <Image src="/images/logo.svg" width={250} height={125} alt="logo" priority />
+        </Link>
       </div>
       <div className="flex items-center justify-center">
         <Navbar>
@@ -37,31 +42,31 @@ export function Header() {
               label={<div>Каталог</div>}
             >
               <Dropdown.Item>
-                <Navbar.Link href="/navbars">
+                <Link href="/navbars">
                   Для офиса
-                </Navbar.Link>
+                </Link>
               </Dropdown.Item>
               <Dropdown.Item>
-                <Navbar.Link href="/navbars">
+                <Link href="/navbars">
                   Для школы
-                </Navbar.Link>
+                </Link>
               </Dropdown.Item>
               <div className="mx-2.5 border-t-2 border-black" />
               <Dropdown.Item>
-                <Navbar.Link href="/categories">
+                <Link href="/categories">
                   Все товары
-                </Navbar.Link>
+                </Link>
               </Dropdown.Item>
             </Dropdown>
             <Navbar.Link href="/#about-us">
               О нас
             </Navbar.Link>
-            <Navbar.Link href="/navbars">
+            <Link href="/delivery-and-payment">
               Доставка и оплата
-            </Navbar.Link>
-            <Navbar.Link href="/navbars">
+            </Link>
+            <Link href="/#contacts">
               Контакты
-            </Navbar.Link>
+            </Link>
           </Navbar.Collapse>
         </Navbar>
       </div>
