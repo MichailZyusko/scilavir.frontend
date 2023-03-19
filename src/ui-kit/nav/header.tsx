@@ -48,7 +48,7 @@ export function Header() {
               </Dropdown.Item>
               <div className="mx-2.5 border-t-2 border-black" />
               <Dropdown.Item>
-                <Navbar.Link href="/navbars">
+                <Navbar.Link href="/categories">
                   Все товары
                 </Navbar.Link>
               </Dropdown.Item>
