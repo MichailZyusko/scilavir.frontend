@@ -24,10 +24,12 @@
     "react": "18.2.0",
     "react-dom": "18.2.0",
     "react-hook-form": "^7.43.7",
+    "react-image-gallery": "^1.2.11",
     "react-redux": "^8.0.5",
     "react-yandex-maps": "^4.6.0"
   },
   "devDependencies": {
+    "@types/react-image-gallery": "^1.2.0",
     "@typescript-eslint/eslint-plugin": "^5.55.0",
     "autoprefixer": "^10.4.14",
     "eslint": "^8.36.0",
