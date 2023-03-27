@@ -1,19 +1,15 @@
 'use client';
 
-import axios from '@/api/axios';
-import { useAppDispatch } from '@/redux/hooks';
 import { TextInput } from '@/ui-kit/inputs';
 import { FieldValues, FormProvider, useForm } from 'react-hook-form';
-import { signIn } from '../auth.slice';
+import { useAuthContext } from '@/context/auth';
 
 export default function SignIn() {
   const hookFormMethods = useForm();
-  const dispatch = useAppDispatch();
+  const { signIn } = useAuthContext();
 
   const onSubmit = async (fieldValues: FieldValues) => {
-    const { data } = await axios.post<{ accessToken: string, refreshToken: string }>('/auth/sign-in', fieldValues);
-
-    dispatch(signIn(data));
+    await signIn(fieldValues);
   };
 
   return (

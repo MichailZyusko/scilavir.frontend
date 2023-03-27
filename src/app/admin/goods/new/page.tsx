@@ -1,5 +1,6 @@
 'use client';
 
+import { RouterGuard } from '@/HOC/routerGuard';
 import { FileInput, TextInput } from '@/ui-kit/inputs';
 import { useForm, FormProvider, FieldValues } from 'react-hook-form';
 import axios from 'src/api/axios';
@@ -23,7 +24,7 @@ export default function NewGood() {
   };
 
   return (
-    <main>
+    <RouterGuard isAdminOnly fallback={<h1>This page for admins only</h1>}>
       <FormProvider {...hookFormMethods}>
         <form onSubmit={hookFormMethods.handleSubmit(onSubmit)}>
           <TextInput
@@ -52,6 +53,6 @@ export default function NewGood() {
           </button>
         </form>
       </FormProvider>
-    </main>
+    </RouterGuard>
   );
 }

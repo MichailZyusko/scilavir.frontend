@@ -1,6 +1,6 @@
 'use client';
 
-import { patchUser } from '@/api/services/users/patch.user';
+import { UserService } from '@/api/services/users.service';
 import { useRouter } from 'next/navigation';
 import { useEffect } from 'react';
 
@@ -14,7 +14,7 @@ export default function VerificationPage({ params }: TProps) {
 
   useEffect(() => {
     (async () => {
-      await patchUser({
+      await UserService.patch({
         id,
         isActivated: true,
       });

@@ -4,10 +4,11 @@ import Image from 'next/image';
 import { PRODUCTS } from '@/constants';
 import { Product } from '@/ui-kit/components/products/product';
 import { Dropdown } from 'flowbite-react';
+import { RouterGuard } from '@/HOC/routerGuard';
 
 export default function FavoritePage() {
   return (
-    <main className="px-44">
+    <RouterGuard>
       <h1 className="w-full text-4xl text-center font-semibold mb-5">Избранное</h1>
       <div className="flex justify-between mb-2.5">
         <Dropdown
@@ -53,6 +54,6 @@ export default function FavoritePage() {
           />
         ))}
       </div>
-    </main>
+    </RouterGuard>
   );
 }
