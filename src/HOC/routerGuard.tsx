@@ -12,17 +12,17 @@ export function RouterGuard({ children, isAdminOnly, fallback }: TProps) {
   const [isShouldRendering, setIsShouldRendering] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
   const pathname = usePathname();
-  const { user } = useAuthContext();
-
   const router = useRouter();
-  const aToken = window.localStorage.getItem('a-token');
-
-  if (!aToken) {
-    router.push('/auth/sign-in');
-  }
+  const { user } = useAuthContext();
 
   useEffect(() => {
     (async () => {
+      const aToken = window.localStorage.getItem('a-token');
+
+      if (!aToken) {
+        router.push('/auth/sign-in');
+      }
+
       if (user?.role === 'user' && ADMIN_ROUTES.includes(pathname)) {
         setIsShouldRendering(false);
       } else {
