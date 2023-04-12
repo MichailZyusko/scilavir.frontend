@@ -1,5 +1,8 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
+  images: {
+    domains: ['hljgruyjewkbrmyedjik.supabase.co']
+  },
   compiler: {
     // Enables the styled-components SWC transform
     styledComponents: true

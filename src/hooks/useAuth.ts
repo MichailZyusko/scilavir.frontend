@@ -27,9 +27,13 @@ export const useAuth = () => {
     router.back();
   };
 
-  const signOut = () => {
+  const signOut = async () => {
+    const { status } = await axios.delete('/auth/sign-out');
+
     localStorage.removeItem('a-token');
     localStorage.removeItem('r-token');
+
+    return status;
   };
 
   return { user, signIn, signOut };

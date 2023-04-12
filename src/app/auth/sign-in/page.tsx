@@ -3,6 +3,8 @@
 import { TextInput } from '@/ui-kit/inputs';
 import { FieldValues, FormProvider, useForm } from 'react-hook-form';
 import { useAuthContext } from '@/context/auth';
+import Link from 'next/link';
+import { Button } from '@/ui-kit/buttons';
 
 export default function SignIn() {
   const hookFormMethods = useForm();
@@ -13,23 +15,36 @@ export default function SignIn() {
   };
 
   return (
-    <main>
-      <FormProvider {...hookFormMethods}>
-        <form onSubmit={hookFormMethods.handleSubmit(onSubmit)}>
-          <TextInput
-            label="Email"
-            name="email"
-          />
-          <TextInput
-            label="Password"
-            name="password"
-            type="password"
-          />
-          <button type="submit">
-            Submit
-          </button>
-        </form>
-      </FormProvider>
+    <main className="flex flex-col items-center justify-center ">
+      <div className="flex w-2/5 flex-col items-center justify-center ">
+        <h1 className="text-3xl">Вход</h1>
+        <p className="my-5 wrap text-center">Добро пожаловать! Войдите в уже существующий аккаунт или вы можете зарегистрироваться здесь.</p>
+        <FormProvider {...hookFormMethods}>
+          <form onSubmit={hookFormMethods.handleSubmit(onSubmit)}>
+            <TextInput
+              label="Почта"
+              placeholder="E-mail"
+              name="email"
+            />
+            <TextInput
+              label="Пароль"
+              placeholder="Пароль"
+              name="password"
+              type="password"
+            />
+            <div>
+              <Link href="/forgot-password">
+                Забыли пароль?
+              </Link>
+            </div>
+
+            <Button type="submit">
+              Войти
+            </Button>
+          </form>
+        </FormProvider>
+      </div>
+
     </main>
   );
 }

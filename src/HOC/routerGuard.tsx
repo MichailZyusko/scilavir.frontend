@@ -1,5 +1,6 @@
 import { ADMIN_ROUTES } from '@/constants/routes';
 import { useAuthContext } from '@/context/auth';
+import { Spinner } from '@/ui-kit/spinners';
 import { usePathname, useRouter } from 'next/navigation';
 import { PropsWithChildren, useEffect, useState } from 'react';
 
@@ -21,9 +22,10 @@ export function RouterGuard({ children, isAdminOnly, fallback }: TProps) {
 
       if (!aToken) {
         router.push('/auth/sign-in');
+        return;
       }
 
-      if (user?.role === 'user' && ADMIN_ROUTES.includes(pathname)) {
+      if (user?.user_metadata?.role === 'user' && ADMIN_ROUTES.includes(pathname)) {
         setIsShouldRendering(false);
       } else {
         setIsShouldRendering(true);
@@ -33,12 +35,12 @@ export function RouterGuard({ children, isAdminOnly, fallback }: TProps) {
     })();
   }, [pathname, user]);
 
-  if (!isShouldRendering && isAdminOnly) {
-    return fallback || <h1>You don&apos;t have enough permissions for this page</h1>;
+  if (isLoading) {
+    return <Spinner />;
   }
 
-  if (isLoading) {
-    return <h1>Loading...</h1>;
+  if (!isShouldRendering && isAdminOnly) {
+    return fallback || <h1>You don&apos;t have enough permissions for this page</h1>;
   }
 
   return (

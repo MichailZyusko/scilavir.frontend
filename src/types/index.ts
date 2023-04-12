@@ -1,3 +1,13 @@
 export type TUser = {
-  role: string
+  user_metadata: {
+    role: string
+  }
+};
+
+export type TProduct = {
+  id: string;
+  name: string;
+  description: string;
+  images: string[];
+  price: number;
 };

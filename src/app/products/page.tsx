@@ -1,12 +1,34 @@
 'use client';
 
 import Image from 'next/image';
-import { PRODUCTS } from '@/constants';
 import { Product } from '@/ui-kit/components/products/product';
 import { Dropdown } from 'flowbite-react';
 import { SubCategoryList } from '@/ui-kit/components/products/sub-categorie';
+import { useEffect, useState } from 'react';
+import axios from '@/api/axios';
+import { Spinner } from '@/ui-kit/spinners';
+import { TProduct } from '@/types';
 
 export default function ProductsPage() {
+  const [products, setProducts] = useState<TProduct[]>([]);
+  const [isLoading, setIsLoading] = useState(true);
+
+  useEffect(() => {
+    (async () => {
+      const { data } = await axios<TProduct[]>({
+        method: 'GET',
+        url: '/products',
+      });
+
+      setProducts(data);
+      setIsLoading(false);
+    })();
+  }, []);
+
+  if (isLoading) {
+    return <Spinner />;
+  }
+
   return (
     <main className="px-44">
       <SubCategoryList />
@@ -41,7 +63,7 @@ export default function ProductsPage() {
         </span>
       </div>
       <div className="grid grid-cols-4 gap-8">
-        {PRODUCTS.map(({ id, ...product }) => <Product key={id} id={id} {...product} />)}
+        {products.map(({ id, ...product }) => <Product key={id} id={id} {...product} />)}
       </div>
     </main>
   );

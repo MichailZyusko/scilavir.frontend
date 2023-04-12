@@ -1,41 +1,49 @@
-/* eslint-disable max-len */
-
 'use client';
 
-import { PRODUCTS } from '@/constants';
 import { Button } from '@/ui-kit/buttons';
-import { Product } from '@/ui-kit/components/products/product';
+import { Spinner } from '@/ui-kit/spinners';
+import axios from '@/api/axios';
+import { useRouter } from 'next/navigation';
+import { useState, useEffect } from 'react';
 import ImageGallery from 'react-image-gallery';
+import { TProduct } from '@/types';
 
-const images = [
-  {
-    original: 'https://picsum.photos/id/1018/1000/600/',
-    thumbnail: 'https://picsum.photos/id/1018/250/150/',
-  },
-  {
-    original: 'https://picsum.photos/id/1015/1000/600/',
-    thumbnail: 'https://picsum.photos/id/1015/250/150/',
-  },
-  {
-    original: 'https://picsum.photos/id/1019/1000/600/',
-    thumbnail: 'https://picsum.photos/id/1019/250/150/',
-  },
-  {
-    original: 'https://picsum.photos/id/1018/1000/600/',
-    thumbnail: 'https://picsum.photos/id/1018/250/150/',
-  },
-  {
-    original: 'https://picsum.photos/id/1015/1000/600/',
-    thumbnail: 'https://picsum.photos/id/1015/250/150/',
-  },
-  {
-    original: 'https://picsum.photos/id/1019/1000/600/',
-    thumbnail: 'https://picsum.photos/id/1019/250/150/',
-  },
+type TProps = {
+  params: {
+    id: string;
+  }
+};
+export default function ProductPage({ params: { id } }: TProps) {
+  const [product, setProduct] = useState<TProduct | null>(null);
+  const [isLoading, setIsLoading] = useState(true);
+  const router = useRouter();
 
-];
+  useEffect(() => {
+    (async () => {
+      const { data } = await axios<TProduct>({
+        method: 'GET',
+        url: `/products/${id}`,
+      });
 
-export default function ProductPage() {
+      setProduct(data);
+      setIsLoading(false);
+    })();
+  }, []);
+
+  if (isLoading) {
+    return <Spinner />;
+  }
+
+  if (!product) {
+    router.push('/404');
+    return null;
+  }
+
+  const images = product.images.map((image) => ({
+    original: image,
+    thumbnail: image,
+  }));
+
   return (
     <main className="px-44">
       <div className="flex mb-5">
@@ -49,35 +57,25 @@ export default function ProductPage() {
         />
         <div className="flex flex-col justify-between ml-5 w-1/2">
           <div>
-            <h1 className="text-4xl font-semibold">Название</h1>
+            <h1 className="text-4xl font-semibold">{product.name}</h1>
             <br />
             <p>
-              Описание Описание ОписаниеОписание Описание ОписаниеОписание Описание ОписаниеОписание Описание
-            </p>
-            <p>
-              Описание Описание ОписаниеОписание Описание ОписаниеОписание Описание ОписаниеОписание Описание
-            </p>
-            <p>
-              Описание Описание ОписаниеОписание Описание ОписаниеОписание Описание ОписаниеОписание Описание
-            </p>
-            <p>
-              Описание Описание ОписаниеОписание Описание ОписаниеОписание Описание ОписаниеОписание Описание
+              {product.description}
             </p>
           </div>
 
           <div className="flex items-baseline justify-between">
-            <h2 className="text-2xl">10 BYN</h2>
+            <h2 className="text-2xl">
+              {product.price}
+              {' '}
+              BYN
+            </h2>
             <Button size="xl">В корзину</Button>
           </div>
         </div>
       </div>
 
       <h2 className="w-full text-3xl text-center font-semibold my-10">Похожие товары</h2>
-
-      <div className="grid grid-cols-4 gap-8">
-        {PRODUCTS.slice(0, 4).map(({ id, ...product }) => <Product key={id} id={id} {...product} />)}
-      </div>
-
     </main>
   );
 }
