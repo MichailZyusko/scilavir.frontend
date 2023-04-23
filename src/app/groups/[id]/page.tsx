@@ -39,7 +39,7 @@ export default function GroupsPage({ params: { id: groupId = '' } }: TProps) {
         isLoading: false,
       });
     })();
-  }, [id]);
+  }, [groupId]);
 
   if (state.isLoading) {
     return <Spinner />;

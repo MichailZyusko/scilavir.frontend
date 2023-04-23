@@ -40,7 +40,7 @@ export default function CategoryPage({ params: { id: categoryId = '' } }: TProps
         isLoading: false,
       });
     })();
-  }, [id]);
+  }, [categoryId]);
 
   if (state.isLoading) {
     return <Spinner />;
