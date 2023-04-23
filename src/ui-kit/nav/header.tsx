@@ -53,7 +53,7 @@ export function Header() {
               </Dropdown.Item>
               <div className="mx-2.5 border-t-2 border-black" />
               <Dropdown.Item>
-                <Link href="/categories">
+                <Link href="/catalogue">
                   Все товары
                 </Link>
               </Dropdown.Item>
