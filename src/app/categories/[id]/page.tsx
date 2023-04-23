@@ -1,37 +1,53 @@
 'use client';
 
-import Image from 'next/image';
-import { Product } from '@/ui-kit/components/products/product';
-import { Dropdown } from 'flowbite-react';
-import { SubCategoryList } from '@/ui-kit/components/products/sub-categorie';
-import { useEffect, useState } from 'react';
 import axios from '@/api/axios';
-import { Spinner } from '@/ui-kit/spinners';
+import Image from 'next/image';
 import { TProduct } from '@/types';
+import { Product } from '@/ui-kit/components/products/product';
+import { SubCategoryList } from '@/ui-kit/components/products/sub-categorie';
+import { Dropdown, Spinner } from 'flowbite-react';
+import { useEffect, useState } from 'react';
 
-export default function ProductsPage() {
-  const [products, setProducts] = useState<TProduct[]>([]);
-  const [isLoading, setIsLoading] = useState(true);
+type TState = {
+  products: TProduct[];
+  subCategories: [];
+  isLoading: boolean;
+};
+
+type TProps = {
+  params: {
+    id: string;
+  }
+};
+
+export default function CategoryPage({ params: { id: categoryId = '' } }: TProps) {
+  const [state, setState] = useState<TState>({
+    products: [],
+    subCategories: [],
+    isLoading: true,
+  });
 
   useEffect(() => {
     (async () => {
-      const { data } = await axios<TProduct[]>({
-        method: 'GET',
-        url: '/products',
+      const [{ data: subCategories }, { data: products }] = await Promise.all([
+        axios.get<[]>(`/categories/${categoryId}`),
+        axios.get<TProduct[]>(`/products/categories/${categoryId}`),
+      ]);
+
+      setState({
+        products,
+        subCategories,
+        isLoading: false,
       });
-
-      setProducts(data);
-      setIsLoading(false);
     })();
-  }, []);
+  }, [categoryId]);
 
-  if (isLoading) {
+  if (state.isLoading) {
     return <Spinner />;
   }
-
   return (
     <main className="px-44">
-      <SubCategoryList />
+      <SubCategoryList categories={state.subCategories} />
       <h1 className="w-full text-4xl text-center font-semibold mb-5">Каталог</h1>
       <div className="flex justify-between mb-2.5">
         <Dropdown
@@ -63,7 +79,7 @@ export default function ProductsPage() {
         </span>
       </div>
       <div className="grid grid-cols-4 gap-8">
-        {products.map(({ id, ...product }) => <Product key={id} id={id} {...product} />)}
+        {state.products.map(({ id, ...product }) => <Product key={id} id={id} {...product} />)}
       </div>
     </main>
   );

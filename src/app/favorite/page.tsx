@@ -5,7 +5,7 @@ import { Product } from '@/ui-kit/components/products/product';
 import { Dropdown } from 'flowbite-react';
 import { RouterGuard } from '@/HOC/routerGuard';
 import { TProduct } from '@/types';
-import axios from 'axios';
+import axios from '@/api/axios';
 import { useState, useEffect } from 'react';
 import { Spinner } from '@/ui-kit/spinners';
 
@@ -17,7 +17,7 @@ export default function FavoritePage() {
     (async () => {
       const { data } = await axios<TProduct[]>({
         method: 'GET',
-        url: '@me/favorites',
+        url: '/products/favorites',
       });
 
       setProducts(data);
