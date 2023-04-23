@@ -8,18 +8,23 @@ const instance = axios.create({
 const refreshTokens = async () => {
   const rToken = window.localStorage.getItem('r-token');
 
-  const { data } = await axios<{ accessToken: string, refreshToken: string }>({
-    method: 'POST',
-    url: `${process.env.NEXT_PUBLIC_BASE_API_URL}/auth/refresh`,
-    headers: {
-      Authorization: `Bearer ${rToken}`,
-    },
-  });
+  try {
+    const { data } = await axios<{ accessToken: string, refreshToken: string }>({
+      method: 'POST',
+      url: `${process.env.NEXT_PUBLIC_BASE_API_URL}/auth/refresh`,
+      headers: {
+        Authorization: `Bearer ${rToken}`,
+      },
+    });
 
-  window.localStorage.setItem('a-token', data.accessToken);
-  window.localStorage.setItem('r-token', data.refreshToken);
+    window.localStorage.setItem('a-token', data.accessToken);
+    window.localStorage.setItem('r-token', data.refreshToken);
 
-  return data;
+    return data;
+  } catch (error) {
+    window.location.href = '/auth/sign-in';
+    throw error;
+  }
 };
 
 instance.interceptors.request.use((config) => {
