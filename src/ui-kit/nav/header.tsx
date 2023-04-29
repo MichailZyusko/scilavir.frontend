@@ -25,7 +25,9 @@ export function Header() {
             <Image src="/images/favorite.svg" width={24} height={24} alt="logo" />
           </Link>
           <Image src="/images/profile.svg" width={24} height={24} alt="logo" className="mx-2.5" />
-          <Image src="/images/cart.svg" width={24} height={24} alt="logo" />
+          <Link href="cart">
+            <Image src="/images/cart.svg" width={24} height={24} alt="logo" />
+          </Link>
         </div>
       </div>
       <div className="flex items-center justify-center mb-2.5">

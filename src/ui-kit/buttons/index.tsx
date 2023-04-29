@@ -12,7 +12,7 @@ export function Button({
     <button
       type="button"
       className={clsx(
-        'bg-black text-white rounded-[10px] px-2.5 py-1 mt-1.5',
+        'bg-black text-white rounded-[10px] px-2.5 py-1',
         size === 'xl' && 'text-2xl px-3 py-1.5',
       )}
       {...buttonProps}
