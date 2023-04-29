@@ -1,12 +1,13 @@
 'use client';
 
-import { Button } from '@/ui-kit/buttons';
 import { Spinner } from '@/ui-kit/spinners';
 import axios from '@/api/axios';
 import { useRouter } from 'next/navigation';
 import { useState, useEffect } from 'react';
 import ImageGallery from 'react-image-gallery';
 import { TProduct } from '@/types';
+import { AddToCartButton } from '@/ui-kit/buttons/add-to-cart';
+import { round } from '@/utils';
 
 type TProps = {
   params: {
@@ -15,20 +16,28 @@ type TProps = {
 };
 export default function ProductPage({ params: { id } }: TProps) {
   const [product, setProduct] = useState<TProduct | null>(null);
+  const [quantity, setQuantity] = useState<number>(0);
   const [isLoading, setIsLoading] = useState(true);
   const router = useRouter();
 
   useEffect(() => {
     (async () => {
-      const { data } = await axios<TProduct>({
-        method: 'GET',
-        url: `/products/${id}`,
-      });
+      const [{ data: prdct }, { data: { quantity: qnty } }] = await Promise.all([
+        axios<TProduct>({
+          method: 'GET',
+          url: `/products/${id}`,
+        }),
+        axios <{ quantity: number }>({
+          method: 'GET',
+          url: `/cart/${id}`,
+        }),
+      ]);
 
-      setProduct(data);
+      setProduct(prdct);
+      setQuantity(qnty);
       setIsLoading(false);
     })();
-  }, []);
+  }, [id]);
 
   if (isLoading) {
     return <Spinner />;
@@ -66,11 +75,15 @@ export default function ProductPage({ params: { id } }: TProps) {
 
           <div className="flex items-baseline justify-between">
             <h2 className="text-2xl">
-              {product.price}
+              {round(product.price * (quantity || 1))}
               {' '}
               BYN
             </h2>
-            <Button size="xl">В корзину</Button>
+            <AddToCartButton
+              productId={product.id}
+              quantity={quantity}
+              setQuantity={setQuantity}
+            />
           </div>
         </div>
       </div>
