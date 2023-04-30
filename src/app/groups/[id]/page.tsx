@@ -6,6 +6,7 @@ import { TProduct } from '@/types';
 import { Product } from '@/ui-kit/components/products/product';
 import { Dropdown, Spinner } from 'flowbite-react';
 import { useEffect, useState } from 'react';
+import { SortStrategy } from '@/enums';
 
 type TGroup = {
   id: string;
@@ -14,7 +15,8 @@ type TGroup = {
 
 type TState = {
   products: TProduct[];
-  group: TGroup | null ;
+  group: TGroup | null;
+  sort: SortStrategy;
   isLoading: boolean;
 };
 
@@ -28,23 +30,31 @@ export default function GroupsPage({ params: { id: groupId = '' } }: TProps) {
   const [state, setState] = useState<TState>({
     products: [],
     group: null,
+    sort: SortStrategy.PRICE_ASC,
     isLoading: true,
   });
+
+  const { sort } = state;
 
   useEffect(() => {
     (async () => {
       const [{ data: group }, { data: products }] = await Promise.all([
         axios.get<TGroup>(`/groups/${groupId}`),
-        axios.get<TProduct[]>(`/products/groups/${groupId}`),
+        axios.get<TProduct[]>(`/products/groups/${groupId}`, {
+          params: {
+            sort,
+          },
+        }),
       ]);
 
       setState({
+        ...state,
         products,
         group,
         isLoading: false,
       });
     })();
-  }, [groupId]);
+  }, [groupId, sort]);
 
   if (state.isLoading) {
     return <Spinner />;
@@ -62,16 +72,24 @@ export default function GroupsPage({ params: { id: groupId = '' } }: TProps) {
           label="Сортировать"
           inline
         >
-          <Dropdown.Item>
+          <Dropdown.Item
+            onClick={() => setState({ ...state, sort: SortStrategy.ALPHABETICAL_ASC })}
+          >
             А ➔ Я
           </Dropdown.Item>
-          <Dropdown.Item>
+          <Dropdown.Item
+            onClick={() => setState({ ...state, sort: SortStrategy.ALPHABETICAL_DESC })}
+          >
             Я ➔ А
           </Dropdown.Item>
-          <Dropdown.Item>
+          <Dropdown.Item
+            onClick={() => setState({ ...state, sort: SortStrategy.PRICE_ASC })}
+          >
             Сначала дешевые
           </Dropdown.Item>
-          <Dropdown.Item>
+          <Dropdown.Item
+            onClick={() => setState({ ...state, sort: SortStrategy.PRICE_DESC })}
+          >
             Сначала дорогие
           </Dropdown.Item>
         </Dropdown>
