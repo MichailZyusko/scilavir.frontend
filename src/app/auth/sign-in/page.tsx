@@ -33,7 +33,7 @@ export default function SignIn() {
               type="password"
             />
             <div>
-              <Link href="/forgot-password">
+              <Link href="/auth/reset-password" className="underline text-blue-700">
                 Забыли пароль?
               </Link>
             </div>
