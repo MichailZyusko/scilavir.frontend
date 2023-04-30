@@ -21,7 +21,7 @@ export function Header() {
           <Image src="/images/search.svg" width={24} height={24} alt="logo" />
         </div>
         <div className="flex">
-          <Link href="favorite">
+          <Link href="/favorite">
             <Image src="/images/favorite.svg" width={24} height={24} alt="logo" />
           </Link>
           <Image src="/images/profile.svg" width={24} height={24} alt="logo" className="mx-2.5" />

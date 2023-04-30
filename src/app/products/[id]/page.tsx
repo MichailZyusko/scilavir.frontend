@@ -8,6 +8,7 @@ import ImageGallery from 'react-image-gallery';
 import { TProduct } from '@/types';
 import { AddToCartButton } from '@/ui-kit/buttons/add-to-cart';
 import { round } from '@/utils';
+import Image from 'next/image';
 
 type TProps = {
   params: {
@@ -17,12 +18,17 @@ type TProps = {
 export default function ProductPage({ params: { id } }: TProps) {
   const [product, setProduct] = useState<TProduct | null>(null);
   const [quantity, setQuantity] = useState<number>(0);
+  const [isFavorite, setIsFavorite] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
   const router = useRouter();
 
   useEffect(() => {
     (async () => {
-      const [{ data: prdct }, { data: { quantity: qnty } }] = await Promise.all([
+      const [
+        { data: prdct },
+        { data: { quantity: qnty } },
+        { data: { isFavorite: isFav } },
+      ] = await Promise.all([
         axios<TProduct>({
           method: 'GET',
           url: `/products/${id}`,
@@ -31,13 +37,32 @@ export default function ProductPage({ params: { id } }: TProps) {
           method: 'GET',
           url: `/cart/${id}`,
         }),
+        axios <{ isFavorite: boolean }>({
+          method: 'GET',
+          url: `/products/favorites/${id}`,
+        }),
       ]);
 
+      setIsFavorite(isFav);
       setProduct(prdct);
       setQuantity(qnty);
       setIsLoading(false);
     })();
   }, [id]);
+
+  const changeFavoriteState = async () => {
+    if (!product) {
+      return;
+    }
+
+    if (isFavorite) {
+      await axios.delete(`/products/favorites/${id}`);
+    } else {
+      await axios.post(`/products/favorites/${id}`);
+    }
+
+    setIsFavorite(!isFavorite);
+  };
 
   if (isLoading) {
     return <Spinner />;
@@ -66,6 +91,14 @@ export default function ProductPage({ params: { id } }: TProps) {
         />
         <div className="flex flex-col justify-between ml-5 w-1/2">
           <div>
+            <Image
+              onClick={changeFavoriteState}
+              src={isFavorite ? '/images/favorite-active.svg' : '/images/favorite.svg'}
+              width={24}
+              height={24}
+              alt="logo"
+              className="relative top-8 -left-14 z-10"
+            />
             <h1 className="text-4xl font-semibold">{product.name}</h1>
             <br />
             <p>
