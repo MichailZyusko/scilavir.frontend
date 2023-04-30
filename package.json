@@ -6,6 +6,7 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
+    "fix&build": "npm run fix && npm run build",
     "lint": "eslint . --ext .ts,.tsx",
     "fix": "eslint . --ext .ts,.tsx --fix"
   },
