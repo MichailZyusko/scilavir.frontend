@@ -8,9 +8,11 @@ import { TProduct } from '@/types';
 import axios from '@/api/axios';
 import { useState, useEffect } from 'react';
 import { Spinner } from '@/ui-kit/spinners';
+import { SortStrategy } from '@/enums';
 
 export default function FavoritePage() {
   const [products, setProducts] = useState<TProduct[]>([]);
+  const [sort, setSort] = useState<SortStrategy>(SortStrategy.ALPHABETICAL_ASC);
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
@@ -18,12 +20,15 @@ export default function FavoritePage() {
       const { data } = await axios<TProduct[]>({
         method: 'GET',
         url: '/products/favorites',
+        params: {
+          sort,
+        },
       });
 
       setProducts(data);
       setIsLoading(false);
     })();
-  }, []);
+  }, [sort]);
 
   if (isLoading) {
     return <Spinner />;
@@ -37,16 +42,24 @@ export default function FavoritePage() {
           label="Сортировать"
           inline
         >
-          <Dropdown.Item>
+          <Dropdown.Item
+            onClick={() => setSort(SortStrategy.ALPHABETICAL_ASC)}
+          >
             А ➔ Я
           </Dropdown.Item>
-          <Dropdown.Item>
+          <Dropdown.Item
+            onClick={() => setSort(SortStrategy.ALPHABETICAL_DESC)}
+          >
             Я ➔ А
           </Dropdown.Item>
-          <Dropdown.Item>
+          <Dropdown.Item
+            onClick={() => setSort(SortStrategy.PRICE_ASC)}
+          >
             Сначала дешевые
           </Dropdown.Item>
-          <Dropdown.Item>
+          <Dropdown.Item
+            onClick={() => setSort(SortStrategy.PRICE_DESC)}
+          >
             Сначала дорогие
           </Dropdown.Item>
         </Dropdown>

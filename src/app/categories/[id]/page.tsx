@@ -64,16 +64,24 @@ export default function CategoryPage({ params: { id: categoryId = '' } }: TProps
           label="Сортировать"
           inline
         >
-          <Dropdown.Item>
+          <Dropdown.Item
+            onClick={() => setState({ ...state, sort: SortStrategy.ALPHABETICAL_ASC })}
+          >
             А ➔ Я
           </Dropdown.Item>
-          <Dropdown.Item>
+          <Dropdown.Item
+            onClick={() => setState({ ...state, sort: SortStrategy.ALPHABETICAL_DESC })}
+          >
             Я ➔ А
           </Dropdown.Item>
-          <Dropdown.Item>
+          <Dropdown.Item
+            onClick={() => setState({ ...state, sort: SortStrategy.PRICE_ASC })}
+          >
             Сначала дешевые
           </Dropdown.Item>
-          <Dropdown.Item>
+          <Dropdown.Item
+            onClick={() => setState({ ...state, sort: SortStrategy.PRICE_DESC })}
+          >
             Сначала дорогие
           </Dropdown.Item>
         </Dropdown>
