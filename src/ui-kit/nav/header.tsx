@@ -24,8 +24,10 @@ export function Header() {
           <Link href="/favorite">
             <Image src="/images/favorite.svg" width={24} height={24} alt="logo" />
           </Link>
-          <Image src="/images/profile.svg" width={24} height={24} alt="logo" className="mx-2.5" />
-          <Link href="cart">
+          <Link href="/auth/sign-in">
+            <Image src="/images/profile.svg" width={24} height={24} alt="logo" className="mx-2.5" />
+          </Link>
+          <Link href="/cart">
             <Image src="/images/cart.svg" width={24} height={24} alt="logo" />
           </Link>
         </div>
