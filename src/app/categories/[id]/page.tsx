@@ -7,10 +7,12 @@ import { Product } from '@/ui-kit/components/products/product';
 import { SubCategoryList } from '@/ui-kit/components/products/sub-categorie';
 import { Dropdown, Spinner } from 'flowbite-react';
 import { useEffect, useState } from 'react';
+import { SortStrategy } from '@/enums';
 
 type TState = {
   products: TProduct[];
   subCategories: [];
+  sort: SortStrategy;
   isLoading: boolean;
 };
 
@@ -24,23 +26,31 @@ export default function CategoryPage({ params: { id: categoryId = '' } }: TProps
   const [state, setState] = useState<TState>({
     products: [],
     subCategories: [],
+    sort: SortStrategy.PRICE_ASC,
     isLoading: true,
   });
+
+  const { sort } = state;
 
   useEffect(() => {
     (async () => {
       const [{ data: subCategories }, { data: products }] = await Promise.all([
         axios.get<[]>(`/categories/${categoryId}`),
-        axios.get<TProduct[]>(`/products/categories/${categoryId}`),
+        axios.get<TProduct[]>(`/products/categories/${categoryId}`, {
+          params: {
+            sort,
+          },
+        }),
       ]);
 
       setState({
+        ...state,
         products,
         subCategories,
         isLoading: false,
       });
     })();
-  }, [categoryId]);
+  }, [categoryId, sort]);
 
   if (state.isLoading) {
     return <Spinner />;
