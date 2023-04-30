@@ -7,9 +7,14 @@ import { Product } from '@/ui-kit/components/products/product';
 import { Dropdown, Spinner } from 'flowbite-react';
 import { useEffect, useState } from 'react';
 
+type TGroup = {
+  id: string;
+  name: string;
+};
+
 type TState = {
   products: TProduct[];
-  group: any;
+  group: TGroup | null ;
   isLoading: boolean;
 };
 
@@ -22,14 +27,14 @@ type TProps = {
 export default function GroupsPage({ params: { id: groupId = '' } }: TProps) {
   const [state, setState] = useState<TState>({
     products: [],
-    group: {},
+    group: null,
     isLoading: true,
   });
 
   useEffect(() => {
     (async () => {
       const [{ data: group }, { data: products }] = await Promise.all([
-        axios.get<[]>(`/groups/${groupId}`),
+        axios.get<TGroup>(`/groups/${groupId}`),
         axios.get<TProduct[]>(`/products/groups/${groupId}`),
       ]);
 
@@ -44,6 +49,11 @@ export default function GroupsPage({ params: { id: groupId = '' } }: TProps) {
   if (state.isLoading) {
     return <Spinner />;
   }
+
+  if (!state.group) {
+    return <div>Группа не найдена</div>;
+  }
+
   return (
     <main className="px-44">
       <h1 className="w-full text-4xl text-center font-semibold mb-5">{state.group.name}</h1>

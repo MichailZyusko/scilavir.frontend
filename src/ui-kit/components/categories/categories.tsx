@@ -8,9 +8,22 @@ import axios from '@/api/axios';
 import { Spinner } from '@/ui-kit/spinners';
 import { Button } from '../../buttons';
 
+type TGroup = {
+  id: string;
+  name: string;
+  minPrice: number | null;
+};
+
+type TCategory = {
+  id: string;
+  parentId: string;
+  name: string;
+  minPrice: number | null;
+};
+
 type TState = {
-  categories: [{ id: string, name: string }] | [];
-  groups: [{ id: string, name: string }] | [];
+  categories: TGroup[] | [];
+  groups:TGroup[] | [];
   isLoading: boolean;
 };
 
@@ -24,8 +37,8 @@ export function Categories() {
   useEffect(() => {
     (async () => {
       const [{ data: categories }, { data: groups }] = await Promise.all([
-        axios.get<[{ id: string, name: string }]>('/categories'),
-        axios.get<[{ id: string, name: string }]>('/groups'),
+        axios.get<TCategory[]>('/categories'),
+        axios.get<TGroup[]>('/groups'),
       ]);
 
       setState({
@@ -57,7 +70,11 @@ export function Categories() {
               </div>
 
               <div>
-                <p>Начиная от 1 BYN</p>
+                <p>
+                  {group.minPrice === null
+                    ? 'Нет товаров в этой подборке'
+                    : `Начиная от ${group.minPrice} BYN`}
+                </p>
                 <Button>Купить сейчас</Button>
               </div>
             </Link>
@@ -82,7 +99,11 @@ export function Categories() {
               </div>
 
               <div>
-                <p>Начиная от 1 BYN</p>
+                <p>
+                  {category.minPrice === null
+                    ? 'Нет товаров в этой категории'
+                    : `Начиная от ${category.minPrice} BYN`}
+                </p>
                 <Button>Купить сейчас</Button>
               </div>
             </Link>
