@@ -1,6 +1,6 @@
 'use client';
 
-import { RouterGuard } from '@/HOC/routerGuard';
+import { useClerkToken } from '@/context/auth';
 import { FileInput, SelectInput, TextInput } from '@/ui-kit/inputs';
 import { Spinner } from '@/ui-kit/spinners';
 import { useEffect, useState } from 'react';
@@ -12,7 +12,8 @@ type TState = {
   groups: [{ id: string, name: string }] | [];
   isLoading: boolean;
 };
-export default function NewGood() {
+export default function NewProduct() {
+  const { updateClerkToken } = useClerkToken();
   const hookFormMethods = useForm();
   const [state, setState] = useState<TState>({
     categories: [],
@@ -22,10 +23,13 @@ export default function NewGood() {
 
   useEffect(() => {
     (async () => {
-      const [{ data: categories }, { data: groups }] = await Promise.all([
+      await updateClerkToken();
+      const [{ data: categories }, { data: groups }, { data: user }] = await Promise.all([
         axios.get<[{ id: string, name: string }]>('/categories'),
         axios.get<[{ id: string, name: string }]>('/groups'),
+        axios.get('users/self'),
       ]);
+      console.log('🚀 ~ file: page.tsx:36 ~ user:', user);
 
       setState({
         categories,
@@ -33,7 +37,18 @@ export default function NewGood() {
         isLoading: false,
       });
     })();
-  }, []);
+  }, [updateClerkToken]);
+
+  // if (!isLoaded || !organization) {
+  //   return null;
+  // }
+
+  // const isAdmin = membership?.role === 'admin';
+  // console.log('🚀 ~ file: page.tsx:49 ~ isAdmin:', isAdmin);
+
+  // if (!isAdmin) {
+  //   <h1>You are not admin</h1>;
+  // }
 
   if (state.isLoading) {
     return <Spinner />;
@@ -55,7 +70,7 @@ export default function NewGood() {
   };
 
   return (
-    <RouterGuard isAdminOnly fallback={<h1>This page for admins only</h1>}>
+    <main className="px-44">
       <FormProvider {...hookFormMethods}>
         <form onSubmit={hookFormMethods.handleSubmit(onSubmit)}>
           <TextInput
@@ -95,6 +110,6 @@ export default function NewGood() {
           </button>
         </form>
       </FormProvider>
-    </RouterGuard>
+    </main>
   );
 }

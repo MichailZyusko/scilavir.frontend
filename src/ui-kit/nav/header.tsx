@@ -4,6 +4,7 @@ import { Navbar, Dropdown } from 'flowbite-react';
 import Link from 'next/link';
 import Image from 'next/image';
 import { useState, useEffect } from 'react';
+import { SignedIn, SignedOut, UserButton } from '@clerk/nextjs';
 
 export function Header() {
   const [domLoaded, setDomLoaded] = useState(false);
@@ -20,12 +21,19 @@ export function Header() {
         <div>
           <Image src="/images/search.svg" width={24} height={24} alt="logo" />
         </div>
-        <div className="flex">
+        <div className="flex items-center">
           <Link href="/favorite">
             <Image src="/images/favorite.svg" width={24} height={24} alt="logo" />
           </Link>
-          <Link href="/auth/sign-in">
-            <Image src="/images/profile.svg" width={24} height={24} alt="logo" className="mx-2.5" />
+          <Link href="/sign-in">
+            <span className="flex items-center justify-center mx-2.5">
+              <SignedIn>
+                <UserButton afterSignOutUrl="/" />
+              </SignedIn>
+              <SignedOut>
+                <Image src="/images/profile.svg" width={24} height={24} alt="logo" className="mx-2.5" />
+              </SignedOut>
+            </span>
           </Link>
           <Link href="/cart">
             <Image src="/images/cart.svg" width={24} height={24} alt="logo" />

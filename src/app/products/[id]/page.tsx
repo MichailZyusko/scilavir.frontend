@@ -9,6 +9,7 @@ import { TProduct } from '@/types';
 import { AddToCartButton } from '@/ui-kit/buttons/add-to-cart';
 import { round } from '@/utils';
 import Image from 'next/image';
+import { useClerkToken } from '@/context/auth';
 
 type TProps = {
   params: {
@@ -16,6 +17,8 @@ type TProps = {
   }
 };
 export default function ProductPage({ params: { id } }: TProps) {
+  const { updateClerkToken } = useClerkToken();
+
   const [product, setProduct] = useState<TProduct | null>(null);
   const [quantity, setQuantity] = useState<number>(0);
   const [isFavorite, setIsFavorite] = useState(false);
@@ -24,6 +27,7 @@ export default function ProductPage({ params: { id } }: TProps) {
 
   useEffect(() => {
     (async () => {
+      await updateClerkToken();
       const [
         { data: prdct },
         { data: { quantity: qnty } },
@@ -48,7 +52,7 @@ export default function ProductPage({ params: { id } }: TProps) {
       setQuantity(qnty);
       setIsLoading(false);
     })();
-  }, [id]);
+  }, [id, updateClerkToken]);
 
   const changeFavoriteState = async () => {
     if (!product) {

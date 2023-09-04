@@ -3,20 +3,23 @@
 import Image from 'next/image';
 import { Product } from '@/ui-kit/components/products/product';
 import { Dropdown } from 'flowbite-react';
-import { RouterGuard } from '@/HOC/routerGuard';
 import { TProduct } from '@/types';
 import axios from '@/api/axios';
 import { useState, useEffect } from 'react';
 import { Spinner } from '@/ui-kit/spinners';
 import { SortStrategy } from '@/enums';
+import { useClerkToken } from '@/context/auth';
 
 export default function FavoritePage() {
+  const { updateClerkToken } = useClerkToken();
+
   const [products, setProducts] = useState<TProduct[]>([]);
   const [sort, setSort] = useState<SortStrategy>(SortStrategy.ALPHABETICAL_ASC);
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
     (async () => {
+      await updateClerkToken();
       const { data } = await axios<TProduct[]>({
         method: 'GET',
         url: '/products/favorites',
@@ -28,14 +31,14 @@ export default function FavoritePage() {
       setProducts(data);
       setIsLoading(false);
     })();
-  }, [sort]);
+  }, [sort, updateClerkToken]);
 
   if (isLoading) {
     return <Spinner />;
   }
 
   return (
-    <RouterGuard>
+    <main className="px-44">
       <h1 className="w-full text-4xl text-center font-semibold mb-5">Избранное</h1>
       <div className="flex justify-between mb-2.5">
         <Dropdown
@@ -89,6 +92,6 @@ export default function FavoritePage() {
           />
         ))}
       </div>
-    </RouterGuard>
+    </main>
   );
 }

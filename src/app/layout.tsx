@@ -1,13 +1,12 @@
-'use client';
-
 import { Footer } from '@/ui-kit/nav/footer';
 import { Header } from '@/ui-kit/nav/header';
 import { PropsWithChildren } from 'react';
 import './globals.css';
 import { Inter } from 'next/font/google';
-import clsx from 'clsx';
-import { AuthContext } from '@/context/auth';
-import { useAuth } from '@/hooks/useAuth';
+import { ClerkProvider } from '@clerk/nextjs';
+import { ruRU } from '@clerk/localizations';
+import { twMerge } from 'tailwind-merge';
+import { ClerkTokenProvider } from '@/context/auth';
 import Providers from './providers';
 
 const inter = Inter({
@@ -16,24 +15,24 @@ const inter = Inter({
 });
 
 export default function RootLayout({ children }: PropsWithChildren) {
-  const auth = useAuth();
-
   return (
-    <html lang="ru">
-      <Providers>
-        <AuthContext.Provider value={auth}>
-          <body
-            className={clsx(
-              'flex flex-col justify-between scroll-smooth h-screen',
-              inter.className,
-            )}
-          >
-            <Header />
-            {children}
-            <Footer />
-          </body>
-        </AuthContext.Provider>
-      </Providers>
-    </html>
+    <ClerkProvider localization={ruRU}>
+      <html lang="ru">
+        <ClerkTokenProvider>
+          <Providers>
+            <body
+              className={twMerge(
+                'flex flex-col justify-between scroll-smooth h-screen',
+                inter.className,
+              )}
+            >
+              <Header />
+              {children}
+              <Footer />
+            </body>
+          </Providers>
+        </ClerkTokenProvider>
+      </html>
+    </ClerkProvider>
   );
 }
