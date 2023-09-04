@@ -54,7 +54,7 @@ export default function GroupsPage({ params: { id: groupId = '' } }: TProps) {
         isLoading: false,
       });
     })();
-  }, [groupId, sort]);
+  }, [groupId, sort, state]);
 
   if (state.isLoading) {
     return <Spinner />;
