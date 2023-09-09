@@ -3,6 +3,7 @@
 import { useClerkToken } from '@/context/auth';
 import { FileInput, SelectInput, TextInput } from '@/ui-kit/inputs';
 import { Spinner } from '@/ui-kit/spinners';
+import { User } from '@clerk/nextjs/dist/types/server';
 import { useEffect, useState } from 'react';
 import { useForm, FormProvider, FieldValues } from 'react-hook-form';
 import axios from 'src/api/axios';
@@ -11,14 +12,17 @@ type TState = {
   categories: [{ id: string, name: string }] | [];
   groups: [{ id: string, name: string }] | [];
   isLoading: boolean;
+  isAdmin: boolean;
 };
 export default function NewProduct() {
   const { updateClerkToken } = useClerkToken();
   const hookFormMethods = useForm();
+
   const [state, setState] = useState<TState>({
     categories: [],
     groups: [],
     isLoading: true,
+    isAdmin: false,
   });
 
   useEffect(() => {
@@ -27,28 +31,21 @@ export default function NewProduct() {
       const [{ data: categories }, { data: groups }, { data: user }] = await Promise.all([
         axios.get<[{ id: string, name: string }]>('/categories'),
         axios.get<[{ id: string, name: string }]>('/groups'),
-        axios.get('users/self'),
+        axios.get<User>('/users/self'),
       ]);
-      console.log('🚀 ~ file: page.tsx:36 ~ user:', user);
 
       setState({
         categories,
         groups,
         isLoading: false,
+        isAdmin: !!user.publicMetadata?.isAdmin,
       });
     })();
   }, [updateClerkToken]);
 
-  // if (!isLoaded || !organization) {
-  //   return null;
-  // }
-
-  // const isAdmin = membership?.role === 'admin';
-  // console.log('🚀 ~ file: page.tsx:49 ~ isAdmin:', isAdmin);
-
-  // if (!isAdmin) {
-  //   <h1>You are not admin</h1>;
-  // }
+  if (!state.isAdmin) {
+    return <h1>You are not admin</h1>;
+  }
 
   if (state.isLoading) {
     return <Spinner />;
