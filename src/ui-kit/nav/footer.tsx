@@ -7,23 +7,23 @@ export function Footer() {
     <footer className="w-full px-15 bg-black">
       <div className="container mx-auto px-4 pt-20 pb-10">
         <ul className="text-white font-semibold text-2xl flex justify-between mb-24">
-          <li>
+          <li className="flex flex-col gap-6">
             <Link href="/">
-              <p className="block mb-6">каталог</p>
+              <p>каталог</p>
             </Link>
             <Link href="/">
-              <p className="block mb-6">о&nbsp;нас</p>
+              <p>о&nbsp;нас</p>
             </Link>
             <Link href="/">
               <p>доставка и оплата</p>
             </Link>
           </li>
-          <li>
+          <li className="flex flex-col gap-6">
             <Link href="/">
-              <p className="block mb-6">избранное</p>
+              <p>избранное</p>
             </Link>
             <Link href="/">
-              <p className="block mb-6">корзина</p>
+              <p>корзина</p>
             </Link>
             <Link href="/">
               <p>личный кабинет</p>
