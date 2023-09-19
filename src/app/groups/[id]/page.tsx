@@ -7,6 +7,7 @@ import { Product } from '@/ui-kit/components/products/product';
 import { Dropdown, Spinner } from 'flowbite-react';
 import { useEffect, useState } from 'react';
 import { SortStrategy } from '@/enums';
+import { useClerkToken } from '@/context/auth';
 
 type TGroup = {
   id: string;
@@ -27,6 +28,7 @@ type TProps = {
 };
 
 export default function GroupsPage({ params: { id: groupId = '' } }: TProps) {
+  const { updateClerkToken } = useClerkToken();
   const [state, setState] = useState<TState>({
     products: [],
     group: null,
@@ -38,6 +40,8 @@ export default function GroupsPage({ params: { id: groupId = '' } }: TProps) {
 
   useEffect(() => {
     (async () => {
+      await updateClerkToken();
+
       const [{ data: group }, { data: products }] = await Promise.all([
         axios.get<TGroup>(`/groups/${groupId}`),
         axios.get<TProduct[]>(`/products/groups/${groupId}`, {
@@ -54,7 +58,7 @@ export default function GroupsPage({ params: { id: groupId = '' } }: TProps) {
         isLoading: false,
       });
     })();
-  }, [groupId, sort, state]);
+  }, [groupId, sort]);
 
   if (state.isLoading) {
     return <Spinner />;
