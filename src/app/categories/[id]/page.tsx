@@ -8,6 +8,7 @@ import { SubCategoryList } from '@/ui-kit/components/products/sub-categorie';
 import { Dropdown, Spinner } from 'flowbite-react';
 import { useEffect, useState } from 'react';
 import { SortStrategy } from '@/enums';
+import { useClerkToken } from '@/context/auth';
 
 type TState = {
   products: TProduct[];
@@ -23,6 +24,7 @@ type TProps = {
 };
 
 export default function CategoryPage({ params: { id: categoryId = '' } }: TProps) {
+  const { updateClerkToken } = useClerkToken();
   const [state, setState] = useState<TState>({
     products: [],
     subCategories: [],
@@ -34,10 +36,13 @@ export default function CategoryPage({ params: { id: categoryId = '' } }: TProps
 
   useEffect(() => {
     (async () => {
+      await updateClerkToken();
+
       const [{ data: subCategories }, { data: products }] = await Promise.all([
         axios.get<[]>(`/categories/${categoryId}`),
-        axios.get<TProduct[]>(`/products/categories/${categoryId}`, {
+        axios.get<TProduct[]>('/products', {
           params: {
+            categoryIds: [categoryId],
             sort,
           },
         }),
@@ -50,7 +55,7 @@ export default function CategoryPage({ params: { id: categoryId = '' } }: TProps
         isLoading: false,
       });
     })();
-  }, [categoryId, sort, state]);
+  }, [categoryId, sort]);
 
   if (state.isLoading) {
     return <Spinner />;

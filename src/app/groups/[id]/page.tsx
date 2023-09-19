@@ -44,8 +44,9 @@ export default function GroupsPage({ params: { id: groupId = '' } }: TProps) {
 
       const [{ data: group }, { data: products }] = await Promise.all([
         axios.get<TGroup>(`/groups/${groupId}`),
-        axios.get<TProduct[]>(`/products/groups/${groupId}`, {
+        axios.get<TProduct[]>('/products', {
           params: {
+            groupIds: [groupId],
             sort,
           },
         }),
