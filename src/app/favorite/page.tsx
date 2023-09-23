@@ -84,13 +84,14 @@ export default function FavoritePage() {
       <h2 className="w-full text-3xl text-center font-semibold my-10">Похожие товары</h2>
 
       <div className="grid grid-cols-4 gap-8">
-        {products.slice(0, 4).map(({ id, ...product }) => (
+        <h1>Эта функция в разработке</h1>
+        {/* {[products].slice(0, 4).map(({ id, ...product }) => (
           <Product
             key={id}
             id={id}
             {...product}
           />
-        ))}
+        ))} */}
       </div>
     </main>
   );

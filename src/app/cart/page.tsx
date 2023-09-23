@@ -8,16 +8,19 @@ import { AddToCartButton } from '@/ui-kit/buttons/add-to-cart';
 import { round } from '@/utils';
 import { Button } from '@/ui-kit/buttons';
 import { TProduct } from '@/types';
+import { useClerkToken } from '@/context/auth';
 
 type TCartItem = {
   quantity: number;
   products: TProduct;
 };
 export default function CartPage() {
+  const { updateClerkToken } = useClerkToken();
   const [cart, setCart] = useState<TCartItem[]>([]);
 
   useEffect(() => {
     (async () => {
+      await updateClerkToken();
       const { data } = await axios.get('/cart');
 
       setCart(data);
