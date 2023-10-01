@@ -2,16 +2,14 @@
 
 import { TextInput } from '@/ui-kit/inputs';
 import { FieldValues, FormProvider, useForm } from 'react-hook-form';
-import { useAuthContext } from '@/context/auth';
 import Link from 'next/link';
 import { Button } from '@/ui-kit/buttons';
 
 export default function SignIn() {
   const hookFormMethods = useForm();
-  const { signIn } = useAuthContext();
 
   const onSubmit = async (fieldValues: FieldValues) => {
-    await signIn(fieldValues);
+    console.log('🚀 ~ file: page.tsx:13 ~ fieldValues:', fieldValues);
   };
 
   return (

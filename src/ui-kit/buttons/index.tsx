@@ -1,5 +1,5 @@
-import clsx from 'clsx';
 import { PropsWithChildren } from 'react';
+import { twMerge } from 'tailwind-merge';
 
 type TProps = {
   size?: 'xs' | 's' | 'm' | 'l' | 'xl';
@@ -11,7 +11,7 @@ export function Button({
   return (
     <button
       type="button"
-      className={clsx(
+      className={twMerge(
         'bg-black text-white rounded-[10px] px-2.5 py-1',
         size === 'xl' && 'text-2xl px-3 py-1.5',
       )}

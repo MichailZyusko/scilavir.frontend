@@ -8,16 +8,19 @@ import { AddToCartButton } from '@/ui-kit/buttons/add-to-cart';
 import { round } from '@/utils';
 import { Button } from '@/ui-kit/buttons';
 import { TProduct } from '@/types';
+import { useClerkToken } from '@/context/auth';
 
 type TCartItem = {
   quantity: number;
-  products: TProduct;
+  product: TProduct;
 };
 export default function CartPage() {
+  const { updateClerkToken } = useClerkToken();
   const [cart, setCart] = useState<TCartItem[]>([]);
 
   useEffect(() => {
     (async () => {
+      await updateClerkToken();
       const { data } = await axios.get('/cart');
 
       setCart(data);
@@ -25,6 +28,8 @@ export default function CartPage() {
   }, []);
 
   const submitOrder = async () => {
+    await updateClerkToken();
+
     await axios.post('/orders');
   };
 
@@ -44,7 +49,7 @@ export default function CartPage() {
   return (
     <>
       <div className="grid grid-cols-4 gap-8">
-        {cart.map(({ quantity, products: { id, ...product } }) => (
+        {cart.map(({ quantity, product: { id, ...product } }) => (
           <Link className="flex flex-col items-start mb-8" href={`/products/${id}`}>
             {product.images && (
             <Image

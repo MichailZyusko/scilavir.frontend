@@ -1,8 +1,9 @@
 'use client';
 
-import { RouterGuard } from '@/HOC/routerGuard';
+import { useClerkToken } from '@/context/auth';
 import { FileInput, SelectInput, TextInput } from '@/ui-kit/inputs';
 import { Spinner } from '@/ui-kit/spinners';
+import { User } from '@clerk/nextjs/dist/types/server';
 import { useEffect, useState } from 'react';
 import { useForm, FormProvider, FieldValues } from 'react-hook-form';
 import axios from 'src/api/axios';
@@ -11,35 +12,47 @@ type TState = {
   categories: [{ id: string, name: string }] | [];
   groups: [{ id: string, name: string }] | [];
   isLoading: boolean;
+  isAdmin: boolean;
 };
-export default function NewGood() {
+export default function NewProduct() {
+  const { updateClerkToken } = useClerkToken();
   const hookFormMethods = useForm();
+
   const [state, setState] = useState<TState>({
     categories: [],
     groups: [],
     isLoading: true,
+    isAdmin: false,
   });
 
   useEffect(() => {
     (async () => {
-      const [{ data: categories }, { data: groups }] = await Promise.all([
+      await updateClerkToken();
+      const [{ data: categories }, { data: groups }, { data: user }] = await Promise.all([
         axios.get<[{ id: string, name: string }]>('/categories'),
         axios.get<[{ id: string, name: string }]>('/groups'),
+        axios.get<User>('/users/self'),
       ]);
 
       setState({
         categories,
         groups,
         isLoading: false,
+        isAdmin: !!user.publicMetadata?.isAdmin,
       });
     })();
-  }, []);
+  }, [updateClerkToken]);
 
   if (state.isLoading) {
     return <Spinner />;
   }
 
-  const onSubmit = (data: FieldValues) => {
+  if (!state.isAdmin) {
+    return <h1>You are not admin</h1>;
+  }
+
+  const onSubmit = async (data: FieldValues) => {
+    await updateClerkToken();
     const { images, ...fields } = data;
     const formData = new FormData();
 
@@ -55,7 +68,7 @@ export default function NewGood() {
   };
 
   return (
-    <RouterGuard isAdminOnly fallback={<h1>This page for admins only</h1>}>
+    <main className="px-44">
       <FormProvider {...hookFormMethods}>
         <form onSubmit={hookFormMethods.handleSubmit(onSubmit)}>
           <TextInput
@@ -95,6 +108,6 @@ export default function NewGood() {
           </button>
         </form>
       </FormProvider>
-    </RouterGuard>
+    </main>
   );
 }
