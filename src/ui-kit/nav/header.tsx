@@ -3,18 +3,9 @@
 import { Navbar, Dropdown } from 'flowbite-react';
 import Link from 'next/link';
 import Image from 'next/image';
-import { useState, useEffect } from 'react';
 import { SignedIn, SignedOut, UserButton } from '@clerk/nextjs';
 
 export function Header() {
-  const [domLoaded, setDomLoaded] = useState(false);
-
-  useEffect(() => {
-    setDomLoaded(true);
-  }, []);
-
-  if (!domLoaded) return null;
-
   return (
     <header className="px-44 py-20">
       <div className="flex justify-between">
