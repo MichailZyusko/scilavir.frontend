@@ -1,5 +1,6 @@
 import axios from '@/api/axios';
 import { useEffect } from 'react';
+import { useClerkToken } from '@/context/auth';
 import { Button } from '.';
 
 type TProps = {
@@ -7,9 +8,13 @@ type TProps = {
   quantity: number;
   setQuantity: (quantity: number) => void;
 };
-export function AddToCartButton({ productId, quantity, setQuantity }: TProps) {
+export function AddToCartButton({ productId, quantity = 0, setQuantity }: TProps) {
+  const { updateClerkToken } = useClerkToken();
+
   useEffect(() => {
     (async () => {
+      await updateClerkToken();
+
       if (!quantity) {
         await axios({
           url: `/cart/${productId}`,
