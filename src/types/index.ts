@@ -10,4 +10,5 @@ export type TProduct = {
   description: string;
   images: string[];
   price: number;
+  isFavorite: boolean;
 };
