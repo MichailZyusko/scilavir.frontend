@@ -31,7 +31,6 @@ export default function ProductPage({ params: { id } }: TProps) {
       const [
         { data: prdct },
         { data: { quantity: qnty } },
-        { data: { isFavorite: isFav } },
       ] = await Promise.all([
         axios<TProduct>({
           method: 'GET',
@@ -41,13 +40,9 @@ export default function ProductPage({ params: { id } }: TProps) {
           method: 'GET',
           url: `/cart/${id}`,
         }),
-        axios <{ isFavorite: boolean }>({
-          method: 'GET',
-          url: `/products/favorites/${id}`,
-        }),
       ]);
 
-      setIsFavorite(isFav);
+      setIsFavorite(prdct.isFavorite);
       setProduct(prdct);
       setQuantity(qnty);
       setIsLoading(false);
