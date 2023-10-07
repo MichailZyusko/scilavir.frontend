@@ -64,7 +64,11 @@ export default function NewProduct() {
       formData.append(key, value);
     });
 
-    axios.post('/products', formData);
+    const { status } = await axios.post('/products', formData);
+
+    if (status === 201) {
+      window.location.reload();
+    }
   };
 
   return (

@@ -16,43 +16,56 @@ type TProps = {
     id: string;
   }
 };
+
+type TState = {
+  product: TProduct | null;
+  quantity: number;
+  isFavorite: boolean;
+  isLoading: boolean;
+};
 export default function ProductPage({ params: { id } }: TProps) {
   const { updateClerkToken } = useClerkToken();
 
-  const [product, setProduct] = useState<TProduct | null>(null);
-  const [quantity, setQuantity] = useState<number>(0);
-  const [isFavorite, setIsFavorite] = useState(false);
-  const [isLoading, setIsLoading] = useState(true);
+  const [state, setState] = useState<TState>({
+    product: null,
+    quantity: 0,
+    isFavorite: false,
+    isLoading: true,
+  });
+
   const router = useRouter();
 
   useEffect(() => {
     (async () => {
       await updateClerkToken();
+
       const [
-        { data: prdct },
-        { data: { quantity: qnty } },
+        { data: product },
+        { data: { quantity } },
       ] = await Promise.all([
-        axios<TProduct>({
-          method: 'GET',
-          url: `/products/${id}`,
-        }),
-        axios <{ quantity: number }>({
-          method: 'GET',
-          url: `/cart/${id}`,
-        }),
+        axios.get<TProduct>(`/products/${id}`),
+        axios.get<{ quantity: number }>(`/cart/${id}`),
       ]);
 
-      setIsFavorite(prdct.isFavorite);
-      setProduct(prdct);
-      setQuantity(qnty);
-      setIsLoading(false);
+      setState({
+        product,
+        quantity,
+        isFavorite: product.isFavorite,
+        isLoading: false,
+      });
     })();
   }, [id, updateClerkToken]);
+
+  const {
+    product, quantity, isFavorite, isLoading,
+  } = state;
 
   const changeFavoriteState = async () => {
     if (!product) {
       return;
     }
+
+    await updateClerkToken();
 
     if (isFavorite) {
       await axios.delete(`/products/favorites/${id}`);
@@ -60,7 +73,10 @@ export default function ProductPage({ params: { id } }: TProps) {
       await axios.post(`/products/favorites/${id}`);
     }
 
-    setIsFavorite(!isFavorite);
+    setState({
+      ...state,
+      isFavorite: !isFavorite,
+    });
   };
 
   if (isLoading) {
@@ -93,10 +109,10 @@ export default function ProductPage({ params: { id } }: TProps) {
             <Image
               onClick={changeFavoriteState}
               src={isFavorite ? '/images/favorite-active.svg' : '/images/favorite.svg'}
-              width={24}
-              height={24}
-              alt="logo"
-              className="relative top-8 -left-14 z-10"
+              width={32}
+              height={32}
+              alt="favorite"
+              className="relative top-4 -left-14 z-10 cursor-pointer w-auto h-auto"
             />
             <h1 className="text-4xl font-semibold">{product.name}</h1>
             <br />
@@ -114,7 +130,7 @@ export default function ProductPage({ params: { id } }: TProps) {
             <AddToCartButton
               productId={product.id}
               quantity={quantity}
-              setQuantity={setQuantity}
+              setQuantity={(newQuantity) => setState({ ...state, quantity: newQuantity })}
             />
           </div>
         </div>

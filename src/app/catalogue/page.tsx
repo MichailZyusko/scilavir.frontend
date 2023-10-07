@@ -1,9 +1,9 @@
-import { Categories } from '@/ui-kit/components/categories/categories';
+import { Catalogue } from '@/ui-kit/components/catalogue/catalogue';
 
-export default async function CategoriesPage() {
+export default async function CataloguePage() {
   return (
     <main className="px-44">
-      <Categories />
+      <Catalogue />
     </main>
   );
 }

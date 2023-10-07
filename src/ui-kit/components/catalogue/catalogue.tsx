@@ -27,7 +27,7 @@ type TState = {
   isLoading: boolean;
 };
 
-export function Categories() {
+export function Catalogue() {
   const [state, setState] = useState<TState>({
     categories: [],
     groups: [],

@@ -30,7 +30,11 @@ export default function CartPage() {
   const submitOrder = async () => {
     await updateClerkToken();
 
-    await axios.post('/orders');
+    const { status } = await axios.post('/orders');
+
+    if (status === 201) {
+      setCart([]);
+    }
   };
 
   if (cart.length === 0) {
