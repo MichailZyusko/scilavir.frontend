@@ -114,6 +114,7 @@ export default function OrdersPage() {
                 <div className="flex-1">
                   <p>
                     {order.items.reduce((acc, { quantity, price }) => {
+                      // eslint-disable-next-line no-param-reassign
                       acc += quantity * price;
 
                       return acc;
