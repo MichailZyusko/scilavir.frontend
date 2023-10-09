@@ -22,7 +22,7 @@ export default async function Home({ searchParams }: TProps) {
   }
 
   return (
-    <main className="px-44">
+    <main className="container mx-auto px-4 pt-20 pb-10">
       <Banner />
       <ProsList />
       <PopularCategories />
