@@ -20,7 +20,7 @@ export function Footer() {
             </Link>
             </div>
             <div className="flex flex-col gap-3">
-            <Link href="/">
+            <Link href="/favorite">
               <p>избранное</p>
             </Link>
             <Link href="/">
