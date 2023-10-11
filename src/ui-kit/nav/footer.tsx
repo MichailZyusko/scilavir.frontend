@@ -6,45 +6,47 @@ export function Footer() {
   return (
     <footer className="w-full px-15 bg-black">
       <div className="container mx-auto px-4 pt-20 pb-10">
-        <ul className="text-white font-semibold text-xl flex justify-between mb-9">
+        <ul className="text-white font-semibold text-xl flex justify-around mb-9">
           <li className="flex gap-6">
-            <div className="flex flex-col gap-3 mr-36">
-            <Link href="/catalogue">
-              <p>каталог</p>
-            </Link>
-            <Link href="/#about-us">
-              <p>о&nbsp;нас</p>
-            </Link>
-            <Link href="/delivery-and-payment">
-              <p>доставка и оплата</p>
-            </Link>
-            </div>
             <div className="flex flex-col gap-3">
-            <Link href="/">
-              <p>избранное</p>
-            </Link>
-            <Link href="/">
-              <p>корзина</p>
-            </Link>
-            <Link href="/">
-              <p>личный кабинет</p>
-            </Link>
+              <Link href="/catalogue">
+                <p>каталог</p>
+              </Link>
+              <Link href="/#about-us">
+                <p>о&nbsp;нас</p>
+              </Link>
+              <Link href="/delivery-and-payment">
+                <p>доставка и оплата</p>
+              </Link>
             </div>
           </li>
-          <li className="flex flex-col mr-72">
+          <li className="flex gap-6">
+            <div className="flex flex-col gap-3">
+              <Link href="/">
+                <p>избранное</p>
+              </Link>
+              <Link href="/">
+                <p>корзина</p>
+              </Link>
+              <Link href="/">
+                <p>личный кабинет</p>
+              </Link>
+            </div>
+          </li>
+          <li className="flex flex-col">
             <div className="mb-auto">
               <span className="text-white ">
-                <a href="tel:+375293454545">+375 (29) 345-45-45</a>
+                <a href="tel:+375299357710">+375 (29) 935-77-10</a>
               </span>
             </div>
             <div className="flex justify-between items-center">
-              <a href="https://t.me/agvento-test">
+              <a href="https://t.me/michailZyusko">
                 <Image src="/images/telegram.svg" width={41.67} height={41.67} alt="telegram" />
               </a>
-              <a href="viber://add?number=%2B375293454545">
+              <a href="viber://add?number=%2B375299357710">
                 <Image src="/images/viber.svg" width={39.16} height={42.65} alt="viber" />
               </a>
-              <a href="mailto:mail@example.com">
+              <a href="mailto:michail.zyusko@gmail.com">
                 <Image src="/images/gmail.svg" width={41.67} height={33.33} alt="gmail" />
               </a>
             </div>
