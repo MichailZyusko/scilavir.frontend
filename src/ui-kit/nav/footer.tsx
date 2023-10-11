@@ -22,15 +22,15 @@ export function Footer() {
           </li>
           <li className="flex gap-6">
             <div className="flex flex-col gap-3">
-              <Link href="/">
-                <p>избранное</p>
-              </Link>
-              <Link href="/">
-                <p>корзина</p>
-              </Link>
-              <Link href="/">
-                <p>личный кабинет</p>
-              </Link>
+            <Link href="/favorite">
+              <p>избранное</p>
+            </Link>
+            <Link href="/">
+              <p>корзина</p>
+            </Link>
+            <Link href="/">
+              <p>личный кабинет</p>
+            </Link>
             </div>
           </li>
           <li className="flex flex-col">

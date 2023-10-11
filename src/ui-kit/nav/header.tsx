@@ -16,7 +16,7 @@ export function Header() {
   if (!domLoaded) return null;
 
   return (
-    <header className="container mx-auto px-4 pt-20 pb-10">
+    <header className="container mx-auto px-4 pt-10 pb-10">
       <div className="flex justify-between">
         <div>
           <Image src="/images/search.svg" width={24} height={24} alt="logo" />
