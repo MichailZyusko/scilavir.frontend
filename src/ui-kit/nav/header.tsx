@@ -7,7 +7,7 @@ import { SignedIn, SignedOut, UserButton } from '@clerk/nextjs';
 
 export function Header() {
   return (
-    <header className="px-44 py-20">
+    <header className="container mx-auto px-4 pt-10 pb-10">
       <div className="flex justify-between">
         <div>
           <Image src="/images/search.svg" width={24} height={24} alt="search" />
