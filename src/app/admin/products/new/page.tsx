@@ -43,15 +43,16 @@ export default function NewProduct() {
     })();
   }, [updateClerkToken]);
 
-  if (!state.isAdmin) {
-    return <h1>You are not admin</h1>;
-  }
-
   if (state.isLoading) {
     return <Spinner />;
   }
 
-  const onSubmit = (data: FieldValues) => {
+  if (!state.isAdmin) {
+    return <h1>You are not admin</h1>;
+  }
+
+  const onSubmit = async (data: FieldValues) => {
+    await updateClerkToken();
     const { images, ...fields } = data;
     const formData = new FormData();
 
@@ -63,7 +64,11 @@ export default function NewProduct() {
       formData.append(key, value);
     });
 
-    axios.post('/products', formData);
+    const { status } = await axios.post('/products', formData);
+
+    if (status === 201) {
+      window.location.reload();
+    }
   };
 
   return (

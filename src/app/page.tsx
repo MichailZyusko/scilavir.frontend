@@ -3,24 +3,7 @@ import { Banner } from '@/ui-kit/components/overview/banner';
 import { PopularCategories } from '@/ui-kit/components/overview/popular-categories';
 import { ProsList } from '@/ui-kit/components/overview/pros-list';
 
-type TProps = {
-  searchParams?: {
-    access_token: string;
-    refresh_token: string;
-  };
-};
-
-export default async function Home({ searchParams }: TProps) {
-  const {
-    access_token: accessToken,
-    refresh_token: refreshToken,
-  } = searchParams || {};
-
-  if (accessToken && refreshToken) {
-    localStorage.setItem('a-token', accessToken);
-    localStorage.setItem('r-token', refreshToken);
-  }
-
+export default async function Home() {
   return (
     <main className="container mx-auto px-4 pt-10 pb-10">
       <Banner />

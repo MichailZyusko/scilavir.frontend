@@ -3,40 +3,32 @@
 import { Navbar, Dropdown } from 'flowbite-react';
 import Link from 'next/link';
 import Image from 'next/image';
-import { useState, useEffect } from 'react';
 import { SignedIn, SignedOut, UserButton } from '@clerk/nextjs';
 
 export function Header() {
-  const [domLoaded, setDomLoaded] = useState(false);
-
-  useEffect(() => {
-    setDomLoaded(true);
-  }, []);
-
-  if (!domLoaded) return null;
-
   return (
     <header className="container mx-auto px-4 pt-10 pb-10">
       <div className="flex justify-between">
         <div>
-          <Image src="/images/search.svg" width={24} height={24} alt="logo" />
+          <Image src="/images/search.svg" width={24} height={24} alt="search" />
         </div>
-        <div className="flex items-center">
+        <div className="flex items-center gap-2.5">
           <Link href="/favorite">
-            <Image src="/images/favorite.svg" width={24} height={24} alt="logo" />
+            <Image src="/images/favorite.svg" width={24} height={24} alt="favorite" />
+          </Link>
+          <Link href="/orders">
+            <Image src="/images/orders.svg" width={24} height={24} alt="orders" />
           </Link>
           <Link href="/sign-in">
-            <span className="flex items-center justify-center mx-2.5">
-              <SignedIn>
-                <UserButton afterSignOutUrl="/" />
-              </SignedIn>
-              <SignedOut>
-                <Image src="/images/profile.svg" width={24} height={24} alt="logo" className="mx-2.5" />
-              </SignedOut>
-            </span>
+            <SignedIn>
+              <UserButton afterSignOutUrl="/" />
+            </SignedIn>
+            <SignedOut>
+              <Image src="/images/profile.svg" width={24} height={24} alt="logo" />
+            </SignedOut>
           </Link>
           <Link href="/cart">
-            <Image src="/images/cart.svg" width={24} height={24} alt="logo" />
+            <Image src="/images/cart.svg" width={24} height={24} alt="cart" />
           </Link>
         </div>
       </div>

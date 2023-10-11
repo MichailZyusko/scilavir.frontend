@@ -10,12 +10,22 @@ import { Spinner } from '@/ui-kit/spinners';
 import { SortStrategy } from '@/enums';
 import { useClerkToken } from '@/context/auth';
 
+type TState = {
+  products: TProduct[];
+  sort: SortStrategy;
+  isLoading: boolean;
+};
+
 export default function FavoritePage() {
   const { updateClerkToken } = useClerkToken();
 
-  const [products, setProducts] = useState<TProduct[]>([]);
-  const [sort, setSort] = useState<SortStrategy>(SortStrategy.ALPHABETICAL_ASC);
-  const [isLoading, setIsLoading] = useState(true);
+  const [state, setState] = useState<TState>({
+    products: [],
+    sort: SortStrategy.ALPHABETICAL_ASC,
+    isLoading: true,
+  });
+
+  const { sort, products, isLoading } = state;
 
   useEffect(() => {
     (async () => {
@@ -24,14 +34,17 @@ export default function FavoritePage() {
         method: 'GET',
         url: '/products/favorites',
         params: {
-          sort,
+          sort: state.sort,
         },
       });
 
-      setProducts(data);
-      setIsLoading(false);
+      setState({
+        ...state,
+        products: data,
+        isLoading: false,
+      });
     })();
-  }, [sort, updateClerkToken]);
+  }, [sort]);
 
   if (isLoading) {
     return <Spinner />;
@@ -46,22 +59,22 @@ export default function FavoritePage() {
           inline
         >
           <Dropdown.Item
-            onClick={() => setSort(SortStrategy.ALPHABETICAL_ASC)}
+            onClick={() => setState({ ...state, sort: SortStrategy.ALPHABETICAL_ASC })}
           >
             А ➔ Я
           </Dropdown.Item>
           <Dropdown.Item
-            onClick={() => setSort(SortStrategy.ALPHABETICAL_DESC)}
+            onClick={() => setState({ ...state, sort: SortStrategy.ALPHABETICAL_DESC })}
           >
             Я ➔ А
           </Dropdown.Item>
           <Dropdown.Item
-            onClick={() => setSort(SortStrategy.PRICE_ASC)}
+            onClick={() => setState({ ...state, sort: SortStrategy.PRICE_ASC })}
           >
             Сначала дешевые
           </Dropdown.Item>
           <Dropdown.Item
-            onClick={() => setSort(SortStrategy.PRICE_DESC)}
+            onClick={() => setState({ ...state, sort: SortStrategy.PRICE_DESC })}
           >
             Сначала дорогие
           </Dropdown.Item>
@@ -79,18 +92,6 @@ export default function FavoritePage() {
       </div>
       <div className="grid grid-cols-4 gap-8">
         {products.map(({ id, ...product }) => <Product key={id} id={id} {...product} />)}
-      </div>
-
-      <h2 className="w-full text-3xl text-center font-semibold my-10">Похожие товары</h2>
-
-      <div className="grid grid-cols-4 gap-8">
-        {products.slice(0, 4).map(({ id, ...product }) => (
-          <Product
-            key={id}
-            id={id}
-            {...product}
-          />
-        ))}
       </div>
     </main>
   );
