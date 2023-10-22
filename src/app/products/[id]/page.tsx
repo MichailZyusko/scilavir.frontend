@@ -11,6 +11,7 @@ import { round } from '@/utils';
 import Image from 'next/image';
 import { useClerkToken } from '@/context/auth';
 import { Product } from '@/ui-kit/components/products/product';
+import { Feedbacks } from '@/ui-kit/components/feedbacks';
 
 type TProps = {
   params: {
@@ -142,6 +143,8 @@ export default function ProductPage({ params: { id } }: TProps) {
           </div>
         </div>
       </div>
+
+      <Feedbacks productId={id} />
 
       <h2 className="w-full text-3xl text-center font-semibold my-10">Похожие товары</h2>
       <div className="grid grid-cols-4 gap-8">
