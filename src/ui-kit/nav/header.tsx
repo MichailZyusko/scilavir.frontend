@@ -99,34 +99,38 @@ export function Header() {
         </div>
       </FormProvider>
       {isModalOpened && (
-        <div
-          className="w-full flex items-center flex-col overflow-y-auto min-h-[350px] max-h-[350px] border-b-2"
-          ref={ref}
-          onMouseEnter={() => {
-            setIsSearchListFocused(true);
-          }}
-        >
-          {products.length === 0
-            ? (<div>По вашему запросу ничего не неайдено</div>)
-            : (
-              products.map(({ id: productId, ...productWithOutId }) => (
-                <div
-                  className="mb-4 ml-4 w-1/2"
-                  onClick={() => {
-                    setIsModalOpened(false);
-                    setIsSearchListFocused(false);
-                    setProducts([]);
-                  }}
-                >
-                  <ProductHorizontal
-                    key={productId}
-                    id={productId}
-                    {...productWithOutId}
-                  />
-                </div>
-              ))
-            )}
+        <div className="flex flex-col">
+          <div className="fixed w-screen h-screen z-[1] bg-zinc-400/75" />
+          <div
+            className="w-full flex items-center flex-col overflow-y-auto min-h-[350px] max-h-[350px] border-b-2 z-10 relative order-1 bg-white"
+            ref={ref}
+            onMouseEnter={() => {
+              setIsSearchListFocused(true);
+            }}
+          >
+            {products.length === 0
+              ? (<div>По вашему запросу ничего не неайдено</div>)
+              : (
+                products.map(({ id: productId, ...productWithOutId }) => (
+                  <div
+                    className="mb-4 ml-4 w-1/2"
+                    onClick={() => {
+                      setIsModalOpened(false);
+                      setIsSearchListFocused(false);
+                      setProducts([]);
+                    }}
+                  >
+                    <ProductHorizontal
+                      key={productId}
+                      id={productId}
+                      {...productWithOutId}
+                    />
+                  </div>
+                ))
+              )}
+          </div>
         </div>
+
       )}
     </header>
   );

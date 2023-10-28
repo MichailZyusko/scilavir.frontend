@@ -7,6 +7,7 @@ import Image from 'next/image';
 import { Carousel, FlowbiteCarouselTheme } from 'flowbite-react';
 import { useEffect, useState } from 'react';
 import axios from '@/api/axios';
+import { useClerkToken } from '@/context/auth';
 import { FeedbackCreationModal } from './modal';
 
 export type TFeedbackItem = {
@@ -20,7 +21,7 @@ export type TFeedbackItem = {
 
 const theme: FlowbiteCarouselTheme = {
   root: {
-    base: 'flex  relative h-full w-3/4',
+    base: 'flex relative h-full w-full',
     leftControl: 'absolute top-0 -left-16 flex h-full items-center justify-center px-4 focus:outline-none',
     rightControl: 'absolute top-0 -right-16 flex h-full items-center justify-center px-4 focus:outline-none',
   },
@@ -89,6 +90,7 @@ export function Feedbacks({ productId }: TFeedbackProps) {
     setIsFeedbackCreationModalOpen,
   ] = useState<'dismissible' | undefined>();
   const [feedbacks, setFeedbacks] = useState<TFeedbackItem[]>([]);
+  const { updateClerkToken } = useClerkToken();
 
   const leaveFeedback = () => {
     setIsFeedbackCreationModalOpen('dismissible');
@@ -96,62 +98,73 @@ export function Feedbacks({ productId }: TFeedbackProps) {
 
   useEffect(() => {
     (async () => {
+      await updateClerkToken();
       const { data } = await axios.get(`/feedbacks/products/${productId}`);
-
       setFeedbacks(data);
     })();
-  }, [productId]);
-
-  if (!feedbacks.length) {
-    return (
-      <div className="flex flex-col items-center justify-center my-16">
-        <h2>Для данного товара отзывы остутствуют</h2>
-        <p>
-          Пожалуйста,
-          {' '}
-          <span
-            className="underline text-blue-700 cursor-pointer"
-            onClick={leaveFeedback}
-          >
-            оставьте отзыв
-          </span>
-        </p>
-        <FeedbackCreationModal
-          isOpened={isFeedbackCreationModalOpen}
-          setIsOpened={setIsFeedbackCreationModalOpen}
-          productId={productId}
-        />
-      </div>
-    );
-  }
+  }, [productId, isFeedbackCreationModalOpen]);
 
   return (
-    <div className="flex items-center justify-center my-16">
-      <Carousel
-        indicators
-        theme={theme}
-        leftControl={(
-          <Image
-            src="/images/arrow-left.svg"
-            alt="arrow-left"
-            className="object-cover object-center"
-            width={24}
-            height={24}
-          />
-      )}
-        rightControl={(
-          <Image
-            src="/images/arrow-right.svg"
-            alt="arrow-right"
-            className="object-cover object-center"
-            width={24}
-            height={24}
-          />
-      )}
-        className="h-fit rounded-lg"
-      >
-        {feedbacks.map(({ id, ...feedback }) => <FeedbackItem key={id} {...feedback} />)}
-      </Carousel>
+    <div className="flex items-center justify-center my-16 w-full">
+      {feedbacks.length
+        ? (
+          <div className="flex flex-col items-center justify-center gap-2">
+            <Carousel
+              indicators
+              theme={theme}
+              leftControl={(
+                <Image
+                  src="/images/arrow-left.svg"
+                  alt="arrow-left"
+                  className="object-cover object-center"
+                  width={24}
+                  height={24}
+                />
+            )}
+              rightControl={(
+                <Image
+                  src="/images/arrow-right.svg"
+                  alt="arrow-right"
+                  className="object-cover object-center"
+                  width={24}
+                  height={24}
+                />
+            )}
+              className="h-fit rounded-lg"
+            >
+              {feedbacks.map(({ id, ...feedback }) => <FeedbackItem key={id} {...feedback} />)}
+            </Carousel>
+            <div className="flex flex-col justify-center items-center">
+              <h2>Товар не соответсвует заявленным качествам?</h2>
+              <p>
+                Пожалуйста,
+                {' '}
+                <span
+                  className="underline text-blue-700 cursor-pointer"
+                  onClick={leaveFeedback}
+                >
+                  оставьте свой отзыв
+                </span>
+              </p>
+            </div>
+          </div>
+        )
+        : (
+          <div className="flex flex-col justify-center items-center">
+            <h2>Для данного товара отзывы остутствуют</h2>
+            <p>
+              Пожалуйста,
+              {' '}
+              <span
+                className="underline text-blue-700 cursor-pointer"
+                onClick={leaveFeedback}
+              >
+                оставьте отзыв
+              </span>
+            </p>
+          </div>
+        )}
+
       <FeedbackCreationModal
         isOpened={isFeedbackCreationModalOpen}
         setIsOpened={setIsFeedbackCreationModalOpen}

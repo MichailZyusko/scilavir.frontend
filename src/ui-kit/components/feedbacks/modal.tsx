@@ -108,7 +108,7 @@ export function FeedbackCreationModal({ isOpened, setIsOpened, productId }: TPro
         <Button
           onClick={() => {
             onSubmit(hookFormMethods.getValues());
-            // setIsOpened(undefined);
+            setIsOpened(undefined);
           }}
         >
           Оставить отзыв
