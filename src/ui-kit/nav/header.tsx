@@ -8,16 +8,19 @@ import Link from 'next/link';
 import Image from 'next/image';
 import { SignedIn, SignedOut, UserButton } from '@clerk/nextjs';
 import { useForm, FormProvider } from 'react-hook-form';
-import { useState } from 'react';
+import { useRef, useState } from 'react';
 import { TProduct } from '@/types';
+import { useFocusElement } from '@/hooks/useFocusElement';
 import { SearchInput } from '../inputs';
 import { ProductHorizontal } from '../components/products/product-horizontal';
 
 export function Header() {
   const hookFormMethods = useForm();
+  const [products, setProducts] = useState<TProduct[]>([]);
   const [isModalOpened, setIsModalOpened] = useState(false);
 
-  const [products, setProducts] = useState<TProduct[]>([]);
+  const ref = useRef<HTMLDivElement>(null);
+  const [isSearchListFocused, setIsSearchListFocused] = useFocusElement(ref);
 
   return (
     <header className="w-full pt-10 pb-10">
@@ -28,6 +31,7 @@ export function Header() {
               <SearchInput
                 setIsModalOpened={setIsModalOpened}
                 setProducts={setProducts}
+                isSearchListFocused={isSearchListFocused}
               />
             </div>
             <div className="flex items-center gap-2.5">
@@ -95,7 +99,13 @@ export function Header() {
         </div>
       </FormProvider>
       {isModalOpened && (
-        <div className="w-full flex items-center flex-col overflow-y-auto min-h-[350px] max-h-[350px] border-b-2">
+        <div
+          className="w-full flex items-center flex-col overflow-y-auto min-h-[350px] max-h-[350px] border-b-2"
+          ref={ref}
+          onMouseEnter={() => {
+            setIsSearchListFocused(true);
+          }}
+        >
           {products.length === 0
             ? (<div>По вашему запросу ничего не неайдено</div>)
             : (
@@ -104,6 +114,7 @@ export function Header() {
                   className="mb-4 ml-4 w-1/2"
                   onClick={() => {
                     setIsModalOpened(false);
+                    setIsSearchListFocused(false);
                     setProducts([]);
                   }}
                 >

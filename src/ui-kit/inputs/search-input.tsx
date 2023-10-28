@@ -11,12 +11,14 @@ import { useClerkToken } from '@/context/auth';
 type TProps = {
   setProducts: Dispatch<SetStateAction<TProduct[]>>;
   setIsModalOpened: Dispatch<SetStateAction<boolean>>;
+  isSearchListFocused: boolean;
 } & InputHTMLAttributes<HTMLInputElement>;
 
 export function SearchInput({
   name,
   setIsModalOpened,
   setProducts,
+  isSearchListFocused,
   ...inputProps
 }: TProps) {
   const { updateClerkToken } = useClerkToken();
@@ -26,11 +28,11 @@ export function SearchInput({
   const search = watch('search');
 
   useEffect(() => {
-    if (!isFocused) {
+    if (!(isFocused || isSearchListFocused)) {
       setIsModalOpened(false);
       setProducts([]);
     }
-  }, [isFocused]);
+  }, [isFocused, isSearchListFocused]);
 
   useEffect(() => {
     (async () => {
