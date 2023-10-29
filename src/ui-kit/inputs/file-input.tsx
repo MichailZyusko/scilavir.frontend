@@ -27,16 +27,18 @@ export function FileInput({ name }: TProps) {
   return (
     <>
       {multipleImages.length > 0 && (
-        <div className="flex flex-row justify-between">
+        <div className="flex flex-row justify-between  mb-4">
           {multipleImages.map((img) => (
-            <Image
-              className="p-3"
-              width={150}
-              height={150}
-              src={img}
-              alt=""
-              key={img}
-            />
+            <div className="border-2 border-dashed">
+              <Image
+                className="p-3 "
+                width={150}
+                height={150}
+                src={img}
+                alt=""
+                key={img}
+              />
+            </div>
           ))}
         </div>
       )}
@@ -68,6 +70,5 @@ export function FileInput({ name }: TProps) {
         </label>
       </div>
     </>
-
   );
 }

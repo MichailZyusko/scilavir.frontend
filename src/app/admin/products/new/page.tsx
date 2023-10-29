@@ -2,10 +2,11 @@
 
 import { useClerkToken } from '@/context/auth';
 import { FileInput, SelectInput, TextInput } from '@/ui-kit/inputs';
-import { Spinner } from '@/ui-kit/spinners';
+import { Loader } from '@/ui-kit/spinners';
 import { User } from '@clerk/nextjs/dist/types/server';
 import { useEffect, useState } from 'react';
 import { useForm, FormProvider, FieldValues } from 'react-hook-form';
+import { toast } from 'react-toastify';
 import axios from 'src/api/axios';
 
 type TState = {
@@ -44,7 +45,7 @@ export default function NewProduct() {
   }, [updateClerkToken]);
 
   if (state.isLoading) {
-    return <Spinner />;
+    return <Loader />;
   }
 
   if (!state.isAdmin) {
@@ -64,7 +65,15 @@ export default function NewProduct() {
       formData.append(key, value);
     });
 
-    axios.post('/products', formData);
+    const { status } = await toast.promise(axios.post('/products', formData), {
+      pending: 'Создаем продукт...',
+      success: 'Продукт создан',
+      error: 'Ошибка при создании продукта',
+    });
+
+    if (status === 201) {
+      window.location.reload();
+    }
   };
 
   return (

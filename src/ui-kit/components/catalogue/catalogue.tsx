@@ -5,7 +5,7 @@
 import Link from 'next/link';
 import { useEffect, useState } from 'react';
 import axios from '@/api/axios';
-import { Spinner } from '@/ui-kit/spinners';
+import { Loader } from '@/ui-kit/spinners';
 import { Button } from '../../buttons';
 
 type TGroup = {
@@ -27,7 +27,7 @@ type TState = {
   isLoading: boolean;
 };
 
-export function Categories() {
+export function Catalogue() {
   const [state, setState] = useState<TState>({
     categories: [],
     groups: [],
@@ -50,7 +50,7 @@ export function Categories() {
   }, []);
 
   if (state.isLoading) {
-    return <Spinner />;
+    return <Loader />;
   }
 
   return (

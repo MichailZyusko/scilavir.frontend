@@ -4,10 +4,11 @@ import axios from '@/api/axios';
 import Image from 'next/image';
 import { TProduct } from '@/types';
 import { Product } from '@/ui-kit/components/products/product';
-import { Dropdown, Spinner } from 'flowbite-react';
+import { Dropdown } from 'flowbite-react';
 import { useEffect, useState } from 'react';
 import { SortStrategy } from '@/enums';
 import { useClerkToken } from '@/context/auth';
+import { Loader } from '@/ui-kit/spinners';
 
 type TGroup = {
   id: string;
@@ -62,7 +63,7 @@ export default function GroupsPage({ params: { id: groupId = '' } }: TProps) {
   }, [groupId, sort]);
 
   if (state.isLoading) {
-    return <Spinner />;
+    return <Loader />;
   }
 
   if (!state.group) {

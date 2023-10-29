@@ -9,29 +9,60 @@ import { round } from '@/utils';
 import { Button } from '@/ui-kit/buttons';
 import { TProduct } from '@/types';
 import { useClerkToken } from '@/context/auth';
+import { toast } from 'react-toastify';
+import { Loader } from '@/ui-kit/spinners';
 
 type TCartItem = {
   quantity: number;
   product: TProduct;
 };
+
+type TState = {
+  cart: TCartItem[];
+  isLoading: boolean;
+};
 export default function CartPage() {
   const { updateClerkToken } = useClerkToken();
-  const [cart, setCart] = useState<TCartItem[]>([]);
+  const [state, setState] = useState<TState>({
+    cart: [],
+    isLoading: true,
+  });
 
   useEffect(() => {
     (async () => {
       await updateClerkToken();
       const { data } = await axios.get('/cart');
 
-      setCart(data);
+      setState({
+        ...state,
+        cart: data,
+        isLoading: false,
+      });
     })();
   }, []);
+
+  const { isLoading, cart } = state;
 
   const submitOrder = async () => {
     await updateClerkToken();
 
-    await axios.post('/orders');
+    const { status } = await toast.promise(axios.post('/orders'), {
+      pending: 'Оформляем заказ...',
+      success: 'Заказ успешно оформлен',
+      error: 'Ошибка при оформлении заказа',
+    });
+
+    if (status === 201) {
+      setState({
+        ...state,
+        cart: [],
+      });
+    }
   };
+
+  if (isLoading) {
+    return <Loader />;
+  }
 
   if (cart.length === 0) {
     return (
@@ -47,7 +78,7 @@ export default function CartPage() {
   }
 
   return (
-    <>
+    <main className="flex flex-col justify-center items-center px-44 mb-16">
       <div className="grid grid-cols-4 gap-8">
         {cart.map(({ quantity, product: { id, ...product } }) => (
           <Link className="flex flex-col items-start mb-8" href={`/products/${id}`}>
@@ -84,6 +115,6 @@ export default function CartPage() {
           Оформить заказ
         </Button>
       </div>
-    </>
+    </main>
   );
 }

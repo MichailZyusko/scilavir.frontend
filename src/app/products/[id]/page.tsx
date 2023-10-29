@@ -1,6 +1,6 @@
 'use client';
 
-import { Spinner } from '@/ui-kit/spinners';
+import { Loader } from '@/ui-kit/spinners';
 import axios from '@/api/axios';
 import { useRouter } from 'next/navigation';
 import { useState, useEffect } from 'react';
@@ -10,61 +10,94 @@ import { AddToCartButton } from '@/ui-kit/buttons/add-to-cart';
 import { round } from '@/utils';
 import Image from 'next/image';
 import { useClerkToken } from '@/context/auth';
+import { Product } from '@/ui-kit/components/products/product';
+import { Feedbacks } from '@/ui-kit/components/feedbacks';
+import { toast } from 'react-toastify';
 
 type TProps = {
   params: {
     id: string;
   }
 };
+
+type TState = {
+  product: TProduct | null;
+  similarProducts: TProduct[];
+  quantity: number;
+  isFavorite: boolean;
+  isLoading: boolean;
+};
 export default function ProductPage({ params: { id } }: TProps) {
   const { updateClerkToken } = useClerkToken();
 
-  const [product, setProduct] = useState<TProduct | null>(null);
-  const [quantity, setQuantity] = useState<number>(0);
-  const [isFavorite, setIsFavorite] = useState(false);
-  const [isLoading, setIsLoading] = useState(true);
+  const [state, setState] = useState<TState>({
+    product: null,
+    similarProducts: [],
+    quantity: 0,
+    isFavorite: false,
+    isLoading: true,
+  });
+
   const router = useRouter();
 
   useEffect(() => {
     (async () => {
       await updateClerkToken();
+
       const [
-        { data: prdct },
-        { data: { quantity: qnty } },
+        { data: product },
+        { data: { quantity } },
       ] = await Promise.all([
-        axios<TProduct>({
-          method: 'GET',
-          url: `/products/${id}`,
-        }),
-        axios <{ quantity: number }>({
-          method: 'GET',
-          url: `/cart/${id}`,
-        }),
+        axios.get<TProduct>(`/products/${id}`),
+        axios.get<{ quantity: number }>(`/cart/${id}`),
       ]);
 
-      setIsFavorite(prdct.isFavorite);
-      setProduct(prdct);
-      setQuantity(qnty);
-      setIsLoading(false);
+      const { data: similarProducts } = await axios.get(`/categories/${product.categoryIds[0]}/sample`);
+
+      setState({
+        ...state,
+        product,
+        quantity,
+        similarProducts,
+        isFavorite: product.isFavorite,
+        isLoading: false,
+      });
     })();
   }, [id, updateClerkToken]);
+
+  const {
+    product, quantity, isFavorite, isLoading,
+  } = state;
 
   const changeFavoriteState = async () => {
     if (!product) {
       return;
     }
 
+    await updateClerkToken();
+
     if (isFavorite) {
-      await axios.delete(`/products/favorites/${id}`);
+      await toast.promise(axios.delete(`/products/favorites/${id}`), {
+        pending: 'Удаляем из избранного...',
+        success: 'Успешно удалено из избранного',
+        error: 'Ошибка при удалении из избранного',
+      });
     } else {
-      await axios.post(`/products/favorites/${id}`);
+      await toast.promise(axios.post(`/products/favorites/${id}`), {
+        pending: 'Добавляем в избранное...',
+        success: 'Успешно добавлено в избранное',
+        error: 'Ошибка при добавлении в избранное',
+      });
     }
 
-    setIsFavorite(!isFavorite);
+    setState({
+      ...state,
+      isFavorite: !isFavorite,
+    });
   };
 
   if (isLoading) {
-    return <Spinner />;
+    return <Loader />;
   }
 
   if (!product) {
@@ -93,10 +126,10 @@ export default function ProductPage({ params: { id } }: TProps) {
             <Image
               onClick={changeFavoriteState}
               src={isFavorite ? '/images/favorite-active.svg' : '/images/favorite.svg'}
-              width={24}
-              height={24}
-              alt="logo"
-              className="relative top-8 -left-14 z-10"
+              width={32}
+              height={32}
+              alt="favorite"
+              className="relative top-4 -left-14 z-10 cursor-pointer w-auto h-auto"
             />
             <h1 className="text-4xl font-semibold">{product.name}</h1>
             <br />
@@ -108,19 +141,31 @@ export default function ProductPage({ params: { id } }: TProps) {
           <div className="flex items-baseline justify-between">
             <h2 className="text-2xl">
               {round(product.price * (quantity || 1))}
+              {round(product.price * (quantity || 1))}
               {' '}
               BYN
             </h2>
             <AddToCartButton
               productId={product.id}
               quantity={quantity}
-              setQuantity={setQuantity}
+              setQuantity={(newQuantity) => setState({ ...state, quantity: newQuantity })}
             />
           </div>
         </div>
       </div>
 
+      <Feedbacks productId={id} />
+
       <h2 className="w-full text-3xl text-center font-semibold my-10">Похожие товары</h2>
+      <div className="grid grid-cols-4 gap-8">
+        {state.similarProducts.map(({ id: productId, ...productWithOutId }) => (
+          <Product
+            key={productId}
+            id={productId}
+            {...productWithOutId}
+          />
+        ))}
+      </div>
     </main>
   );
 }
