@@ -8,6 +8,7 @@ import { Carousel, FlowbiteCarouselTheme } from 'flowbite-react';
 import { useEffect, useState } from 'react';
 import axios from '@/api/axios';
 import { useClerkToken } from '@/context/auth';
+import { formatDate } from '@/utils';
 import { FeedbackCreationModal } from './modal';
 
 export type TFeedbackItem = {
@@ -67,7 +68,7 @@ function FeedbackItem({
             ))}
           </span>
           <time className="overflow-hidden text-black text-ellipsis text-base leading-[125%]">
-            {new Intl.DateTimeFormat().format(new Date(createdAt))}
+            {formatDate(new Date(createdAt))}
           </time>
         </div>
         <h2 className="text-black text-xl font-semibold leading-[150%]">

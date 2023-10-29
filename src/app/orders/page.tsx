@@ -9,6 +9,7 @@ import { useClerkToken } from '@/context/auth';
 import { TProduct } from '@/types';
 import { Product } from '@/ui-kit/components/products/product';
 import { Loader } from '@/ui-kit/spinners';
+import { formatDate } from '@/utils';
 
 const customTheme: CustomFlowbiteTheme = {
   accordion: {
@@ -107,7 +108,7 @@ export default function OrdersPage() {
                   <br />
                   <p className="text-gray-500 text-xs dark:text-gray-400">
                     <time dateTime={order.createdAt}>
-                      {order.createdAt}
+                      {formatDate(new Date(order.createdAt))}
                     </time>
                   </p>
                 </div>
