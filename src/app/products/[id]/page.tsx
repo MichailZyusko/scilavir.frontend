@@ -141,6 +141,7 @@ export default function ProductPage({ params: { id } }: TProps) {
           <div className="flex items-baseline justify-between">
             <h2 className="text-2xl">
               {round(product.price * (quantity || 1))}
+              {round(product.price * (quantity || 1))}
               {' '}
               BYN
             </h2>

@@ -5,6 +5,7 @@ import { Product } from '@/ui-kit/components/products/product';
 import { Dropdown } from 'flowbite-react';
 import { TProduct } from '@/types';
 import axios from '@/api/axios';
+import axios from '@/api/axios';
 import { useState, useEffect } from 'react';
 import { Loader } from '@/ui-kit/spinners';
 import { SortStrategy } from '@/enums';
@@ -30,6 +31,7 @@ export default function FavoritePage() {
   useEffect(() => {
     (async () => {
       await updateClerkToken();
+      await updateClerkToken();
       const { data } = await axios<TProduct[]>({
         method: 'GET',
         url: '/products/favorites',
@@ -51,6 +53,7 @@ export default function FavoritePage() {
   }
 
   return (
+    <main className="px-44">
     <main className="px-44">
       <h1 className="w-full text-4xl text-center font-semibold mb-5">Избранное</h1>
       <div className="flex justify-between mb-2.5">
