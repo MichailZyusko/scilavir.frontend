@@ -2,12 +2,13 @@
 
 import axios from '@/api/axios';
 import {
-  Accordion, CustomFlowbiteTheme, Flowbite, Spinner,
+  Accordion, CustomFlowbiteTheme, Flowbite,
 } from 'flowbite-react';
 import { useEffect, useState } from 'react';
 import { useClerkToken } from '@/context/auth';
 import { TProduct } from '@/types';
 import { Product } from '@/ui-kit/components/products/product';
+import { Loader } from '@/ui-kit/spinners';
 
 const customTheme: CustomFlowbiteTheme = {
   accordion: {
@@ -83,7 +84,7 @@ export default function OrdersPage() {
   }, []);
 
   if (state.isLoading) {
-    return <Spinner />;
+    return <Loader />;
   }
 
   return (

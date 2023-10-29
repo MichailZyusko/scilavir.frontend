@@ -5,7 +5,7 @@
 import Link from 'next/link';
 import { useEffect, useState } from 'react';
 import axios from '@/api/axios';
-import { Spinner } from '@/ui-kit/spinners';
+import { Loader } from '@/ui-kit/spinners';
 import { Button } from '../../buttons';
 
 type TGroup = {
@@ -50,7 +50,7 @@ export function Catalogue() {
   }, []);
 
   if (state.isLoading) {
-    return <Spinner />;
+    return <Loader />;
   }
 
   return (

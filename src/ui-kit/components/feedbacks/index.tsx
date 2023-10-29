@@ -99,6 +99,7 @@ export function Feedbacks({ productId }: TFeedbackProps) {
   useEffect(() => {
     (async () => {
       await updateClerkToken();
+
       const { data } = await axios.get(`/feedbacks/products/${productId}`);
       setFeedbacks(data);
     })();

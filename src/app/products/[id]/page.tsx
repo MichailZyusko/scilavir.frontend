@@ -1,6 +1,6 @@
 'use client';
 
-import { Spinner } from '@/ui-kit/spinners';
+import { Loader } from '@/ui-kit/spinners';
 import axios from '@/api/axios';
 import { useRouter } from 'next/navigation';
 import { useState, useEffect } from 'react';
@@ -12,6 +12,7 @@ import Image from 'next/image';
 import { useClerkToken } from '@/context/auth';
 import { Product } from '@/ui-kit/components/products/product';
 import { Feedbacks } from '@/ui-kit/components/feedbacks';
+import { toast } from 'react-toastify';
 
 type TProps = {
   params: {
@@ -76,9 +77,17 @@ export default function ProductPage({ params: { id } }: TProps) {
     await updateClerkToken();
 
     if (isFavorite) {
-      await axios.delete(`/products/favorites/${id}`);
+      await toast.promise(axios.delete(`/products/favorites/${id}`), {
+        pending: 'Удаляем из избранного...',
+        success: 'Успешно удалено из избранного',
+        error: 'Ошибка при удалении из избранного',
+      });
     } else {
-      await axios.post(`/products/favorites/${id}`);
+      await toast.promise(axios.post(`/products/favorites/${id}`), {
+        pending: 'Добавляем в избранное...',
+        success: 'Успешно добавлено в избранное',
+        error: 'Ошибка при добавлении в избранное',
+      });
     }
 
     setState({
@@ -88,7 +97,7 @@ export default function ProductPage({ params: { id } }: TProps) {
   };
 
   if (isLoading) {
-    return <Spinner />;
+    return <Loader />;
   }
 
   if (!product) {

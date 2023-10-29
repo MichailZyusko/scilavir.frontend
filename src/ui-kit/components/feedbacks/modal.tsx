@@ -4,6 +4,7 @@ import { RatingInput, TextInput } from '@/ui-kit/inputs';
 import { Button, FlowbiteModalTheme, Modal } from 'flowbite-react';
 import { Dispatch, SetStateAction } from 'react';
 import { FieldValues, FormProvider, useForm } from 'react-hook-form';
+import { toast } from 'react-toastify';
 
 const theme: FlowbiteModalTheme = {
   root: {
@@ -72,9 +73,13 @@ export function FeedbackCreationModal({ isOpened, setIsOpened, productId }: TPro
   const onSubmit = async (data: FieldValues) => {
     await updateClerkToken();
 
-    await axios.post('/feedbacks', {
+    await toast.promise(axios.post('/feedbacks', {
       ...data,
       productId,
+    }), {
+      pending: 'Добавляем отзыв...',
+      success: 'Отзыв успешно добавлен',
+      error: 'Ошибка при добавлении отзыва',
     });
   };
 

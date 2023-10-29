@@ -1,6 +1,7 @@
 import axios from '@/api/axios';
 import { useEffect } from 'react';
 import { useClerkToken } from '@/context/auth';
+import { toast } from 'react-toastify';
 import { Button } from '.';
 
 type TProps = {
@@ -35,10 +36,12 @@ export function AddToCartButton({ productId, quantity = 0, setQuantity }: TProps
   }, [quantity, productId]);
 
   const addToCartHandler = async () => {
+    toast.success('Товар добавлен в корзину');
     setQuantity(quantity + 1);
   };
 
   const removeFromCartHandler = async () => {
+    toast.error('Товар удален из корзины');
     setQuantity(quantity - 1);
   };
 

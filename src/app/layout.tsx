@@ -7,7 +7,9 @@ import { ClerkProvider } from '@clerk/nextjs';
 import { ruRU } from '@clerk/localizations';
 import { twMerge } from 'tailwind-merge';
 import { ClerkTokenProvider } from '@/context/auth';
+import { ToastContainer } from 'react-toastify';
 import Providers from './providers';
+import 'react-toastify/dist/ReactToastify.css';
 
 const inter = Inter({
   subsets: ['cyrillic', 'latin'],
@@ -27,6 +29,7 @@ export default function RootLayout({ children }: PropsWithChildren) {
               )}
             >
               <Header />
+              <ToastContainer />
               {children}
               <Footer />
             </body>

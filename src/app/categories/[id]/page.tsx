@@ -5,10 +5,11 @@ import Image from 'next/image';
 import { TProduct } from '@/types';
 import { Product } from '@/ui-kit/components/products/product';
 import { SubCategoryList } from '@/ui-kit/components/products/sub-categorie';
-import { Dropdown, Spinner } from 'flowbite-react';
+import { Dropdown } from 'flowbite-react';
 import { useEffect, useState } from 'react';
 import { SortStrategy } from '@/enums';
 import { useClerkToken } from '@/context/auth';
+import { Loader } from '@/ui-kit/spinners';
 
 type TState = {
   products: TProduct[];
@@ -58,7 +59,7 @@ export default function CategoryPage({ params: { id: categoryId = '' } }: TProps
   }, [categoryId, sort]);
 
   if (state.isLoading) {
-    return <Spinner />;
+    return <Loader />;
   }
   return (
     <main className="px-44">

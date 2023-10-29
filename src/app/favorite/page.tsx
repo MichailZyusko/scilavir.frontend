@@ -6,7 +6,7 @@ import { Dropdown } from 'flowbite-react';
 import { TProduct } from '@/types';
 import axios from '@/api/axios';
 import { useState, useEffect } from 'react';
-import { Spinner } from '@/ui-kit/spinners';
+import { Loader } from '@/ui-kit/spinners';
 import { SortStrategy } from '@/enums';
 import { useClerkToken } from '@/context/auth';
 
@@ -47,7 +47,7 @@ export default function FavoritePage() {
   }, [sort]);
 
   if (isLoading) {
-    return <Spinner />;
+    return <Loader />;
   }
 
   return (
