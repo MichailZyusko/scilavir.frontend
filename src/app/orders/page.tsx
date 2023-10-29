@@ -88,7 +88,7 @@ export default function OrdersPage() {
   }
 
   return (
-    <main className="px-44">
+    <main className="px-44 mb-16">
       <h1 className="w-full text-4xl text-center font-semibold mb-5">История заказов</h1>
       <Flowbite theme={{ theme: customTheme }}>
 
@@ -114,9 +114,9 @@ export default function OrdersPage() {
 
                 <div className="flex-1">
                   <p>
-                    {order.items.reduce((acc, { quantity, price }) => {
+                    {order.items.reduce((acc, { price }) => {
                       // eslint-disable-next-line no-param-reassign
-                      acc += quantity * price;
+                      acc += price;
 
                       return acc;
                     }, 0).toFixed(2)}
