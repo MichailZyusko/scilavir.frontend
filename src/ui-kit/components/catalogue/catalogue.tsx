@@ -37,7 +37,7 @@ export function Catalogue() {
   useEffect(() => {
     (async () => {
       const [{ data: categories }, { data: groups }] = await Promise.all([
-        axios.get<TCategory[]>('/categories'),
+        axios.get<TCategory[]>('/categories/roots'),
         axios.get<TGroup[]>('/groups'),
       ]);
 

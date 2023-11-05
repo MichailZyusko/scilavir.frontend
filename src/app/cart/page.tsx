@@ -66,14 +66,14 @@ export default function CartPage() {
 
   if (cart.length === 0) {
     return (
-      <div className="flex flex-col items-center justify-center h-screen">
+      <main className="flex flex-col items-center justify-center h-screen px-44 mb-16">
         <h1 className="text-2xl font-semibold">Корзина пуста</h1>
         <Link href="/">
           <Button>
             Вернуться в главное меню
           </Button>
         </Link>
-      </div>
+      </main>
     );
   }
 

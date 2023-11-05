@@ -8,7 +8,7 @@ import { toast } from 'react-toastify';
 
 const theme: FlowbiteModalTheme = {
   root: {
-    base: 'fixed top-0 right-0 left-0 z-50 h-modal h-screen overflow-y-auto bg-blue-700 overflow-x-hidden md:inset-0 md:h-full',
+    base: 'fixed top-0 right-0 left-0 z-50 h-modal h-screen overflow-y-auto overflow-x-hidden md:inset-0 md:h-full',
     show: {
       on: 'flex bg-gray-500 ',
       off: 'hidden',
@@ -84,7 +84,7 @@ export function FeedbackCreationModal({ isOpened, setIsOpened, productId }: TPro
   };
 
   return (
-    <Modal theme={theme} dismissible show={isOpened === 'dismissible'} onClose={() => setIsOpened(undefined)}>
+    <Modal theme={theme} className="bg-zinc-400/75" dismissible show={isOpened === 'dismissible'} onClose={() => setIsOpened(undefined)}>
       <Modal.Header>Оставьте свой отзыв! Это важно для нас</Modal.Header>
       <Modal.Body>
         <FormProvider {...hookFormMethods}>

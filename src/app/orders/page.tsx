@@ -9,6 +9,7 @@ import { useClerkToken } from '@/context/auth';
 import { TProduct } from '@/types';
 import { Product } from '@/ui-kit/components/products/product';
 import { Loader } from '@/ui-kit/spinners';
+import { formatDate } from '@/utils';
 
 const customTheme: CustomFlowbiteTheme = {
   accordion: {
@@ -88,7 +89,7 @@ export default function OrdersPage() {
   }
 
   return (
-    <main className="px-44">
+    <main className="px-44 mb-16">
       <h1 className="w-full text-4xl text-center font-semibold mb-5">История заказов</h1>
       <Flowbite theme={{ theme: customTheme }}>
 
@@ -107,16 +108,16 @@ export default function OrdersPage() {
                   <br />
                   <p className="text-gray-500 text-xs dark:text-gray-400">
                     <time dateTime={order.createdAt}>
-                      {order.createdAt}
+                      {formatDate(new Date(order.createdAt))}
                     </time>
                   </p>
                 </div>
 
                 <div className="flex-1">
                   <p>
-                    {order.items.reduce((acc, { quantity, price }) => {
+                    {order.items.reduce((acc, { price }) => {
                       // eslint-disable-next-line no-param-reassign
-                      acc += quantity * price;
+                      acc += price;
 
                       return acc;
                     }, 0).toFixed(2)}
