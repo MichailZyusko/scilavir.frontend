@@ -6,12 +6,14 @@ import Link from 'next/link';
 import { useEffect, useState } from 'react';
 import axios from '@/api/axios';
 import { Loader } from '@/ui-kit/spinners';
+import Image from 'next/image';
 import { Button } from '../../buttons';
 
 type TGroup = {
   id: string;
   name: string;
   minPrice: number | null;
+  image: string;
 };
 
 type TCategory = {
@@ -22,8 +24,8 @@ type TCategory = {
 };
 
 type TState = {
-  categories: TGroup[] | [];
-  groups:TGroup[] | [];
+  categories: TCategory[] | [];
+  groups: TGroup[] | [];
   isLoading: boolean;
 };
 

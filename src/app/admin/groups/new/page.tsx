@@ -2,7 +2,7 @@
 
 import { useClerkToken } from '@/context/auth';
 import { Button } from '@/ui-kit/buttons';
-import { FileInput, SelectInput, TextInput } from '@/ui-kit/inputs';
+import { FileInput, TextInput } from '@/ui-kit/inputs';
 import { Loader } from '@/ui-kit/spinners';
 import { User } from '@clerk/nextjs/dist/types/server';
 import { useEffect, useState } from 'react';
@@ -11,8 +11,6 @@ import { toast } from 'react-toastify';
 import axios from 'src/api/axios';
 
 type TState = {
-  categories: [{ id: string, name: string }] | [];
-  groups: [{ id: string, name: string }] | [];
   isLoading: boolean;
   isAdmin: boolean;
 };
@@ -21,8 +19,6 @@ export default function NewProduct() {
   const hookFormMethods = useForm();
 
   const [state, setState] = useState<TState>({
-    categories: [],
-    groups: [],
     isLoading: true,
     isAdmin: false,
   });
@@ -30,15 +26,9 @@ export default function NewProduct() {
   useEffect(() => {
     (async () => {
       await updateClerkToken();
-      const [{ data: categories }, { data: groups }, { data: user }] = await Promise.all([
-        axios.get<[{ id: string, name: string }]>('/categories'),
-        axios.get<[{ id: string, name: string }]>('/groups'),
-        axios.get<User>('/users/self'),
-      ]);
+      const { data: user } = await axios.get<User>('/users/self');
 
       setState({
-        categories,
-        groups,
         isLoading: false,
         isAdmin: !!user.publicMetadata?.isAdmin,
       });
@@ -66,10 +56,10 @@ export default function NewProduct() {
       formData.append(key, value);
     });
 
-    const { status } = await toast.promise(axios.post('/products', formData), {
-      pending: 'Создаем продукт...',
-      success: 'Продукт создан',
-      error: 'Ошибка при создании продукта',
+    const { status } = await toast.promise(axios.post('/groups', formData), {
+      pending: 'Создаем подборку...',
+      success: 'Подборка создан',
+      error: 'Ошибка при создании подборки',
     });
 
     if (status === 201) {
@@ -85,46 +75,22 @@ export default function NewProduct() {
           className="flex flex-col items-center gap-5"
         >
           <TextInput
-            label="Название товара"
+            label="Название подборки"
             id="name"
             name="name"
-            placeholder="Тетрадь"
+            placeholder="Для школы"
           />
           <TextInput
-            label="Артикул"
-            id="article"
-            name="article"
-            placeholder="13488675"
-          />
-          <TextInput
-            label="Описание товара"
+            label="Описание подборки"
             id="description"
             name="description"
-            placeholder="В клетку 5 мм"
-          />
-          <TextInput
-            label="Цена"
-            id="price"
-            name="price"
-            placeholder="1.45"
-          />
-          <SelectInput
-            label="Категория"
-            id="category_ids"
-            name="category_ids"
-            options={state.categories}
-          />
-          <SelectInput
-            label="Подборки"
-            name="group_ids"
-            id="group"
-            options={state.groups}
+            placeholder="Здесь вы можете найти самые популярные товары для школы"
           />
           <FileInput
             name="images"
           />
           <Button type="submit">
-            Создать новый товар
+            Создать новую подборку
           </Button>
         </form>
       </FormProvider>
