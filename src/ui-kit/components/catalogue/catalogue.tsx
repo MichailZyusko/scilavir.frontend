@@ -6,7 +6,6 @@ import Link from 'next/link';
 import { useEffect, useState } from 'react';
 import axios from '@/api/axios';
 import { Loader } from '@/ui-kit/spinners';
-import Image from 'next/image';
 import { Button } from '../../buttons';
 
 type TGroup = {
