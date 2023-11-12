@@ -52,7 +52,11 @@ export default function ProductPage({ params: { id } }: TProps) {
         axios.get<{ quantity: number }>(`/cart/${id}`),
       ]);
 
-      const { data: similarProducts } = await axios.get(`/categories/${product.categoryIds[0]}/sample`);
+      const { data: similarProducts } = await axios.get(`/categories/${product.categoryIds[0]}/sample`, {
+        params: {
+          productId: id,
+        },
+      });
 
       setState({
         ...state,

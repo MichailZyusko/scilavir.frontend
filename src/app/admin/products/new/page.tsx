@@ -63,6 +63,14 @@ export default function NewProduct() {
     });
 
     Object.entries(fields).forEach(([key, value]) => {
+      if (['groupIds', 'categoryIds'].includes(key)) {
+        value.forEach((item: string) => {
+          formData.append(`${key}[]`, item);
+        });
+
+        return;
+      }
+
       formData.append(key, value);
     });
 
@@ -111,12 +119,12 @@ export default function NewProduct() {
           <SelectInput
             label="Категория"
             id="category_ids"
-            name="category_ids"
+            name="categoryIds"
             options={state.categories}
           />
           <SelectInput
             label="Подборки"
-            name="group_ids"
+            name="groupIds"
             id="group"
             options={state.groups}
           />
