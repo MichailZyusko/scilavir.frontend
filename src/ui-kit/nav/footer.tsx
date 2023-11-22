@@ -36,7 +36,7 @@ export function Footer() {
           <li className="flex flex-col">
             <div className="mb-auto">
               <span className="text-white ">
-                <a href="tel:+375299357710">+375 (29) 335-21-80</a>
+                <a href="tel:+375299357710">+8 (0154) 62-99-77</a>
               </span>
             </div>
             <div className="flex justify-between items-center">
