@@ -29,7 +29,10 @@ export default function RootLayout({ children }: PropsWithChildren) {
               )}
             >
               <Header />
-              <ToastContainer />
+              <ToastContainer
+                autoClose={3000}
+                position="top-center"
+              />
               {children}
               <Footer />
             </body>

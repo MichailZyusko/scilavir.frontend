@@ -13,6 +13,8 @@ import { useClerkToken } from '@/context/auth';
 import { Product } from '@/ui-kit/components/products/product';
 import { Feedbacks } from '@/ui-kit/components/feedbacks';
 import { toast } from 'react-toastify';
+import { selectCart } from '@/app/cart/cart.slice';
+import { useSelector } from 'react-redux';
 
 type TProps = {
   params: {
@@ -23,17 +25,16 @@ type TProps = {
 type TState = {
   product: TProduct | null;
   similarProducts: TProduct[];
-  quantity: number;
   isFavorite: boolean;
   isLoading: boolean;
 };
 export default function ProductPage({ params: { id } }: TProps) {
+  const { cart } = useSelector(selectCart);
   const { updateClerkToken } = useClerkToken();
 
   const [state, setState] = useState<TState>({
     product: null,
     similarProducts: [],
-    quantity: 0,
     isFavorite: false,
     isLoading: true,
   });
@@ -44,36 +45,28 @@ export default function ProductPage({ params: { id } }: TProps) {
     (async () => {
       await updateClerkToken();
 
-      const [
-        { data: product },
-        { data: { quantity } },
-      ] = await Promise.all([
-        axios.get<TProduct>(`/products/${id}`),
-        axios.get<{ quantity: number }>(`/cart/${id}`),
-      ]);
-
-      const { data: similarProducts } = await axios.get(`/categories/${product.categoryIds[0]}/sample`);
+      const { data: product } = await axios.get<TProduct>(`/products/${id}`);
+      const { data: similarProducts } = await axios.get(`/categories/${product.categoryIds[0]}/sample`, {
+        params: {
+          productId: id,
+        },
+      });
 
       setState({
         ...state,
         product,
-        quantity,
         similarProducts,
-        isFavorite: product.isFavorite,
+        isFavorite: !!product.isFavorite,
         isLoading: false,
       });
     })();
   }, [id, updateClerkToken]);
 
   const {
-    product, quantity, isFavorite, isLoading,
+    product, isFavorite, isLoading,
   } = state;
 
   const changeFavoriteState = async () => {
-    if (!product) {
-      return;
-    }
-
     await updateClerkToken();
 
     if (isFavorite) {
@@ -104,6 +97,8 @@ export default function ProductPage({ params: { id } }: TProps) {
     router.push('/404');
     return null;
   }
+
+  const quantity = cart.get(product.id) ?? product?.quantity;
 
   const images = product.images.map((image) => ({
     original: image,
@@ -147,7 +142,6 @@ export default function ProductPage({ params: { id } }: TProps) {
             <AddToCartButton
               productId={product.id}
               quantity={quantity}
-              setQuantity={(newQuantity) => setState({ ...state, quantity: newQuantity })}
             />
           </div>
         </div>

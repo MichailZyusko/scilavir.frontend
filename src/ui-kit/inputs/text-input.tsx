@@ -10,7 +10,7 @@ export function TextInput({ label, name, ...inputProps }: TProps) {
   const { register } = useFormContext();
 
   return (
-    <div className="mb-4 w-[600px]">
+    <div className="w-[600px]">
       <label
         htmlFor={name}
         className="block mb-2 ml-2 text-lg font-medium text-gray-900 dark:text-white"

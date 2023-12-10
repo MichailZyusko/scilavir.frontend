@@ -12,7 +12,6 @@ import axios from 'src/api/axios';
 
 type TState = {
   categories: [{ id: string, name: string }] | [];
-  groups: [{ id: string, name: string }] | [];
   isLoading: boolean;
   isAdmin: boolean;
 };
@@ -22,7 +21,6 @@ export default function NewProduct() {
 
   const [state, setState] = useState<TState>({
     categories: [],
-    groups: [],
     isLoading: true,
     isAdmin: false,
   });
@@ -30,15 +28,13 @@ export default function NewProduct() {
   useEffect(() => {
     (async () => {
       await updateClerkToken();
-      const [{ data: categories }, { data: groups }, { data: user }] = await Promise.all([
+      const [{ data: categories }, { data: user }] = await Promise.all([
         axios.get<[{ id: string, name: string }]>('/categories'),
-        axios.get<[{ id: string, name: string }]>('/groups'),
         axios.get<User>('/users/self'),
       ]);
 
       setState({
         categories,
-        groups,
         isLoading: false,
         isAdmin: !!user.publicMetadata?.isAdmin,
       });
@@ -63,21 +59,13 @@ export default function NewProduct() {
     });
 
     Object.entries(fields).forEach(([key, value]) => {
-      if (['groupIds', 'categoryIds'].includes(key)) {
-        value.forEach((item: string) => {
-          formData.append(`${key}[]`, item);
-        });
-
-        return;
-      }
-
       formData.append(key, value);
     });
 
-    const { status } = await toast.promise(axios.post('/products', formData), {
-      pending: 'Создаем продукт...',
-      success: 'Продукт создан',
-      error: 'Ошибка при создании продукта',
+    const { status } = await toast.promise(axios.post('/categories', formData), {
+      pending: 'Создаем категорию...',
+      success: 'Категория создан',
+      error: 'Ошибка при создании категории',
     });
 
     if (status === 201) {
@@ -93,46 +81,28 @@ export default function NewProduct() {
           className="flex flex-col items-center gap-5"
         >
           <TextInput
-            label="Название товара"
+            label="Название категории"
             id="name"
             name="name"
-            placeholder="Тетрадь"
+            placeholder="Бумага"
           />
           <TextInput
-            label="Артикул"
-            id="article"
-            name="article"
-            placeholder="13488675"
-          />
-          <TextInput
-            label="Описание товара"
+            label="Описание категории"
             id="description"
             name="description"
-            placeholder="В клетку 5 мм"
-          />
-          <TextInput
-            label="Цена"
-            id="price"
-            name="price"
-            placeholder="1.45"
+            placeholder="В этой категории вы можете найти бумажную продукцию"
           />
           <SelectInput
-            label="Категория"
-            id="category_ids"
-            name="categoryIds"
+            label="Родительская категория"
+            id="parentId"
+            name="parentId"
             options={state.categories}
-          />
-          <SelectInput
-            label="Подборки"
-            name="groupIds"
-            id="group"
-            options={state.groups}
           />
           <FileInput
             name="images"
           />
           <Button type="submit">
-            Создать новый товар
+            Создать новую категорию
           </Button>
         </form>
       </FormProvider>

@@ -12,6 +12,7 @@ type TGroup = {
   id: string;
   name: string;
   minPrice: number | null;
+  image: string;
 };
 
 type TCategory = {
@@ -22,8 +23,8 @@ type TCategory = {
 };
 
 type TState = {
-  categories: TGroup[] | [];
-  groups:TGroup[] | [];
+  categories: TCategory[] | [];
+  groups: TGroup[] | [];
   isLoading: boolean;
 };
 

@@ -11,5 +11,6 @@ export type TProduct = {
   categoryIds: string[];
   images: string[];
   price: number;
-  isFavorite: boolean;
+  quantity?: number;
+  isFavorite?: boolean;
 };
