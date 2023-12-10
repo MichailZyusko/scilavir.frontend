@@ -1,6 +1,8 @@
+/* eslint-disable max-len */
+
 import Image from 'next/image';
 
-export default function DeliveryAndPaymentPage () {
+export default function DeliveryAndPaymentPage() {
   return (
     <main className="w-full pt-10 pb-10">
       <div className="container mx-auto px-4">
@@ -9,17 +11,17 @@ export default function DeliveryAndPaymentPage () {
           <div className="max-w-3xl mb-8 flex flex-col">
             <p>
               Мы&nbsp;предлагаем удобные условия доставки и&nbsp;оплаты для наших клиентов.
-              </p>
-              <p className="mb-6">
-                В&nbsp;нашем интернет-магазине канцелярских товаров вы&nbsp;можете выбрать наиболее удобный вариант доставки и&nbsp;оплаты в&nbsp;зависимости от&nbsp;вашего статуса&nbsp;&mdash; юридическое лицо или физическое лицо.
-              </p>
-              <div className="flex gap-9">
-                <Image src="/images/visa.svg" width={70} height={23} alt="visa" />
-                <Image src="/images/mastercard.svg" width={55} height={33} alt="mastercard" />
-                <Image src="/images/apple-pay.svg" width={109} height={45} alt="apple-pay" />
-                <Image src="/images/samsung-pay.svg" width={78} height={35} alt="samsung-pay" />
-              </div>
+            </p>
+            <p className="mb-6">
+              В&nbsp;нашем интернет-магазине канцелярских товаров вы&nbsp;можете выбрать наиболее удобный вариант доставки и&nbsp;оплаты в&nbsp;зависимости от&nbsp;вашего статуса&nbsp;&mdash; юридическое лицо или физическое лицо.
+            </p>
+            <div className="flex gap-9">
+              <Image src="/images/visa.svg" width={70} height={23} alt="visa" />
+              <Image src="/images/mastercard.svg" width={55} height={33} alt="mastercard" />
+              <Image src="/images/apple-pay.svg" width={109} height={45} alt="apple-pay" />
+              <Image src="/images/samsung-pay.svg" width={78} height={35} alt="samsung-pay" />
             </div>
+          </div>
           <div className="mb-20 max-w-3xl flex flex-col">
             <h2 className="font-semibold text-xl mb-3">
               Для юридических лиц доступны следующие варианты доставки:
@@ -37,9 +39,9 @@ export default function DeliveryAndPaymentPage () {
             </ul>
           </div>
           <div className="max-w-3xl mb-10 flex flex-col">
-          <h2 className="font-semibold text-xl mb-3">
-            Для физических лиц предлагаем следующие варианты доставки:
-          </h2>
+            <h2 className="font-semibold text-xl mb-3">
+              Для физических лиц предлагаем следующие варианты доставки:
+            </h2>
             <ul className="list-decimal list-inside flex flex-col gap-2">
               <li className="indent-1">
                 <p>Почта (Белпочта, Европочта)&nbsp;&mdash; мы&nbsp;осуществляем доставку по&nbsp;всей территории Беларуси. Ваш заказ будет доставлен почтовым отправлением в&nbsp;указанный вами адрес.</p>
@@ -65,5 +67,5 @@ export default function DeliveryAndPaymentPage () {
         </div>
       </div>
     </main>
-  )
+  );
 }
