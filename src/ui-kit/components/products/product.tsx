@@ -19,7 +19,8 @@ export function Product({
 
   const quantity = cart.get(id) ?? props.quantity;
 
-  const changeFavoriteState = async () => {
+  const changeFavoriteState = async (e: React.MouseEvent<HTMLImageElement>) => {
+    e.preventDefault();
     if (!id) return;
 
     await updateClerkToken();
@@ -45,26 +46,24 @@ export function Product({
     <div
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
+      className="relative"
     >
-      {isHovered && (
+      <Link
+        className="flex flex-col items-start mb-8"
+        href={`/products/${id}`}
+      >
         <Image
           onClick={changeFavoriteState}
           src={isFavorite ? '/images/favorite-active.svg' : '/images/favorite.svg'}
           width={32}
           height={32}
           alt="favorite"
-          // ! TODO: @ArtemAndrushkevich "like" should be in right top corner
-          className="relative right-0 top-0 z-10 cursor-pointer w-auto h-auto"
+          className="absolute right-0 top-0 z-10 cursor-pointer w-auto h-auto"
         />
-      )}
-      <Link
-        className="flex flex-col items-start mb-8"
-        href={`/products/${id}`}
-      >
         {images.length > 0 && (
           <Image
             src={images[0]}
-            className="mb-5 z-0"
+            className=" mb-5 z-0"
             style={{ objectFit: 'scale-down' }}
             width={256}
             height={256}
@@ -77,16 +76,15 @@ export function Product({
           &nbsp;
           BYN
         </p>
-      </Link>
-      {isHovered && (
-        // ! TODO: @ArtemAndrushkevich "AddToCartButton" should be in right bottom corner
-        <div className="relative z-10">
+        {isHovered && (
+        <div className="absolute bottom-24 right-0 z-10">
           <AddToCartButton
             productId={id}
             quantity={quantity}
           />
         </div>
-      )}
+        )}
+      </Link>
     </div>
   );
 }
