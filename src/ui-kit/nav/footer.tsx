@@ -36,17 +36,17 @@ export function Footer() {
           <li className="flex flex-col">
             <div className="mb-auto">
               <span className="text-white ">
-                <a href="tel:+375299357710">+375 (29) 935-77-10</a>
+                <a href="tel:+375299357710">+8 (0154) 62-99-77</a>
               </span>
             </div>
             <div className="flex justify-between items-center">
               <a href="https://t.me/michailZyusko">
                 <Image src="/images/telegram.svg" width={41.67} height={41.67} alt="telegram" />
               </a>
-              <a href="viber://add?number=%2B375299357710">
+              <a href="viber://add?number=%2B375293352180">
                 <Image src="/images/viber.svg" width={39.16} height={42.65} alt="viber" />
               </a>
-              <a href="mailto:michail.zyusko@gmail.com">
+              <a href="mailto:mir.bumagi@mail.ru">
                 <Image src="/images/gmail.svg" width={41.67} height={33.33} alt="gmail" />
               </a>
             </div>
@@ -68,7 +68,8 @@ export function Footer() {
         </div>
         <div className="text-gray text-center">
           <p>
-            ООО &laquo;Мир Бумаги&raquo;, УНП 012300021, Юридический адрес: Республика Беларусь, 220004, Республика Беларусь, г. Минск, Победителей, д. 7а., оф.&nbsp;13, 6&nbsp;эт. &middot; Регистрационный номер в&nbsp;Торговом реестре Республики Беларусь: 508044 от&nbsp;21.04.2021
+            ООО &laquo;СКИЛЛАВИР&raquo;, УНП 591386206, Юридический адрес:
+            Республика Беларусь, 231300 Гродненская область, г. Лида, ул. Кирова, д.&nbsp;29
           </p>
         </div>
       </div>

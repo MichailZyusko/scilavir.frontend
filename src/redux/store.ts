@@ -1,10 +1,15 @@
 import { configureStore } from '@reduxjs/toolkit';
 import { createWrapper } from 'next-redux-wrapper';
+import { enableMapSet } from 'immer';
 import authReducer from '../app/auth/auth.slice';
+import cartReducer from '../app/cart/cart.slice';
+
+enableMapSet();
 
 export const store = configureStore({
   reducer: {
     authReducer,
+    cartReducer,
   },
 });
 
