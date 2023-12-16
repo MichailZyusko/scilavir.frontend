@@ -9,6 +9,8 @@ import { useEffect, useState } from 'react';
 import { SortStrategy } from '@/enums';
 import { useClerkToken } from '@/context/auth';
 import { Loader } from '@/ui-kit/spinners';
+import { DEFAULT_PAGE_SIZE } from '@/constants';
+import { Button } from '@/ui-kit/buttons';
 
 type TGroup = {
   id: string;
@@ -18,6 +20,7 @@ type TGroup = {
 type TState = {
   products: TProduct[];
   group: TGroup | null;
+  offset: number;
   sort: SortStrategy;
   isLoading: boolean;
 };
@@ -33,11 +36,12 @@ export default function GroupsPage({ params: { id: groupId = '' } }: TProps) {
   const [state, setState] = useState<TState>({
     products: [],
     group: null,
+    offset: 1,
     sort: SortStrategy.PRICE_ASC,
     isLoading: true,
   });
 
-  const { sort } = state;
+  const { sort, offset } = state;
 
   useEffect(() => {
     (async () => {
@@ -48,6 +52,8 @@ export default function GroupsPage({ params: { id: groupId = '' } }: TProps) {
         axios.get<TProduct[]>('/products', {
           params: {
             groupIds: [groupId],
+            limit: DEFAULT_PAGE_SIZE,
+            offset,
             sort,
           },
         }),
@@ -55,12 +61,12 @@ export default function GroupsPage({ params: { id: groupId = '' } }: TProps) {
 
       setState({
         ...state,
-        products,
+        products: [...state.products, ...products],
         group,
         isLoading: false,
       });
     })();
-  }, [groupId, sort]);
+  }, [groupId, offset, sort]);
 
   if (state.isLoading) {
     return <Loader />;
@@ -112,6 +118,16 @@ export default function GroupsPage({ params: { id: groupId = '' } }: TProps) {
       </div>
       <div className="grid grid-cols-4 gap-8">
         {state.products.map(({ id, ...product }) => <Product key={id} id={id} {...product} />)}
+      </div>
+
+      <div className="flex justify-center mb-5">
+        <Button
+          onClick={() => {
+            setState({ ...state, offset: offset + DEFAULT_PAGE_SIZE });
+          }}
+        >
+          Показать ёщё
+        </Button>
       </div>
     </main>
   );

@@ -10,6 +10,8 @@ import { useEffect, useState } from 'react';
 import { SortStrategy } from '@/enums';
 import { useClerkToken } from '@/context/auth';
 import { Loader } from '@/ui-kit/spinners';
+import { DEFAULT_PAGE_SIZE } from '@/constants';
+import { Button } from '@/ui-kit/buttons';
 
 type TCategory = {
   id: string;
@@ -21,6 +23,7 @@ type TCategory = {
 type TState = {
   products: TProduct[];
   category: TCategory | null;
+  offset: number;
   sort: SortStrategy;
   isLoading: boolean;
 };
@@ -35,12 +38,13 @@ export default function CategoryPage({ params: { id: categoryId = '' } }: TProps
   const { updateClerkToken } = useClerkToken();
   const [state, setState] = useState<TState>({
     products: [],
+    offset: 1,
     category: null,
     sort: SortStrategy.PRICE_ASC,
     isLoading: true,
   });
 
-  const { sort } = state;
+  const { sort, offset } = state;
 
   useEffect(() => {
     (async () => {
@@ -52,18 +56,20 @@ export default function CategoryPage({ params: { id: categoryId = '' } }: TProps
           categoryIds: category.subCategories.length
             ? category.subCategories.map(({ id }) => id)
             : [categoryId],
+          limit: DEFAULT_PAGE_SIZE,
+          offset,
           sort,
         },
       });
 
       setState({
         ...state,
-        products,
+        products: [...state.products, ...products],
         category,
         isLoading: false,
       });
     })();
-  }, [categoryId, sort]);
+  }, [categoryId, offset, sort]);
 
   if (state.isLoading) {
     return <Loader />;
@@ -112,6 +118,16 @@ export default function CategoryPage({ params: { id: categoryId = '' } }: TProps
       </div>
       <div className="grid grid-cols-4 gap-8">
         {state.products.map(({ id, ...product }) => <Product key={id} id={id} {...product} />)}
+      </div>
+
+      <div className="flex justify-center mb-5">
+        <Button
+          onClick={() => {
+            setState({ ...state, offset: offset + DEFAULT_PAGE_SIZE });
+          }}
+        >
+          Показать ёщё
+        </Button>
       </div>
     </main>
   );

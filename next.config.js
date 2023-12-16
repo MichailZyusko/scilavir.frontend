@@ -1,7 +1,6 @@
-const withBuilderDevTools = require("@builder.io/dev-tools/next")();
-
 /** @type {import('next').NextConfig} */
-const nextConfig = withBuilderDevTools({
+
+const nextConfig = {
   images: {
     domains: ["hljgruyjewkbrmyedjik.supabase.co"],
   },
@@ -12,6 +11,6 @@ const nextConfig = withBuilderDevTools({
   env: {
     NEXT_PUBLIC_BASE_API_URL: process.env.NEXT_PUBLIC_BASE_API_URL,
   },
-});
+};
 
 module.exports = nextConfig;

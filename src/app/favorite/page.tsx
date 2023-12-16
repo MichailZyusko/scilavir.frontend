@@ -9,10 +9,13 @@ import { useState, useEffect } from 'react';
 import { Loader } from '@/ui-kit/spinners';
 import { SortStrategy } from '@/enums';
 import { useClerkToken } from '@/context/auth';
+import { DEFAULT_PAGE_SIZE } from '@/constants';
+import { Button } from '@/ui-kit/buttons';
 
 type TState = {
   products: TProduct[];
   sort: SortStrategy;
+  offset: number;
   isLoading: boolean;
 };
 
@@ -21,11 +24,14 @@ export default function FavoritePage() {
 
   const [state, setState] = useState<TState>({
     products: [],
+    offset: 1,
     sort: SortStrategy.ALPHABETICAL_ASC,
     isLoading: true,
   });
 
-  const { sort, products, isLoading } = state;
+  const {
+    sort, products, isLoading, offset,
+  } = state;
 
   useEffect(() => {
     (async () => {
@@ -36,16 +42,18 @@ export default function FavoritePage() {
         url: '/products/favorites',
         params: {
           sort: state.sort,
+          limit: DEFAULT_PAGE_SIZE,
+          offset,
         },
       });
 
       setState({
         ...state,
-        products: data,
+        products: [...state.products, ...data],
         isLoading: false,
       });
     })();
-  }, [sort]);
+  }, [sort, offset]);
 
   if (isLoading) {
     return <Loader />;
@@ -93,6 +101,16 @@ export default function FavoritePage() {
       </div>
       <div className="grid grid-cols-4 gap-8">
         {products.map(({ id, ...product }) => <Product key={id} id={id} {...product} />)}
+      </div>
+
+      <div className="flex justify-center mb-5">
+        <Button
+          onClick={() => {
+            setState({ ...state, offset: offset + DEFAULT_PAGE_SIZE });
+          }}
+        >
+          Показать ёщё
+        </Button>
       </div>
     </main>
   );
