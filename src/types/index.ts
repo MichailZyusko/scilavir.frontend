@@ -14,3 +14,8 @@ export type TProduct = {
   quantity?: number;
   isFavorite?: boolean;
 };
+
+export type PaginatedResponse<T> = {
+  data: T[];
+  count: number;
+};

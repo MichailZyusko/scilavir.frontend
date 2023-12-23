@@ -2,15 +2,14 @@
 
 import axios from '@/api/axios';
 import Image from 'next/image';
-import { TProduct } from '@/types';
+import { PaginatedResponse, TProduct } from '@/types';
 import { Product } from '@/ui-kit/components/products/product';
-import { Dropdown } from 'flowbite-react';
+import { Dropdown, Pagination } from 'flowbite-react';
 import { useEffect, useState } from 'react';
 import { SortStrategy } from '@/enums';
 import { useClerkToken } from '@/context/auth';
 import { Loader } from '@/ui-kit/spinners';
 import { DEFAULT_PAGE_SIZE } from '@/constants';
-import { Button } from '@/ui-kit/buttons';
 
 type TGroup = {
   id: string;
@@ -20,9 +19,10 @@ type TGroup = {
 type TState = {
   products: TProduct[];
   group: TGroup | null;
-  offset: number;
   sort: SortStrategy;
   isLoading: boolean;
+  currentPage: number;
+  totalPages: number;
 };
 
 type TProps = {
@@ -36,24 +36,28 @@ export default function GroupsPage({ params: { id: groupId = '' } }: TProps) {
   const [state, setState] = useState<TState>({
     products: [],
     group: null,
-    offset: 1,
     sort: SortStrategy.PRICE_ASC,
     isLoading: true,
+    currentPage: 1,
+    totalPages: 1,
   });
 
-  const { sort, offset } = state;
+  const {
+    sort, currentPage, totalPages, isLoading,
+  } = state;
 
   useEffect(() => {
     (async () => {
+      setState({ ...state, isLoading: true });
       await updateClerkToken();
 
-      const [{ data: group }, { data: products }] = await Promise.all([
+      const [{ data: group }, { data: productsResponse }] = await Promise.all([
         axios.get<TGroup>(`/groups/${groupId}`),
-        axios.get<TProduct[]>('/products', {
+        axios.get<PaginatedResponse<TProduct>>('/products', {
           params: {
             groupIds: [groupId],
             limit: DEFAULT_PAGE_SIZE,
-            offset,
+            offset: currentPage * DEFAULT_PAGE_SIZE,
             sort,
           },
         }),
@@ -61,20 +65,23 @@ export default function GroupsPage({ params: { id: groupId = '' } }: TProps) {
 
       setState({
         ...state,
-        products: [...state.products, ...products],
+        products: productsResponse.data,
+        totalPages: Math.ceil(productsResponse.count / DEFAULT_PAGE_SIZE),
         group,
         isLoading: false,
       });
     })();
-  }, [groupId, offset, sort]);
+  }, [groupId, sort, currentPage]);
 
-  if (state.isLoading) {
+  if (isLoading) {
     return <Loader />;
   }
 
   if (!state.group) {
     return <div>Группа не найдена</div>;
   }
+
+  const onPageChange = (page: number) => setState({ ...state, currentPage: page });
 
   return (
     <main className="px-44">
@@ -120,7 +127,7 @@ export default function GroupsPage({ params: { id: groupId = '' } }: TProps) {
         {state.products.map(({ id, ...product }) => <Product key={id} id={id} {...product} />)}
       </div>
 
-      <div className="flex justify-center mb-5">
+      {/* <div className="flex justify-center mb-5">
         <Button
           onClick={() => {
             setState({ ...state, offset: offset + DEFAULT_PAGE_SIZE });
@@ -128,7 +135,17 @@ export default function GroupsPage({ params: { id: groupId = '' } }: TProps) {
         >
           Показать ёщё
         </Button>
+      </div> */}
+
+      <div className="flex justify-center mb-5">
+        <Pagination
+          showIcons
+          currentPage={currentPage}
+          totalPages={totalPages}
+          onPageChange={onPageChange}
+        />
       </div>
+
     </main>
   );
 }

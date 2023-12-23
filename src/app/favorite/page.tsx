@@ -2,21 +2,21 @@
 
 import Image from 'next/image';
 import { Product } from '@/ui-kit/components/products/product';
-import { Dropdown } from 'flowbite-react';
-import { TProduct } from '@/types';
+import { Dropdown, Pagination } from 'flowbite-react';
+import { PaginatedResponse, TProduct } from '@/types';
 import axios from '@/api/axios';
 import { useState, useEffect } from 'react';
 import { Loader } from '@/ui-kit/spinners';
 import { SortStrategy } from '@/enums';
 import { useClerkToken } from '@/context/auth';
 import { DEFAULT_PAGE_SIZE } from '@/constants';
-import { Button } from '@/ui-kit/buttons';
 
 type TState = {
   products: TProduct[];
   sort: SortStrategy;
-  offset: number;
   isLoading: boolean;
+  currentPage: number;
+  totalPages: number;
 };
 
 export default function FavoritePage() {
@@ -24,40 +24,45 @@ export default function FavoritePage() {
 
   const [state, setState] = useState<TState>({
     products: [],
-    offset: 1,
     sort: SortStrategy.ALPHABETICAL_ASC,
     isLoading: true,
+    currentPage: 1,
+    totalPages: 1,
   });
 
   const {
-    sort, products, isLoading, offset,
+    sort, isLoading, currentPage, totalPages,
   } = state;
 
   useEffect(() => {
     (async () => {
+      setState({ ...state, isLoading: true });
       await updateClerkToken();
-      await updateClerkToken();
-      const { data } = await axios<TProduct[]>({
+
+      const { data: productsResponse } = await axios<PaginatedResponse<TProduct>>({
         method: 'GET',
         url: '/products/favorites',
         params: {
           sort: state.sort,
           limit: DEFAULT_PAGE_SIZE,
-          offset,
+          offset: currentPage * DEFAULT_PAGE_SIZE,
         },
       });
 
       setState({
         ...state,
-        products: [...state.products, ...data],
+        products: productsResponse.data,
+        totalPages: Math.ceil(productsResponse.count / DEFAULT_PAGE_SIZE),
         isLoading: false,
       });
     })();
-  }, [sort, offset]);
+  }, [sort, currentPage]);
 
   if (isLoading) {
     return <Loader />;
   }
+
+  const onPageChange = (page: number) => setState({ ...state, currentPage: page });
 
   return (
     <main className="px-44">
@@ -100,10 +105,17 @@ export default function FavoritePage() {
         </span>
       </div>
       <div className="grid grid-cols-4 gap-8">
-        {products.map(({ id, ...product }) => <Product key={id} id={id} {...product} />)}
+        {state.products.map(({ id, ...product }) => (
+          <Product
+            key={id}
+            id={id}
+            {...product}
+            isFavorite
+          />
+        ))}
       </div>
 
-      <div className="flex justify-center mb-5">
+      {/* <div className="flex justify-center mb-5">
         <Button
           onClick={() => {
             setState({ ...state, offset: offset + DEFAULT_PAGE_SIZE });
@@ -111,7 +123,17 @@ export default function FavoritePage() {
         >
           Показать ёщё
         </Button>
+      </div> */}
+
+      <div className="flex justify-center mb-5">
+        <Pagination
+          showIcons
+          currentPage={currentPage}
+          totalPages={totalPages}
+          onPageChange={onPageChange}
+        />
       </div>
+
     </main>
   );
 }

@@ -2,16 +2,15 @@
 
 import axios from '@/api/axios';
 import Image from 'next/image';
-import { TProduct } from '@/types';
+import { PaginatedResponse, TProduct } from '@/types';
 import { Product } from '@/ui-kit/components/products/product';
 import { SubCategoryList } from '@/ui-kit/components/products/sub-categorie';
-import { Dropdown } from 'flowbite-react';
+import { Dropdown, Pagination } from 'flowbite-react';
 import { useEffect, useState } from 'react';
 import { SortStrategy } from '@/enums';
 import { useClerkToken } from '@/context/auth';
 import { Loader } from '@/ui-kit/spinners';
 import { DEFAULT_PAGE_SIZE } from '@/constants';
-import { Button } from '@/ui-kit/buttons';
 
 type TCategory = {
   id: string;
@@ -23,9 +22,10 @@ type TCategory = {
 type TState = {
   products: TProduct[];
   category: TCategory | null;
-  offset: number;
   sort: SortStrategy;
   isLoading: boolean;
+  currentPage: number;
+  totalPages: number;
 };
 
 type TProps = {
@@ -38,42 +38,48 @@ export default function CategoryPage({ params: { id: categoryId = '' } }: TProps
   const { updateClerkToken } = useClerkToken();
   const [state, setState] = useState<TState>({
     products: [],
-    offset: 1,
     category: null,
     sort: SortStrategy.PRICE_ASC,
     isLoading: true,
+    currentPage: 1,
+    totalPages: 1,
   });
-
-  const { sort, offset } = state;
+  const {
+    sort, currentPage, totalPages, isLoading,
+  } = state;
 
   useEffect(() => {
     (async () => {
+      setState({ ...state, isLoading: true });
       await updateClerkToken();
 
       const { data: { category } } = await axios.get<{ category: TCategory }>(`/categories/${categoryId}`);
-      const { data: products } = await axios.get<TProduct[]>('/products', {
+      const { data: productsResponse } = await axios.get<PaginatedResponse<TProduct>>('/products', {
         params: {
           categoryIds: category.subCategories.length
             ? category.subCategories.map(({ id }) => id)
             : [categoryId],
           limit: DEFAULT_PAGE_SIZE,
-          offset,
+          offset: currentPage * DEFAULT_PAGE_SIZE,
           sort,
         },
       });
 
       setState({
         ...state,
-        products: [...state.products, ...products],
+        products: productsResponse.data,
+        totalPages: Math.ceil(productsResponse.count / DEFAULT_PAGE_SIZE),
         category,
         isLoading: false,
       });
     })();
-  }, [categoryId, offset, sort]);
+  }, [categoryId, currentPage, sort]);
 
-  if (state.isLoading) {
+  if (isLoading) {
     return <Loader />;
   }
+
+  const onPageChange = (page: number) => setState({ ...state, currentPage: page });
 
   return (
     <main className="px-44">
@@ -120,7 +126,7 @@ export default function CategoryPage({ params: { id: categoryId = '' } }: TProps
         {state.products.map(({ id, ...product }) => <Product key={id} id={id} {...product} />)}
       </div>
 
-      <div className="flex justify-center mb-5">
+      {/* <div className="flex justify-center mb-5">
         <Button
           onClick={() => {
             setState({ ...state, offset: offset + DEFAULT_PAGE_SIZE });
@@ -128,7 +134,17 @@ export default function CategoryPage({ params: { id: categoryId = '' } }: TProps
         >
           Показать ёщё
         </Button>
+      </div> */}
+
+      <div className="flex justify-center mb-5">
+        <Pagination
+          showIcons
+          currentPage={currentPage}
+          totalPages={totalPages}
+          onPageChange={onPageChange}
+        />
       </div>
+
     </main>
   );
 }
