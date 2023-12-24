@@ -1,7 +1,7 @@
 # Add filtering on pages
 # Add displaying for groups/categories images
 # Add domain
-# Add pagination support
+~~Add pagination support~~
 # Multi step orders
 # Add logrocket
 # Make UI/UX fixes
