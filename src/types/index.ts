@@ -14,3 +14,16 @@ export type TProduct = {
   quantity?: number;
   isFavorite?: boolean;
 };
+
+export type TCategory = {
+  id: string;
+  name: string;
+  image: string;
+  description?: string;
+  subCategories: TCategory[];
+};
+
+export type PaginatedResponse<T> = {
+  data: T[];
+  count: number;
+};

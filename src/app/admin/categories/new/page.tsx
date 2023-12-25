@@ -29,7 +29,7 @@ export default function NewProduct() {
     (async () => {
       await updateClerkToken();
       const [{ data: categories }, { data: user }] = await Promise.all([
-        axios.get<[{ id: string, name: string }]>('/categories'),
+        axios.get<[{ id: string, name: string }]>('/categories/roots'),
         axios.get<User>('/users/self'),
       ]);
 
