@@ -5,7 +5,7 @@ import { useFormContext } from 'react-hook-form';
 import Image from 'next/image';
 import { useFocusElement } from '@/hooks/useFocusElement';
 import axios from '@/api/axios';
-import { TProduct } from '@/types';
+import { PaginatedResponse, TProduct } from '@/types';
 import { useClerkToken } from '@/context/auth';
 
 type TProps = {
@@ -40,7 +40,10 @@ export function SearchInput({
 
       await updateClerkToken();
 
-      const { data: products } = await axios.get<TProduct[]>('/products', { params: { search } });
+      const {
+        data:
+        { data: products },
+      } = await axios.get<PaginatedResponse<TProduct>>('/products', { params: { search } });
       setProducts(products);
     })();
   }, [search]);
