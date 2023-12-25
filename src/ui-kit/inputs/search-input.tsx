@@ -52,7 +52,7 @@ export function SearchInput({
         width={24}
         height={24}
         alt="search"
-        onMouseEnter={() => {
+        onClick={() => {
           setIsFocused(true);
           setIsModalOpened(true);
           reset({ name: 'search' });

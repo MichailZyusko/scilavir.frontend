@@ -26,7 +26,7 @@ export default function FavoritePage() {
     products: [],
     sort: SortStrategy.ALPHABETICAL_ASC,
     isLoading: true,
-    currentPage: 1,
+    currentPage: 0,
     totalPages: 1,
   });
 
@@ -62,7 +62,7 @@ export default function FavoritePage() {
     return <Loader />;
   }
 
-  const onPageChange = (page: number) => setState({ ...state, currentPage: page });
+  const onPageChange = (page: number) => setState({ ...state, currentPage: page - 1 });
 
   return (
     <main className="px-44">
@@ -128,7 +128,7 @@ export default function FavoritePage() {
       <div className="flex justify-center mb-5">
         <Pagination
           showIcons
-          currentPage={currentPage}
+          currentPage={currentPage + 1}
           totalPages={totalPages}
           onPageChange={onPageChange}
         />

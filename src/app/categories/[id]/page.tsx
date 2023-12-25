@@ -2,7 +2,7 @@
 
 import axios from '@/api/axios';
 import Image from 'next/image';
-import { PaginatedResponse, TProduct } from '@/types';
+import { PaginatedResponse, TCategory, TProduct } from '@/types';
 import { Product } from '@/ui-kit/components/products/product';
 import { SubCategoryList } from '@/ui-kit/components/products/sub-categorie';
 import { Dropdown, Pagination } from 'flowbite-react';
@@ -11,13 +11,6 @@ import { SortStrategy } from '@/enums';
 import { useClerkToken } from '@/context/auth';
 import { Loader } from '@/ui-kit/spinners';
 import { DEFAULT_PAGE_SIZE } from '@/constants';
-
-type TCategory = {
-  id: string;
-  name: string;
-  description: string;
-  subCategories: TCategory[];
-};
 
 type TState = {
   products: TProduct[];
@@ -41,7 +34,7 @@ export default function CategoryPage({ params: { id: categoryId = '' } }: TProps
     category: null,
     sort: SortStrategy.PRICE_ASC,
     isLoading: true,
-    currentPage: 1,
+    currentPage: 0,
     totalPages: 1,
   });
   const {
@@ -79,7 +72,7 @@ export default function CategoryPage({ params: { id: categoryId = '' } }: TProps
     return <Loader />;
   }
 
-  const onPageChange = (page: number) => setState({ ...state, currentPage: page });
+  const onPageChange = (page: number) => setState({ ...state, currentPage: page - 1 });
 
   return (
     <main className="px-44">
@@ -139,7 +132,7 @@ export default function CategoryPage({ params: { id: categoryId = '' } }: TProps
       <div className="flex justify-center mb-5">
         <Pagination
           showIcons
-          currentPage={currentPage}
+          currentPage={currentPage + 1}
           totalPages={totalPages}
           onPageChange={onPageChange}
         />
