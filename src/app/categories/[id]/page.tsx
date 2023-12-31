@@ -5,12 +5,13 @@ import Image from 'next/image';
 import { PaginatedResponse, TCategory, TProduct } from '@/types';
 import { Product } from '@/ui-kit/components/products/product';
 import { SubCategoryList } from '@/ui-kit/components/products/sub-categorie';
-import { Dropdown, Pagination } from 'flowbite-react';
+import { Dropdown } from 'flowbite-react';
 import { useEffect, useState } from 'react';
 import { SortStrategy } from '@/enums';
 import { useClerkToken } from '@/context/auth';
 import { Loader } from '@/ui-kit/spinners';
 import { DEFAULT_PAGE_SIZE } from '@/constants';
+import { Paginator } from '@/ui-kit/components/paginator';
 
 type TState = {
   products: TProduct[];
@@ -77,7 +78,7 @@ export default function CategoryPage({ params: { id: categoryId = '' } }: TProps
   return (
     <main className="px-44">
       <SubCategoryList categories={state?.category?.subCategories} />
-      <h1 className="w-full text-4xl text-center font-semibold mb-5">{state.category?.name}</h1>
+      <h1 className="w-full text-3xl text-center font-semibold mb-5">{state.category?.name}</h1>
       <div className="flex justify-between mb-2.5">
         <Dropdown
           label="Сортировать"
@@ -130,8 +131,7 @@ export default function CategoryPage({ params: { id: categoryId = '' } }: TProps
       </div> */}
 
       <div className="flex justify-center mb-5">
-        <Pagination
-          showIcons
+        <Paginator
           currentPage={currentPage + 1}
           totalPages={totalPages}
           onPageChange={onPageChange}

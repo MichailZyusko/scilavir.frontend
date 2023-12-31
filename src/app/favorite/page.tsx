@@ -2,7 +2,7 @@
 
 import Image from 'next/image';
 import { Product } from '@/ui-kit/components/products/product';
-import { Dropdown, Pagination } from 'flowbite-react';
+import { Dropdown } from 'flowbite-react';
 import { PaginatedResponse, TProduct } from '@/types';
 import axios from '@/api/axios';
 import { useState, useEffect } from 'react';
@@ -10,6 +10,7 @@ import { Loader } from '@/ui-kit/spinners';
 import { SortStrategy } from '@/enums';
 import { useClerkToken } from '@/context/auth';
 import { DEFAULT_PAGE_SIZE } from '@/constants';
+import { Paginator } from '@/ui-kit/components/paginator';
 
 type TState = {
   products: TProduct[];
@@ -126,8 +127,7 @@ export default function FavoritePage() {
       </div> */}
 
       <div className="flex justify-center mb-5">
-        <Pagination
-          showIcons
+        <Paginator
           currentPage={currentPage + 1}
           totalPages={totalPages}
           onPageChange={onPageChange}
