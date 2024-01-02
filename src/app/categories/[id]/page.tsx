@@ -132,7 +132,7 @@ export default function CategoryPage({ params: { id: categoryId = '' } }: TProps
 
       <div className="flex justify-center mb-5">
         <Paginator
-          currentPage={currentPage + 1}
+          currentPage={currentPage}
           totalPages={totalPages}
           onPageChange={onPageChange}
         />

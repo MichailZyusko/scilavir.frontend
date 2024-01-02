@@ -140,7 +140,7 @@ export default function GroupsPage({ params: { id: groupId = '' } }: TProps) {
 
       <div className="flex justify-center mb-5">
         <Paginator
-          currentPage={currentPage + 1}
+          currentPage={currentPage}
           totalPages={totalPages}
           onPageChange={onPageChange}
         />
