@@ -34,7 +34,7 @@ function Pros({ description, name }: Omit<TPros, 'id'>) {
 
 export function ProsList() {
   return (
-    <div className="flex justify-around mt-20">
+    <div className="container mx-auto flex justify-around mt-20">
       {pros.map(({ description, name, id }) => (
         <Pros
           key={id}

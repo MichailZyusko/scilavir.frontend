@@ -2,7 +2,7 @@ import { Button } from '../../buttons';
 
 export function PopularCategories() {
   return (
-    <>
+    <div className="container mx-auto">
       <h2 className="mt-16 mb-8 text-3xl font-semibold">Популярные категории</h2>
       <div className="flex justify-between">
         <div className="flex flex-col w-1/2">
@@ -45,7 +45,6 @@ export function PopularCategories() {
         </div>
 
       </div>
-    </>
-
+    </div>
   );
 }

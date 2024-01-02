@@ -147,8 +147,6 @@ export default function ProductPage({ params: { id } }: TProps) {
         </div>
       </div>
 
-      <Feedbacks productId={id} />
-
       <h2 className="w-full text-3xl text-center font-semibold my-10">Похожие товары</h2>
       <div className="grid grid-cols-4 gap-8">
         {state.similarProducts.map(({ id: productId, ...productWithOutId }) => (
@@ -159,6 +157,8 @@ export default function ProductPage({ params: { id } }: TProps) {
           />
         ))}
       </div>
+
+      <Feedbacks productId={id} />
     </main>
   );
 }

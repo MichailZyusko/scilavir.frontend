@@ -5,7 +5,7 @@ import Image from 'next/image';
 import { PaginatedResponse, TCategory, TProduct } from '@/types';
 import { Product } from '@/ui-kit/components/products/product';
 import { SubCategoryList } from '@/ui-kit/components/products/sub-categorie';
-import { Dropdown } from 'flowbite-react';
+import { Dropdown, Pagination } from 'flowbite-react';
 import { useEffect, useState } from 'react';
 import { SortStrategy } from '@/enums';
 import { useClerkToken } from '@/context/auth';
