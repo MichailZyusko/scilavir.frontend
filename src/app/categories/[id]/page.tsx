@@ -76,7 +76,7 @@ export default function CategoryPage({ params: { id: categoryId = '' } }: TProps
   const onPageChange = (page: number) => setState({ ...state, currentPage: page - 1 });
 
   return (
-    <main className="px-44">
+    <main className="flex flex-col flex-auto container mx-auto px-4">
       <SubCategoryList categories={state?.category?.subCategories} />
       <h1 className="w-full text-3xl text-center font-semibold mb-5">{state.category?.name}</h1>
       <div className="flex justify-between mb-2.5">

@@ -66,7 +66,7 @@ export default function FavoritePage() {
   const onPageChange = (page: number) => setState({ ...state, currentPage: page - 1 });
 
   return (
-    <main className="px-44">
+    <main className="container mx-auto px-4 flex flex-col flex-auto">
       <h1 className="w-full text-4xl text-center font-semibold mb-5">Избранное</h1>
       <div className="flex justify-between mb-2.5">
         <Dropdown
@@ -105,16 +105,25 @@ export default function FavoritePage() {
           Фильтр
         </span>
       </div>
-      <div className="grid grid-cols-4 gap-8">
-        {state.products.map(({ id, ...product }) => (
-          <Product
-            key={id}
-            id={id}
-            {...product}
-            isFavorite
-          />
-        ))}
-      </div>
+
+      {state.products.length
+        ? (
+          <div className="grid grid-cols-4 gap-8">
+            {state.products.map(({ id, ...product }) => (
+              <Product
+                key={id}
+                id={id}
+                {...product}
+                isFavorite
+              />
+            ))}
+          </div>
+        )
+        : (
+          <div className="flex justify-center mt-10">
+            <h1 className="text-4xl font-bold">Избранные товары отсутствуют</h1>
+          </div>
+        )}
 
       {/* <div className="flex justify-center mb-5">
         <Button
@@ -133,7 +142,6 @@ export default function FavoritePage() {
           onPageChange={onPageChange}
         />
       </div>
-
     </main>
   );
 }

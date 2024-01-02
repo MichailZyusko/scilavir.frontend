@@ -24,17 +24,17 @@ const pros: TPros[] = [
 
 function Pros({ description, name }: Omit<TPros, 'id'>) {
   return (
-    <div className="flex flex-col w-80 items-start justify-start">
-      <div className="w-64 h-64 bg-gray" />
+    <li className="flex flex-col items-start justify-start w-1/3">
+      <div className="w-full h-40 bg-gray" />
       <h2 className="text-xl pt-5">{name}</h2>
       <p className="whitespace-normal text-sm pt-2.5">{description}</p>
-    </div>
+    </li>
   );
 }
 
 export function ProsList() {
   return (
-    <div className="container mx-auto flex justify-around mt-20">
+    <ul className="container mx-auto px-4 flex justify-between gap-5 mt-20">
       {pros.map(({ description, name, id }) => (
         <Pros
           key={id}
@@ -42,6 +42,6 @@ export function ProsList() {
           name={name}
         />
       ))}
-    </div>
+    </ul>
   );
 }

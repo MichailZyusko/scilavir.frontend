@@ -4,7 +4,7 @@ import Image from 'next/image';
 
 export default function DeliveryAndPaymentPage() {
   return (
-    <main className="w-full pt-10 pb-10">
+    <main className="flex flex-col flex-auto w-full pt-10 pb-10">
       <div className="container mx-auto px-4">
         <h1 className="font-semibold text-3xl text-center mb-8">ДОСТАВКА И ОПЛАТА</h1>
         <div className="">

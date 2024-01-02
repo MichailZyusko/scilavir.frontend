@@ -33,7 +33,7 @@ type TProps = {
   onPageChange: (page: number) => void;
 };
 export function Paginator({ currentPage, totalPages, onPageChange }: TProps) {
-  if (totalPages === 1) {
+  if (totalPages <= 1) {
     return null;
   }
 

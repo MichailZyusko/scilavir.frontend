@@ -58,7 +58,7 @@ export function AddToCartButton({ productId, quantity: q }: TProps) {
 
   const removeFromCartHandler = async (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
-  
+
     dispatch(decreaseProductCounts({ id: productId }));
     toast.error('Товар удален из корзины');
   };

@@ -4,7 +4,7 @@ import { Spinner } from 'flowbite-react';
 
 export function Loader() {
   return (
-    <main className="flex items-center justify-center min-h-[70vh]">
+    <main className="flex flex-col flex-auto items-center justify-center">
       <div className="mb-40">
         <Spinner
           size="xl"

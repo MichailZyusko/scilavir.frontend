@@ -77,12 +77,12 @@ export function Product({
           BYN
         </p>
         {isHovered && (
-        <div className="absolute bottom-24 right-0 z-0">
-          <AddToCartButton
-            productId={id}
-            quantity={quantity}
-          />
-        </div>
+          <div className="absolute bottom-0 right-0">
+            <AddToCartButton
+              productId={id}
+              quantity={quantity}
+            />
+          </div>
         )}
       </Link>
     </div>

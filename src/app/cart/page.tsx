@@ -69,7 +69,7 @@ export default function CartPage() {
 
   if (cart.length === 0) {
     return (
-      <main className="flex flex-col items-center justify-center h-screen px-44 mb-16">
+      <main className="flex flex-auto flex-col items-center justify-center px-44 mb-16">
         <h1 className="text-2xl font-semibold">Корзина пуста</h1>
         <Link href="/">
           <Button>
@@ -81,7 +81,7 @@ export default function CartPage() {
   }
 
   return (
-    <main className="flex flex-col justify-center items-center px-44 mb-16">
+    <main className="flex flex-auto flex-col justify-center items-center px-44 mb-16">
       <div className="grid grid-cols-4 gap-8">
         {cart.map(({ quantity: q, product: { id, ...product } }) => {
           const quantity = myCart.get(id) ?? q;
