@@ -2,7 +2,7 @@
 
 import Image from 'next/image';
 import { Product } from '@/ui-kit/components/products/product';
-import { Dropdown, Pagination } from 'flowbite-react';
+import { Dropdown } from 'flowbite-react';
 import { PaginatedResponse, TProduct } from '@/types';
 import axios from '@/api/axios';
 import { useState, useEffect } from 'react';
@@ -10,6 +10,7 @@ import { Loader } from '@/ui-kit/spinners';
 import { SortStrategy } from '@/enums';
 import { useClerkToken } from '@/context/auth';
 import { DEFAULT_PAGE_SIZE } from '@/constants';
+import { Paginator } from '@/ui-kit/components/paginator';
 
 type TState = {
   products: TProduct[];
@@ -65,7 +66,7 @@ export default function FavoritePage() {
   const onPageChange = (page: number) => setState({ ...state, currentPage: page - 1 });
 
   return (
-    <main className="px-44">
+    <main className="container mx-auto px-4 flex flex-col flex-auto">
       <h1 className="w-full text-4xl text-center font-semibold mb-5">Избранное</h1>
       <div className="flex justify-between mb-2.5">
         <Dropdown
@@ -104,16 +105,25 @@ export default function FavoritePage() {
           Фильтр
         </span>
       </div>
-      <div className="grid grid-cols-4 gap-8">
-        {state.products.map(({ id, ...product }) => (
-          <Product
-            key={id}
-            id={id}
-            {...product}
-            isFavorite
-          />
-        ))}
-      </div>
+
+      {state.products.length
+        ? (
+          <div className="grid grid-cols-4 gap-8">
+            {state.products.map(({ id, ...product }) => (
+              <Product
+                key={id}
+                id={id}
+                {...product}
+                isFavorite
+              />
+            ))}
+          </div>
+        )
+        : (
+          <div className="flex justify-center mt-10">
+            <h1 className="text-4xl font-bold">Избранные товары отсутствуют</h1>
+          </div>
+        )}
 
       {/* <div className="flex justify-center mb-5">
         <Button
@@ -126,14 +136,12 @@ export default function FavoritePage() {
       </div> */}
 
       <div className="flex justify-center mb-5">
-        <Pagination
-          showIcons
-          currentPage={currentPage + 1}
+        <Paginator
+          currentPage={currentPage}
           totalPages={totalPages}
           onPageChange={onPageChange}
         />
       </div>
-
     </main>
   );
 }

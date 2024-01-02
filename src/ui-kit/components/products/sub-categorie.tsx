@@ -4,10 +4,9 @@ import { TCategory } from '@/types';
 
 type TSubCategory = Omit<TCategory, 'subCategories'>;
 
-// ! FIXME: @ArtemAnrushcevich fix image appearance
 function SubCategory({ name, id, image }: TSubCategory) {
   return (
-    <Link className="flex flex-col w-min items-center justify-center" href={`/categories/${id}`}>
+    <Link className="flex flex-col w-40 items-center justify-center" href={`/categories/${id}`}>
       <Image
         src={image}
         alt={name}
@@ -29,7 +28,7 @@ export function SubCategoryList({ categories }: TProps) {
   }
 
   return (
-    <div className="flex justify-evenly mb-16">
+    <div className="flex justify-around mb-16">
       {categories.map(({ name, id, image }) => (
         <SubCategory
           image={image}

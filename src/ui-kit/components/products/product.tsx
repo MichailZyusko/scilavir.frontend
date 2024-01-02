@@ -70,19 +70,19 @@ export function Product({
             alt={name}
           />
         )}
-        <h2 className="text-lg font-semibold">{name}</h2>
-        <p className="whitespace-normal text-center">
+        <h2 className="text-lg font-semibold leading-5">{name}</h2>
+        <p className="whitespace-normal text-center mt-3">
           {price}
           &nbsp;
           BYN
         </p>
         {isHovered && (
-        <div className="absolute bottom-24 right-0 z-10">
-          <AddToCartButton
-            productId={id}
-            quantity={quantity}
-          />
-        </div>
+          <div className="absolute bottom-0 right-0">
+            <AddToCartButton
+              productId={id}
+              quantity={quantity}
+            />
+          </div>
         )}
       </Link>
     </div>

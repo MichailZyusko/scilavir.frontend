@@ -2,7 +2,13 @@
 
 const nextConfig = {
   images: {
-    domains: ["hljgruyjewkbrmyedjik.supabase.co"],
+    remotePatterns: [
+      {
+        protocol: 'https',
+        hostname: 'hljgruyjewkbrmyedjik.supabase.co',
+        pathname: '**',
+      }
+    ],
   },
   compiler: {
     // Enables the styled-components SWC transform

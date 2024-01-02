@@ -86,7 +86,7 @@ export default function NewProduct() {
   };
 
   return (
-    <main className="px-44 pb-8">
+    <main className="flex flex-auto justify-center container mx-auto px-4 pb-8">
       <FormProvider {...hookFormMethods}>
         <form
           onSubmit={hookFormMethods.handleSubmit(onSubmit)}

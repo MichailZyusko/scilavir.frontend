@@ -49,12 +49,16 @@ export function AddToCartButton({ productId, quantity: q }: TProps) {
     })();
   }, [quantity, productId]);
 
-  const addToCartHandler = async () => {
+  const addToCartHandler = async (e: React.MouseEvent<HTMLButtonElement>) => {
+    e.preventDefault();
+
     dispatch(increaseProductCounts({ id: productId }));
     toast.success('Товар добавлен в корзину');
   };
 
-  const removeFromCartHandler = async () => {
+  const removeFromCartHandler = async (e: React.MouseEvent<HTMLButtonElement>) => {
+    e.preventDefault();
+
     dispatch(decreaseProductCounts({ id: productId }));
     toast.error('Товар удален из корзины');
   };

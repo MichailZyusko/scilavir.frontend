@@ -5,7 +5,7 @@ import { ProsList } from '@/ui-kit/components/overview/pros-list';
 
 export default async function Home() {
   return (
-    <main className="container mx-auto px-4 pt-10 pb-10">
+    <main className="flex flex-auto flex-col pt-10 pb-10">
       <Banner />
       <ProsList />
       <PopularCategories />

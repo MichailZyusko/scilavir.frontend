@@ -89,7 +89,7 @@ export default function OrdersPage() {
   }
 
   return (
-    <main className="px-44 mb-16">
+    <main className="container mx-auto px-4 mb-16 flex flex-col flex-auto">
       <h1 className="w-full text-4xl text-center font-semibold mb-5">История заказов</h1>
       <Flowbite theme={{ theme: customTheme }}>
 

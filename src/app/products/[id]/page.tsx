@@ -106,7 +106,7 @@ export default function ProductPage({ params: { id } }: TProps) {
   }));
 
   return (
-    <main className="px-44">
+    <main className="flex flex-col flex-auto container mx-auto px-4">
       <div className="flex mb-5">
         <ImageGallery
           items={images}
@@ -147,18 +147,22 @@ export default function ProductPage({ params: { id } }: TProps) {
         </div>
       </div>
 
-      <Feedbacks productId={id} />
+      {state.similarProducts.length > 0 && (
+        <>
+          <h2 className="w-full text-3xl text-center font-semibold my-10">Похожие товары</h2>
+          <div className="grid grid-cols-4 gap-8">
+            {state.similarProducts.map(({ id: productId, ...productWithOutId }) => (
+              <Product
+                key={productId}
+                id={productId}
+                {...productWithOutId}
+              />
+            ))}
+          </div>
+        </>
+      )}
 
-      <h2 className="w-full text-3xl text-center font-semibold my-10">Похожие товары</h2>
-      <div className="grid grid-cols-4 gap-8">
-        {state.similarProducts.map(({ id: productId, ...productWithOutId }) => (
-          <Product
-            key={productId}
-            id={productId}
-            {...productWithOutId}
-          />
-        ))}
-      </div>
+      <Feedbacks productId={id} />
     </main>
   );
 }

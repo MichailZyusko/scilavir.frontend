@@ -7,43 +7,34 @@ type TPros = {
 const pros: TPros[] = [
   {
     id: 1,
-    name: 'Достоинтсво 1',
-    description: 'Описание Описание Описание',
+    name: 'Низкие цены',
+    description: 'Магазин предлагает клиентам конкурентоспособные цены, что делает его привлекательным выбором для тех, кто ценит экономию',
   },
   {
     id: 2,
-    name: 'Достоинтсво 2',
-    description: 'Описание Описание Описание',
+    name: 'Самый крупный магазин Лиды',
+    description: 'Магазин является самым крупным в своей категории, предоставляя широчайший выбор товаров для офиса и школы',
   },
   {
     id: 3,
-    name: 'Достоинтсво 3',
-    description: 'Описание Описание Описание',
+    name: 'Большое разнообразие товаров',
+    description: 'Мы предлагаем разнообразные канцелярские товары, включая не только основные предметы (ручки, тетради), но и специализированные товары (художественные материалы, офисная техника)',
   },
-  {
-    id: 4,
-    name: 'Достоинтсво 4',
-    description: 'Описание Описание Описание',
-  },
-  {
-    id: 5,
-    name: 'Достоинтсво 5',
-    description: 'Описание Описание Описание',
-  }];
+];
 
 function Pros({ description, name }: Omit<TPros, 'id'>) {
   return (
-    <div className="flex flex-col w-min items-center justify-center">
-      <div className="w-44 h-44 bg-gray" />
-      <h2>{name}</h2>
-      <p className="whitespace-normal text-center">{description}</p>
-    </div>
+    <li className="flex flex-col items-start justify-start w-1/3">
+      <div className="w-full h-40 bg-gray" />
+      <h2 className="text-xl pt-5">{name}</h2>
+      <p className="whitespace-normal text-sm pt-2.5">{description}</p>
+    </li>
   );
 }
 
 export function ProsList() {
   return (
-    <div className="flex justify-between mt-20">
+    <ul className="container mx-auto px-4 flex justify-between gap-5 mt-20">
       {pros.map(({ description, name, id }) => (
         <Pros
           key={id}
@@ -51,6 +42,6 @@ export function ProsList() {
           name={name}
         />
       ))}
-    </div>
+    </ul>
   );
 }
