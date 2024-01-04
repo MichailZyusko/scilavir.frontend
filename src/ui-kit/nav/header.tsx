@@ -109,7 +109,7 @@ export function Header() {
             }}
           >
             {products.length === 0
-              ? (<div>По вашему запросу ничего не неайдено</div>)
+              ? (<div>По вашему запросу ничего не найдено</div>)
               : (
                 products.map(({ id: productId, ...productWithOutId }) => (
                   <div
