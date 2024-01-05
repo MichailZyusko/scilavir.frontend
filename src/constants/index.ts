@@ -1,7 +1,7 @@
 export const DEFAULT_PAGE_SIZE = 1;
 export const GROUPS_AND_CATEGORIES_MAPPER = new Map<string, Record<string, any>>([
   ['2a20ee10-9707-46e1-a67d-dd9638eee029', {
-    className: 'div1', 
+    className: 'div1',
     style: { gridArea: 'div1', height: 600 },
   }], // "Творчество"
   ['ef81773b-1dce-42f3-9d27-e509190be4cb', { className: 'div2', style: { gridArea: 'div2' } }], // "Для офиса"
