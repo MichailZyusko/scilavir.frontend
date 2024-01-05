@@ -6,7 +6,7 @@ type TSubCategory = Omit<TCategory, 'subCategories'>;
 
 function SubCategory({ name, id, image }: TSubCategory) {
   return (
-    <Link className="flex flex-col w-40 items-center justify-center" href={`/categories/${id}`}>
+    <Link className="flex flex-col w-40 items-center" href={`/categories/${id}`}>
       <Image
         src={image}
         alt={name}

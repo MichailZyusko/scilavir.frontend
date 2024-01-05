@@ -52,15 +52,8 @@ export function Product({
         className="flex flex-col items-start mb-8"
         href={`/products/${id}`}
       >
-        <Image
-          onClick={changeFavoriteState}
-          src={isFavorite ? '/images/favorite-active.svg' : '/images/favorite.svg'}
-          width={32}
-          height={32}
-          alt="favorite"
-          className="absolute right-0 top-0 z-10 cursor-pointer w-auto h-auto"
-        />
-        {images.length > 0 && (
+        <div className="relative">
+          {images.length > 0 && (
           <Image
             src={images[0]}
             className=" mb-5 z-0"
@@ -69,7 +62,18 @@ export function Product({
             height={256}
             alt={name}
           />
-        )}
+          )}
+          <div>
+            <Image
+              onClick={changeFavoriteState}
+              src={isFavorite ? '/images/favorite-active.svg' : '/images/favorite.svg'}
+              width={32}
+              height={32}
+              alt="favorite"
+              className="absolute right-0 top-0 z-10 cursor-pointer w-auto h-auto"
+            />
+          </div>
+        </div>
         <h2 className="text-lg font-semibold leading-5">{name}</h2>
         <p className="whitespace-normal text-center mt-3">
           {price}
