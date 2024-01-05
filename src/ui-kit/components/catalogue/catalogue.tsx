@@ -2,25 +2,11 @@
 
 'use client';
 
-import Link from 'next/link';
 import { useEffect, useState } from 'react';
 import axios from '@/api/axios';
 import { Loader } from '@/ui-kit/spinners';
-import { Button } from '../../buttons';
-
-type TGroup = {
-  id: string;
-  name: string;
-  minPrice: number | null;
-  image: string;
-};
-
-type TCategory = {
-  id: string;
-  parentId: string;
-  name: string;
-  minPrice: number | null;
-};
+import { TCategory, TGroup } from '@/types';
+import { CatalogueItem } from './cotalogue-item';
 
 type TState = {
   categories: TCategory[] | [];
@@ -56,153 +42,45 @@ export function Catalogue() {
 
   return (
     <>
-      <div>
+      <div className="mb-9">
         <h1 className="text-center text-4xl font-semibold mb-2.5">Подборки</h1>
-        {state.groups.map((group) => (
-          <>
-            <Link
-              className="w-full h-80 bg-gray flex flex-col justify-between p-8"
-              key={group.id}
-              href={`/groups/${group.id}`}
-            >
-              <div>
-                <h3 className="text-xl font-semibold">{group.name}</h3>
-                <p>Текст</p>
-              </div>
-
-              <div>
-                <p>
-                  {group.minPrice === null
-                    ? 'Нет товаров в этой подборке'
-                    : `Начиная от ${group.minPrice} BYN`}
-                </p>
-                <Button>Купить сейчас</Button>
-              </div>
-            </Link>
-
-            <div className="border-white border-t-[1.5rem] w-full" />
-          </>
-        ))}
+        <div style={{
+          display: 'grid',
+          gridTemplateColumns: '1fr 1fr',
+          gridTemplateRows: '1fr 1fr 1fr',
+          gap: '10px 10px',
+          gridTemplateAreas: `
+          "div1 div2"
+          "div1 div3"
+          "div4 div4"
+        `,
+        }}
+        >
+          {state.groups.map((group) => <CatalogueItem item={group} type="group" key={group.id} />)}
+        </div>
       </div>
 
-      <div>
+      <div className="mb-32">
         <h1 className="text-center text-4xl font-semibold mb-2.5">Категории</h1>
-        {state.categories.map((category) => (
-          <>
-            <Link
-              className="w-full h-80 bg-gray flex flex-col justify-between p-8"
-              key={category.id}
-              href={`/categories/${category.id}`}
-            >
-              <div>
-                <h3 className="text-xl font-semibold">{category.name}</h3>
-                <p>Текст</p>
-              </div>
-
-              <div>
-                <p>
-                  {category.minPrice === null
-                    ? 'Нет товаров в этой категории'
-                    : `Начиная от ${category.minPrice} BYN`}
-                </p>
-                <Button>Купить сейчас</Button>
-              </div>
-            </Link>
-
-            <div className="border-white border-t-[1.5rem] w-full" />
-          </>
-        ))}
+        <div style={{
+          display: 'grid',
+          gridTemplateColumns: '1fr 1fr',
+          gridTemplateRows: '1fr 1fr 1fr 1fr 1fr 1fr 1f',
+          gap: '10px 10px',
+          gridTemplateAreas: `
+          "div1 div2"
+          "div3 div2"
+          "div4 div5"
+          "div4 div6"
+          "div7 div7"
+          "div8 div9"
+          "div10 div9"
+        `,
+        }}
+        >
+          {state.categories.map((category) => <CatalogueItem item={category} type="category" key={category.id} />)}
+        </div>
       </div>
     </>
   );
 }
-
-//  <div className="flex justify-between">
-//           <div className="flex flex-col w-[calc(50%+1.5rem)]">
-//             <Link className="w-full h-80 bg-gray flex flex-col justify-between p-8" href="/products">
-//               <div>
-//                 <h3 className="text-xl font-semibold">Бумага</h3>
-//                 <p>Текст</p>
-//               </div>
-
-//               <div>
-//                 <p>Начиная от 1 BYN</p>
-//                 <Button>Купить сейчас</Button>
-//               </div>
-//             </Link>
-
-//             <div className="border-white border-t-[1.5rem] w-full" />
-
-//             <Link className="w-full h-80 bg-gray flex flex-col justify-between p-8" href="/products">
-//               <div>
-//                 <h3 className="text-xl font-semibold">Ежедневники и блокноты</h3>
-//                 <p>Текст</p>
-//               </div>
-
-//               <div>
-//                 <p>Начиная от 1 BYN</p>
-//                 <Button>Купить сейчас</Button>
-//               </div>
-//             </Link>
-//           </div>
-
-//           <div className="border-white border-l-[1.5rem]" />
-
-//           <Link className="w-[calc(50%-1.5rem)] h-160 bg-gray flex flex-col justify-between p-8" href="/products">
-//             <div>
-//               <h3 className="text-xl font-semibold">Пишущие пренадлежности</h3>
-//               <p>Текст</p>
-//             </div>
-
-//             <div>
-//               <p>Начиная от 1 BYN</p>
-//               <Button>Купить сейчас</Button>
-//             </div>
-//           </Link>
-//         </div>
-
-//         <div className="border-white border-t-[1.5rem] w-full" />
-
-//         <div className="flex justify-between">
-//           <Link className="w-[calc(50%-1.5rem)] h-160 bg-gray flex flex-col justify-between p-8" href="/products">
-//             <div>
-//               <h3 className="text-xl font-semibold">Канцелярские инструменты</h3>
-//               <p>Текст</p>
-//             </div>
-
-//             <div>
-//               <p>Начиная от 1 BYN</p>
-//               <Button>Купить сейчас</Button>
-//             </div>
-//           </Link>
-
-//           <div className="border-white border-l-[1.5rem]" />
-
-//           <div className="flex flex-col w-[calc(50%+20px)]">
-//             <Link className="w-full h-80 bg-gray flex flex-col justify-between p-8" href="/products">
-//               <div>
-//                 <h3 className="text-xl font-semibold">Тетради</h3>
-//                 <p>Текст</p>
-//               </div>
-
-//               <div>
-//                 <p>Начиная от 1 BYN</p>
-//                 <Button>Купить сейчас</Button>
-//               </div>
-//             </Link>
-
-//             <div className="border-white border-t-[1.5rem] w-full" />
-
-//             <Link className="w-full h-80 bg-gray flex flex-col justify-between p-8" href="/products">
-//               <div>
-//                 <h3 className="text-xl font-semibold">Органайзеры</h3>
-//                 <p>Текст</p>
-//               </div>
-
-//               <div>
-//                 <p>Начиная от 1 BYN</p>
-//                 <Button>Купить сейчас</Button>
-//               </div>
-//             </Link>
-//           </div>
-//         </div>
