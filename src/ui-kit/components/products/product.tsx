@@ -87,12 +87,6 @@ export function Product({
               quantity={quantity}
             />
           </div>
-          <div className="absolute bottom-0 right-0">
-            <AddToCartButton
-              productId={id}
-              quantity={quantity}
-            />
-          </div>
         )}
       </Link>
     </div>
