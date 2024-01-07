@@ -13,7 +13,7 @@ import 'react-toastify/dist/ReactToastify.css';
 
 const inter = Inter({
   subsets: ['cyrillic', 'latin'],
-  weight: ['600', '400', '200'],
+  weight: ['600', '500', '400', '300', '200'],
 });
 
 export default function RootLayout({ children }: PropsWithChildren) {

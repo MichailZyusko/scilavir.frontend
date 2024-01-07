@@ -23,7 +23,7 @@ export function Header() {
   const [isSearchListFocused, setIsSearchListFocused] = useFocusElement(ref);
 
   return (
-    <header className="w-full pt-10 pb-10">
+    <header className="w-full mt-10">
       <FormProvider {...hookFormMethods}>
         <div className="container mx-auto px-4">
           <div className="flex justify-between">
