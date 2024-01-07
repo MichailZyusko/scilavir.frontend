@@ -1,3 +1,4 @@
+import { FAQ } from '@/ui-kit/components/faq';
 import { AboutUs } from '@/ui-kit/components/overview/about-us';
 import { Banner } from '@/ui-kit/components/overview/banner';
 import { PopularCategories } from '@/ui-kit/components/overview/popular-categories';
@@ -10,6 +11,7 @@ export default async function Home() {
       <ProsList />
       <PopularCategories />
       <AboutUs />
+      <FAQ />
     </main>
   );
 }

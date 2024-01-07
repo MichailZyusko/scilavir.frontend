@@ -1,4 +1,5 @@
 import { SignUp } from '@clerk/nextjs';
+import { Metadata } from 'next';
 
 export default function SignUpPage() {
   return (
@@ -7,3 +8,7 @@ export default function SignUpPage() {
     </main>
   );
 }
+
+export const metadata: Metadata = {
+  title: 'Зарегестрироваться',
+};

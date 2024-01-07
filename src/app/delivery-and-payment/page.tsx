@@ -1,5 +1,6 @@
 /* eslint-disable max-len */
 
+import { Metadata } from 'next';
 import Image from 'next/image';
 
 export default function DeliveryAndPaymentPage() {
@@ -69,3 +70,7 @@ export default function DeliveryAndPaymentPage() {
     </main>
   );
 }
+
+export const metadata: Metadata = {
+  title: 'Доставка и оплата',
+};
