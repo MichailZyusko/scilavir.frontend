@@ -10,11 +10,13 @@ module.exports = {
   theme: {
     extend: {
       colors: {
-        'gray': '#D9D9D9'
-      }
+        gray: "#D9D9D9",
+      },
+      backgroundImage: {
+        banner: "url('/images/banner.svg')",
+        aboutUs: "url('/images/about-us.svg')",
+      },
     },
   },
-  plugins: [
-    require("flowbite/plugin")
-  ],
-}
+  plugins: [require("flowbite/plugin")],
+};
