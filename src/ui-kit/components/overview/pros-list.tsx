@@ -35,7 +35,7 @@ function Pros({ description, name, image }: Omit<TPros, 'id'>) {
         width={90}
         height={90}
         src={image}
-        alt="pros"
+        alt={name}
       />
       <h2 className="text-xl pt-5 font-semibold">{name}</h2>
       <p className="whitespace-normal text-sm pt-2.5">{description}</p>
@@ -46,14 +46,10 @@ function Pros({ description, name, image }: Omit<TPros, 'id'>) {
 export function ProsList() {
   return (
     <ul className="container mx-auto px-4 flex justify-between gap-5 mt-20">
-      {pros.map(({
-        description, name, id, image,
-      }) => (
+      {pros.map(({ id, ...params }) => (
         <Pros
           key={id}
-          description={description}
-          name={name}
-          image={image}
+          {...params}
         />
       ))}
     </ul>

@@ -1,9 +1,13 @@
 /* eslint-disable max-len */
+
 export function AboutUs() {
   return (
     <>
       <h2 className="container mx-auto px-4 mt-16 mb-8 text-3xl font-semibold">О нас</h2>
-      <div className="container mx-auto px-[114px] h-[567px] text-white bg-aboutUs bg-[#301700] bg-opacity-60 bg-blend-multiply flex flex-col justify-center " id="about-us">
+      <div
+        className="container mx-auto px-[114px] h-[567px] text-white bg-aboutUs bg-[#301700] bg-opacity-60 bg-blend-multiply flex flex-col justify-center"
+        id="about-us"
+      >
         <div className="w-[450px]">
           <p>
             Приветствуем вас в&nbsp;нашем мире канцелярских решений! Наша компания является лидером в&nbsp;Лиде и&nbsp;специализируется на&nbsp;оптовых продажах фирмам. С&nbsp;более чем 10-летним опытом на&nbsp;рынке, мы&nbsp;гордимся предлагаемыми нами низкими ценами и&nbsp;обширной базой постоянных клиентов.
@@ -21,6 +25,5 @@ export function AboutUs() {
         </div>
       </div>
     </>
-
   );
 }
