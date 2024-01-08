@@ -18,7 +18,7 @@ const theme: CustomFlowbiteTheme = {
     },
     title: {
       arrow: {
-        base: 'h-8 w-8 ml-4 shrink-0',
+        base: 'h-8 w-8 ml-4 shrink-0 transition-all',
         open: {
           off: '',
           on: 'rotate-180',
@@ -41,8 +41,8 @@ const theme: CustomFlowbiteTheme = {
 export function FAQ() {
   return (
     <>
-      <h1 className="text-3xl font-semibold mx-auto my-5">Q&A 一 Ответы на самые частозадаваемые вопросы</h1>
-      <div className="w-1/2 self-center">
+      <h1 className="container px-4 text-3xl font-semibold mx-auto my-5">Q&A 一 Ответы на самые частозадаваемые вопросы</h1>
+      <div className="container mx-auto px-4 w-full self-center">
         <Flowbite theme={{ theme }}>
           <Accordion collapseAll>
             <Accordion.Panel>

@@ -1,7 +1,6 @@
 'use client';
 
 import axios from '@/api/axios';
-import Image from 'next/image';
 import { PaginatedResponse, TProduct } from '@/types';
 import { Product } from '@/ui-kit/components/products/product';
 import { Dropdown } from 'flowbite-react';
@@ -113,16 +112,6 @@ export default function GroupsPage({ params: { id: groupId = '' } }: TProps) {
             Сначала дорогие
           </Dropdown.Item>
         </Dropdown>
-        <span className="flex">
-          <Image
-            src="/images/filter.svg"
-            height={20}
-            width={20}
-            alt="filter"
-          />
-          &nbsp;
-          Фильтр
-        </span>
       </div>
       <div className="grid grid-cols-4 gap-8">
         {state.products.map(({ id, ...product }) => <Product key={id} id={id} {...product} />)}
