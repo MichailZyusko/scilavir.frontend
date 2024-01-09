@@ -1,6 +1,5 @@
 'use client';
 
-import Image from 'next/image';
 import { Product } from '@/ui-kit/components/products/product';
 import { Dropdown } from 'flowbite-react';
 import { PaginatedResponse, TProduct } from '@/types';
@@ -94,16 +93,6 @@ export default function FavoritePage() {
             Сначала дорогие
           </Dropdown.Item>
         </Dropdown>
-        <span className="flex">
-          <Image
-            src="/images/filter.svg"
-            height={20}
-            width={20}
-            alt="filter"
-          />
-          &nbsp;
-          Фильтр
-        </span>
       </div>
 
       {state.products.length
