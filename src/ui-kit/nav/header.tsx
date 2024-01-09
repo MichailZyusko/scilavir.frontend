@@ -3,7 +3,7 @@
 
 'use client';
 
-import { Navbar, Dropdown } from 'flowbite-react';
+import { Navbar } from 'flowbite-react';
 import Link from 'next/link';
 import Image from 'next/image';
 import { SignedIn, SignedOut, UserButton } from '@clerk/nextjs';
@@ -23,7 +23,7 @@ export function Header() {
   const [isSearchListFocused, setIsSearchListFocused] = useFocusElement(ref);
 
   return (
-    <header className="w-full pt-10 pb-10">
+    <header className="w-full mt-10">
       <FormProvider {...hookFormMethods}>
         <div className="container mx-auto px-4">
           <div className="flex justify-between">
@@ -62,36 +62,17 @@ export function Header() {
           <div className="flex items-center justify-center">
             <Navbar>
               <Navbar.Collapse>
-                <Dropdown
-                  arrowIcon
-                  inline
-                  label={<div>Каталог</div>}
-                >
-                  <Dropdown.Item>
-                    <Link href="/navbars">
-                      Для офиса
-                    </Link>
-                  </Dropdown.Item>
-                  <Dropdown.Item>
-                    <Link href="/navbars">
-                      Для школы
-                    </Link>
-                  </Dropdown.Item>
-                  <div className="mx-2.5 border-t-2 border-black" />
-                  <Dropdown.Item>
-                    <Link href="/catalogue">
-                      Все товары
-                    </Link>
-                  </Dropdown.Item>
-                </Dropdown>
+                <Navbar.Link href="/catalogue">
+                  КАТАЛОГ
+                </Navbar.Link>
                 <Navbar.Link href="/#about-us">
-                  О нас
+                  О НАС
                 </Navbar.Link>
                 <Link href="/delivery-and-payment">
-                  Доставка и оплата
+                  ДОСТАВКА И ОПЛАТА
                 </Link>
                 <Link href="/#contacts">
-                  Контакты
+                  КОНТАКТЫ
                 </Link>
               </Navbar.Collapse>
             </Navbar>
@@ -109,7 +90,7 @@ export function Header() {
             }}
           >
             {products.length === 0
-              ? (<div>По вашему запросу ничего не неайдено</div>)
+              ? (<div>По вашему запросу ничего не найдено</div>)
               : (
                 products.map(({ id: productId, ...productWithOutId }) => (
                   <div

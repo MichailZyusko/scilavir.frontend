@@ -1,49 +1,53 @@
-import { Button } from '../../buttons';
+'use client';
 
-export function PopularCategories() {
+import { TGroup } from '@/types';
+import { useState, useEffect } from 'react';
+import axios from '@/api/axios';
+import { Loader } from '@/ui-kit/spinners';
+import { CatalogueItem } from '../catalogue/cotalogue-item';
+
+type TState = {
+  groups: TGroup[] | [];
+  isLoading: boolean;
+};
+
+export function PopularGroups() {
+  const [state, setState] = useState<TState>({
+    groups: [],
+    isLoading: true,
+  });
+
+  useEffect(() => {
+    (async () => {
+      const { data: groups } = await axios.get<TGroup[]>('/groups');
+
+      setState({
+        groups,
+        isLoading: false,
+      });
+    })();
+  }, []);
+
+  if (state.isLoading) {
+    return <Loader />;
+  }
+
   return (
     <div className="container mx-auto px-4">
-      <h2 className="mt-16 mb-8 text-3xl font-semibold">Популярные категории</h2>
-      <div className="flex justify-between">
-        <div className="flex flex-col w-1/2">
-          <div className="w-full h-80 bg-gray flex flex-col justify-between p-8">
-            <div>
-              <h3 className="text-xl font-semibold">Текст</h3>
-              <p>Текст</p>
-            </div>
-
-            <div>
-              <p>Начиная от 1 BYN</p>
-              <Button>Купить сейчас</Button>
-            </div>
-          </div>
-          <div className="border-white border-t-[20px] w-full" />
-          <div className="w-full h-80 bg-gray flex flex-col justify-between p-8">
-            <div>
-              <h3 className="text-xl font-semibold">Текст</h3>
-              <p>Текст</p>
-            </div>
-
-            <div>
-              <p>Начиная от 1 BYN</p>
-              <Button>Купить сейчас</Button>
-            </div>
-          </div>
-        </div>
-        <div className="border-white border-l-[20px]" />
-
-        <div className="w-1/2 h-160 bg-gray flex flex-col justify-between p-8">
-          <div>
-            <h3 className="text-xl font-semibold">Текст</h3>
-            <p>Текст</p>
-          </div>
-
-          <div>
-            <p>Начиная от 1 BYN</p>
-            <Button>Купить сейчас</Button>
-          </div>
-        </div>
-
+      <h2 className="mt-16 mb-8 text-3xl font-semibold">Популярные подборки</h2>
+      <div style={{
+        display: 'grid',
+        gridTemplateColumns: '1fr 1fr',
+        gridTemplateRows: '1fr 1fr 1fr',
+        gap: '10px 10px',
+        gridTemplateAreas: `
+          "div1 div2"
+          "div1 div3"
+          "div4 div4"
+        `,
+      }}
+      >
+        {state.groups.map((group) => <CatalogueItem item={group} type="group" key={group.id} />)}
       </div>
     </div>
   );

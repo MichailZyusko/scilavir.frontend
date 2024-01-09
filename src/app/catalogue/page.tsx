@@ -1,4 +1,5 @@
 import { Catalogue } from '@/ui-kit/components/catalogue/catalogue';
+import { Metadata } from 'next';
 
 export default async function CataloguePage() {
   return (
@@ -7,3 +8,7 @@ export default async function CataloguePage() {
     </main>
   );
 }
+
+export const metadata: Metadata = {
+  title: 'Каталог',
+};

@@ -1,6 +1,7 @@
 import { Footer } from '@/ui-kit/nav/footer';
 import { Header } from '@/ui-kit/nav/header';
 import { PropsWithChildren } from 'react';
+import { Metadata } from 'next';
 import './globals.css';
 import { Inter } from 'next/font/google';
 import { ClerkProvider } from '@clerk/nextjs';
@@ -13,7 +14,7 @@ import 'react-toastify/dist/ReactToastify.css';
 
 const inter = Inter({
   subsets: ['cyrillic', 'latin'],
-  weight: ['600', '400', '200'],
+  weight: ['600', '500', '400', '300', '200'],
 });
 
 export default function RootLayout({ children }: PropsWithChildren) {
@@ -42,3 +43,7 @@ export default function RootLayout({ children }: PropsWithChildren) {
     </ClerkProvider>
   );
 }
+
+export const metadata: Metadata = {
+  title: 'Мир бумаги',
+};
