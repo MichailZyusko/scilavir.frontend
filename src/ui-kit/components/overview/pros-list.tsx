@@ -53,6 +53,5 @@ export function ProsList() {
         />
       ))}
     </ul>
-    </ul>
   );
 }
