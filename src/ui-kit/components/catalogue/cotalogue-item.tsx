@@ -14,7 +14,7 @@ export function CatalogueItem({ item, type }: TProps) {
 
   return (
     <Link
-      className={twMerge('w-full bg-gray flex flex-col justify-between p-8', styles?.className)}
+      className={twMerge('bg-cover w-full bg-gray flex flex-col justify-between p-8', styles?.className)}
       key={item.id}
       style={styles?.style}
       href={`/${type === 'group' ? 'groups' : 'categories'}/${item.id}`}
