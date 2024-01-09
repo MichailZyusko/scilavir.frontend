@@ -50,5 +50,6 @@ export function PopularGroups() {
         {state.groups.map((group) => <CatalogueItem item={group} type="group" key={group.id} />)}
       </div>
     </div>
+    </div>
   );
 }

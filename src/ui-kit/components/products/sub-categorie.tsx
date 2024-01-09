@@ -29,6 +29,7 @@ export function SubCategoryList({ categories }: TProps) {
 
   return (
     <div className="flex justify-around mb-16">
+    <div className="flex justify-around mb-16">
       {categories.map(({ name, id, image }) => (
         <SubCategory
           image={image}

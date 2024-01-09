@@ -66,6 +66,7 @@ export default function FavoritePage() {
 
   return (
     <main className="container mx-auto px-4 flex flex-col flex-auto">
+    <main className="container mx-auto px-4 flex flex-col flex-auto">
       <h1 className="w-full text-4xl text-center font-semibold mb-5">Избранное</h1>
       <div className="flex justify-between mb-2.5">
         <Dropdown
@@ -94,6 +95,25 @@ export default function FavoritePage() {
           </Dropdown.Item>
         </Dropdown>
       </div>
+
+      {state.products.length
+        ? (
+          <div className="grid grid-cols-4 gap-8">
+            {state.products.map(({ id, ...product }) => (
+              <Product
+                key={id}
+                id={id}
+                {...product}
+                isFavorite
+              />
+            ))}
+          </div>
+        )
+        : (
+          <div className="flex justify-center mt-10">
+            <h1 className="text-4xl font-bold">Избранные товары отсутствуют</h1>
+          </div>
+        )}
 
       {state.products.length
         ? (

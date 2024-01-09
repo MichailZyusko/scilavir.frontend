@@ -15,6 +15,14 @@ export function Banner() {
           <br />
           <i>принадлежности</i>
         </p>
+          <strong>
+            компания -
+            <br />
+            ваши будущие
+          </strong>
+          <br />
+          <i>принадлежности</i>
+        </p>
 
         <div>
           <p className="text-lg text-white leading-8 font-normal">Канцелярские товары оптом</p>
