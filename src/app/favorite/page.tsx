@@ -114,25 +114,6 @@ export default function FavoritePage() {
           </div>
         )}
 
-      {state.products.length
-        ? (
-          <div className="grid grid-cols-4 gap-8">
-            {state.products.map(({ id, ...product }) => (
-              <Product
-                key={id}
-                id={id}
-                {...product}
-                isFavorite
-              />
-            ))}
-          </div>
-        )
-        : (
-          <div className="flex justify-center mt-10">
-            <h1 className="text-4xl font-bold">Избранные товары отсутствуют</h1>
-          </div>
-        )}
-
       {/* <div className="flex justify-center mb-5">
         <Button
           onClick={() => {
