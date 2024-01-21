@@ -12,7 +12,8 @@ import { useClerkToken } from '@/context/auth';
 import { toast } from 'react-toastify';
 import { Loader } from '@/ui-kit/spinners';
 import { useSelector } from 'react-redux';
-import { selectCart } from './cart.slice';
+import { useAppDispatch } from '@/redux/hooks';
+import { selectCart, clearProductsCart } from '@/app/cart/cart.slice';
 
 type TCartItem = {
   quantity: number;
@@ -24,6 +25,7 @@ type TState = {
   isLoading: boolean;
 };
 export default function CartPage() {
+  const dispatch = useAppDispatch();
   const { cart: myCart } = useSelector(selectCart);
   const { updateClerkToken } = useClerkToken();
   const [state, setState] = useState<TState>({
@@ -56,6 +58,7 @@ export default function CartPage() {
     });
 
     if (status === 201) {
+      dispatch(clearProductsCart());
       setState({
         ...state,
         cart: [],

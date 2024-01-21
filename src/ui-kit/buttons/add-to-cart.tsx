@@ -7,6 +7,7 @@ import {
   decreaseProductCounts, increaseProductCounts, selectCart, setProductsCount,
 } from '@/app/cart/cart.slice';
 import { useSelector } from 'react-redux';
+import { handleError } from '@/utils';
 import { Button } from '.';
 
 type TProps = {
@@ -25,19 +26,13 @@ export function AddToCartButton({ productId, quantity: q }: TProps) {
       id: productId,
       quantity: quantity ?? 0,
     }));
-    (async () => {
+  }, [quantity, productId]);
+
+  const addToCartHandler = async (e: React.MouseEvent<HTMLButtonElement>) => {
+    e.preventDefault();
+
+    try {
       await updateClerkToken();
-
-      if (quantity === 0) {
-        await axios({
-          url: `/cart/${productId}`,
-          method: 'DELETE',
-        });
-        return;
-      }
-
-      if (!quantity) return;
-
       await axios({
         url: '/cart',
         method: 'POST',
@@ -46,21 +41,40 @@ export function AddToCartButton({ productId, quantity: q }: TProps) {
           quantity,
         },
       });
-    })();
-  }, [quantity, productId]);
 
-  const addToCartHandler = async (e: React.MouseEvent<HTMLButtonElement>) => {
-    e.preventDefault();
-
-    dispatch(increaseProductCounts({ id: productId }));
-    toast.success('Товар добавлен в корзину');
+      dispatch(increaseProductCounts({ id: productId }));
+      toast.success('Товар добавлен в корзину');
+    } catch (error) {
+      handleError(error);
+    }
   };
 
   const removeFromCartHandler = async (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
 
-    dispatch(decreaseProductCounts({ id: productId }));
-    toast.error('Товар удален из корзины');
+    try {
+      await updateClerkToken();
+      await axios({
+        url: '/cart',
+        method: 'POST',
+        data: {
+          productId,
+          quantity,
+        },
+      });
+
+      if (quantity === 0) {
+        await axios({
+          url: `/cart/${productId}`,
+          method: 'DELETE',
+        });
+      }
+
+      dispatch(decreaseProductCounts({ id: productId }));
+      toast.error('Товар удален из корзины');
+    } catch (error) {
+      handleError(error);
+    }
   };
 
   return (

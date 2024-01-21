@@ -37,6 +37,9 @@ export const cartSlice = createSlice({
     removeProductFromCart: (state, action: PayloadAction<{ id: string, quantity: number }>) => {
       state.cart.delete(action.payload.id);
     },
+    clearProductsCart: (state) => {
+      state.cart.clear();
+    },
   },
 });
 
@@ -45,6 +48,7 @@ export const {
   decreaseProductCounts,
   removeProductFromCart,
   setProductsCount,
+  clearProductsCart,
 } = cartSlice.actions;
 
 // Other code such as selectors can use the imported `RootState` type
