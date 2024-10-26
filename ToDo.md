@@ -8,3 +8,5 @@
 # UI as figma design
 # Remove re-renders
 # Fix TODO's
+# Add ReactQuery
+# Remove rerendering
