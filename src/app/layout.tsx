@@ -19,7 +19,7 @@ const inter = Inter({
 
 export default function RootLayout({ children }: PropsWithChildren) {
   return (
-    <ClerkProvider localization={ruRU}>
+    <ClerkProvider dynamic localization={ruRU}>
       <html lang="ru">
         <ClerkTokenProvider>
           <Providers>
