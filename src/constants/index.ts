@@ -1,8 +1,6 @@
 export const DEFAULT_PAGE_SIZE = 12;
-export const GROUPS_AND_CATEGORIES_MAPPER = new Map<
-string,
-Record<string, any>
->([
+// TODO: Update images in category list
+export const GROUPS_AND_CATEGORIES_MAPPER = new Map<string,Record<string, any>>([
   // "Творчество"
   [
     '2a20ee10-9707-46e1-a67d-dd9638eee029',
