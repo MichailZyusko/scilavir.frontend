@@ -85,19 +85,25 @@ export default function CartPage() {
           const quantity = myCart.get(id) ?? q;
 
           return (
-            <div className="mb-8 flex">
+            <div className="mb-8 flex h-40">
+              {" "}
+              {/* Увеличиваем высоту карточки */}
               {product.images && (
-                <div className="flex-shrink-0 mr-4">
+                <div className="flex-shrink-0 mr-4 h-full w-40">
+                  {" "}
+                  {/* Фиксируем ширину контейнера для изображения */}
                   <Image
                     src={product.images[0]}
-                    style={{ objectFit: "contain" }}
-                    width={100}
-                    height={100}
+                    style={{ objectFit: "cover" }} // Используем cover для растягивания
+                    width={300}
+                    height={300}
                     alt={product.name}
                   />
                 </div>
               )}
-              <div className="flex flex-col justify-between w-full">
+              <div className="flex flex-col justify-between w-full h-full">
+                {" "}
+                {/* Основная часть карточки */}
                 <h2 className="text-lg font-semibold">{product.name}</h2>
                 <div className="flex justify-between items-center mt-auto">
                   <AddToCartButton productId={id} quantity={quantity} />
