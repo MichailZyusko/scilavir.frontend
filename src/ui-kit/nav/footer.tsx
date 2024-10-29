@@ -1,6 +1,6 @@
 /* eslint-disable max-len */
-import Image from "next/image";
-import Link from "next/link";
+import Image from 'next/image';
+import Link from 'next/link';
 
 export function Footer() {
   return (
@@ -91,12 +91,14 @@ export function Footer() {
         <div className="mb-10 flex gap-24 justify-center font-semibold text-xl text-white">
           <a
             download="политика конфиденциальности.pdf"
-            href="scilavir.frontend/public/images/about-us.svg">
+            href="scilavir.frontend/public/images/about-us.svg"
+          >
             Политика конфиденциальности
           </a>
           <a
             download="пользовательское соглашение.pdf"
-            href="scilavir.frontend/public/images/about-us.svg">
+            href="scilavir.frontend/public/images/about-us.svg"
+          >
             Пользовательское соглашение
           </a>
         </div>
