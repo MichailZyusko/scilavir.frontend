@@ -1,4 +1,4 @@
-"use client";
+'use client';
 
 import axios from '@/api/axios';
 import Link from 'next/link';

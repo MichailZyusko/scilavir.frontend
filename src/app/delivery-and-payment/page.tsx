@@ -1,7 +1,7 @@
 /* eslint-disable max-len */
 
-import { Metadata } from "next";
-import Image from "next/image";
+import { Metadata } from 'next';
+import Image from 'next/image';
 
 export default function DeliveryAndPaymentPage() {
   return (
@@ -131,5 +131,5 @@ export default function DeliveryAndPaymentPage() {
 }
 
 export const metadata: Metadata = {
-  title: "Доставка и оплата",
+  title: 'Доставка и оплата',
 };
