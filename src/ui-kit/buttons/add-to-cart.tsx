@@ -61,7 +61,7 @@ export function AddToCartButton({ productId }: TProps) {
     e.preventDefault();
 
     dispatch(increaseProductCounts({ id: productId }));
-    toast.success('Товар добавлен в корзину');
+    toast.success("Товар добавлен в корзину");
   };
 
   const removeFromCartHandler = async (
@@ -70,7 +70,7 @@ export function AddToCartButton({ productId }: TProps) {
     e.preventDefault();
 
     dispatch(decreaseProductCounts({ id: productId }));
-    toast.error('Товар удален из корзины');
+    toast.error("Товар удален из корзины");
   };
 
   return (
