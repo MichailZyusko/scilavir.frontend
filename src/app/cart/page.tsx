@@ -56,6 +56,7 @@ export default function CartPage() {
     });
 
     if (status === 201) {
+      
       setState({
         ...state,
         cart: [],
