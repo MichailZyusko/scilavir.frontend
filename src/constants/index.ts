@@ -1,4 +1,4 @@
-export const DEFAULT_PAGE_SIZE = 9;
+export const DEFAULT_PAGE_SIZE = 12;
 export const GROUPS_AND_CATEGORIES_MAPPER = new Map<
   string,
   Record<string, any>
