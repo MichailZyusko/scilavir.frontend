@@ -72,53 +72,48 @@ export default function CartPage() {
       <main className="flex flex-auto flex-col items-center justify-center px-44 mb-16">
         <h1 className="text-2xl font-semibold">Корзина пуста</h1>
         <Link href="/">
-          <Button>
-            Вернуться в главное меню
-          </Button>
+          <Button>Вернуться в главное меню</Button>
         </Link>
       </main>
     );
   }
 
   return (
-    <main className="flex flex-auto flex-col justify-center items-center px-44 mb-16">
-      <div className="grid grid-cols-4 gap-8">
+    <main className="px-44 mb-16">
+      <div className="mb-8">
         {cart.map(({ quantity: q, product: { id, ...product } }) => {
           const quantity = myCart.get(id) ?? q;
 
           return (
-            <div className="flex flex-col">
-              <Link className="flex flex-col items-start mb-8" href={`/products/${id}`}>
-                {product.images && (
-                <Image
-                  src={product.images[0]}
-                  style={{ objectFit: 'contain' }}
-                  width={256}
-                  height={256}
-                  alt={product.name}
-                />
-                )}
+            <div className="mb-8 flex h-40">
+              {product.images && (
+                <div className="flex-shrink-0 mr-4 h-full w-40">
+                  <Image
+                    src={product.images[0]}
+                    style={{ objectFit: 'cover' }}
+                    width={300}
+                    height={300}
+                    alt={product.name}
+                  />
+                </div>
+              )}
+              <div className="flex flex-col justify-between w-full h-full">
                 <h2 className="text-lg font-semibold">{product.name}</h2>
-                <p className="whitespace-normal text-center">
-                  {round(product.price * (quantity || 1))}
-                  &nbsp;
-                  BYN
-                </p>
-              </Link>
-              <AddToCartButton
-                productId={id}
-                quantity={quantity}
-              />
+                <div className="flex justify-between items-center mt-auto">
+                  <AddToCartButton productId={id} quantity={quantity} />
+                  <p className="text-right w-24">
+                    {round(product.price * (quantity || 1))}
+&nbsp; BYN
+                  </p>
+                </div>
+              </div>
             </div>
           );
         })}
       </div>
 
       <div>
-        <Button
-          onClick={submitOrder}
-          size="xl"
-        >
+        <Button onClick={submitOrder} size="xl">
           Оформить заказ
         </Button>
       </div>

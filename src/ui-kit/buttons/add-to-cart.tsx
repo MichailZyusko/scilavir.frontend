@@ -4,14 +4,17 @@ import { useClerkToken } from '@/context/auth';
 import { toast } from 'react-toastify';
 import { useAppDispatch } from '@/redux/hooks';
 import {
-  decreaseProductCounts, increaseProductCounts, selectCart, setProductsCount,
+  decreaseProductCounts,
+  increaseProductCounts,
+  selectCart,
+  setProductsCount,
 } from '@/app/cart/cart.slice';
 import { useSelector } from 'react-redux';
 import { Button } from '.';
 
 type TProps = {
   productId: string;
-  quantity?: number
+  quantity?: number;
 };
 export function AddToCartButton({ productId, quantity: q }: TProps) {
   const { cart } = useSelector(selectCart);
@@ -21,10 +24,12 @@ export function AddToCartButton({ productId, quantity: q }: TProps) {
   const quantity = cart.get(productId) ?? q;
 
   useEffect(() => {
-    dispatch(setProductsCount({
-      id: productId,
-      quantity: quantity ?? 0,
-    }));
+    dispatch(
+      setProductsCount({
+        id: productId,
+        quantity: quantity ?? 0,
+      }),
+    );
     (async () => {
       await updateClerkToken();
 
@@ -56,7 +61,9 @@ export function AddToCartButton({ productId, quantity: q }: TProps) {
     toast.success('Товар добавлен в корзину');
   };
 
-  const removeFromCartHandler = async (e: React.MouseEvent<HTMLButtonElement>) => {
+  const removeFromCartHandler = async (
+    e: React.MouseEvent<HTMLButtonElement>,
+  ) => {
     e.preventDefault();
 
     dispatch(decreaseProductCounts({ id: productId }));
@@ -65,14 +72,20 @@ export function AddToCartButton({ productId, quantity: q }: TProps) {
 
   return (
     <>
-      {!quantity && <Button size="xl" onClick={addToCartHandler}>В корзину</Button> }
+      {!quantity && (
+        <Button size="xl" onClick={addToCartHandler}>
+          В корзину
+        </Button>
+      )}
       {quantity !== undefined && quantity > 0 && (
-        <div className="flex items-center w-fit border p-1.5 rounded-[10px]">
-          <Button size="xs" onClick={removeFromCartHandler}>-</Button>
-          <span className="mx-4">
-            {quantity}
-          </span>
-          <Button size="xs" onClick={addToCartHandler}>+</Button>
+        <div className="flex items-center w-fit border p-1.5 rounded-[10px] ml-auto mr-auto">
+          <Button size="xs" onClick={removeFromCartHandler}>
+            -
+          </Button>
+          <span className="mx-4">{quantity}</span>
+          <Button size="xs" onClick={addToCartHandler}>
+            +
+          </Button>
         </div>
       )}
     </>

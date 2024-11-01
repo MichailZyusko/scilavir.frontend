@@ -25,10 +25,10 @@ export function Footer() {
               <Link href="/favorite">
                 <p>избранное</p>
               </Link>
-              <Link href="/">
+              <Link href="/cart">
                 <p>корзина</p>
               </Link>
-              <Link href="/">
+              <Link href="/sign-in">
                 <p>личный кабинет</p>
               </Link>
             </div>
@@ -41,35 +41,72 @@ export function Footer() {
             </div>
             <div className="flex justify-between items-center">
               <a href="https://t.me/michailZyusko">
-                <Image src="/images/telegram.svg" width={41.67} height={41.67} alt="telegram" />
+                <Image
+                  src="/images/telegram.svg"
+                  width={41.67}
+                  height={41.67}
+                  alt="telegram"
+                />
               </a>
               <a href="viber://add?number=%2B375293352180">
-                <Image src="/images/viber.svg" width={39.16} height={42.65} alt="viber" />
+                <Image
+                  src="/images/viber.svg"
+                  width={39.16}
+                  height={42.65}
+                  alt="viber"
+                />
               </a>
               <a href="mailto:mir.bumagi@mail.ru">
-                <Image src="/images/gmail.svg" width={41.67} height={33.33} alt="gmail" />
+                <Image
+                  src="/images/gmail.svg"
+                  width={41.67}
+                  height={33.33}
+                  alt="gmail"
+                />
               </a>
             </div>
           </li>
         </ul>
         <div className="flex gap-9 justify-center mb-8">
           <Image src="/images/visa.svg" width={70} height={23} alt="visa" />
-          <Image src="/images/mastercard.svg" width={55} height={33} alt="mastercard" />
-          <Image src="/images/apple-pay.svg" width={109} height={45} alt="apple-pay" />
-          <Image src="/images/samsung-pay.svg" width={78} height={35} alt="samsung-pay" />
+          <Image
+            src="/images/mastercard.svg"
+            width={55}
+            height={33}
+            alt="mastercard"
+          />
+          <Image
+            src="/images/apple-pay.svg"
+            width={109}
+            height={45}
+            alt="apple-pay"
+          />
+          <Image
+            src="/images/samsung-pay.svg"
+            width={78}
+            height={35}
+            alt="samsung-pay"
+          />
         </div>
         <div className="mb-10 flex gap-24 justify-center font-semibold text-xl text-white">
-          <a href="/">
+          <a
+            download="политика конфиденциальности.pdf"
+            href="scilavir.frontend/public/images/about-us.svg"
+          >
             Политика конфиденциальности
           </a>
-          <a href="/">
+          <a
+            download="пользовательское соглашение.pdf"
+            href="scilavir.frontend/public/images/about-us.svg"
+          >
             Пользовательское соглашение
           </a>
         </div>
         <div className="text-gray text-center">
           <p>
             ООО &laquo;СКИЛЛАВИР&raquo;, УНП 591386206, Юридический адрес:
-            Республика Беларусь, 231300 Гродненская область, г. Лида, ул. Кирова, д.&nbsp;29
+            Республика Беларусь, 231300 Гродненская область, г. Лида, ул.
+            Кирова, д.&nbsp;29
           </p>
         </div>
       </div>
