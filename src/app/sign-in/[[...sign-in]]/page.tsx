@@ -1,4 +1,4 @@
-import { SignIn } from '@clerk/nextjs';
+import { SignIn } from '@clerk/clerk-react';
 import { Metadata } from 'next';
 
 export default function SignInPage() {

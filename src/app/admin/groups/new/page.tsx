@@ -4,7 +4,7 @@ import { useClerkToken } from '@/context/auth';
 import { Button } from '@/ui-kit/buttons';
 import { FileInput, TextInput } from '@/ui-kit/inputs';
 import { Loader } from '@/ui-kit/spinners';
-import { User } from '@clerk/nextjs/dist/types/server';
+import { User } from '@clerk/clerk-react';
 import { useEffect, useState } from 'react';
 import { useForm, FormProvider, FieldValues } from 'react-hook-form';
 import { toast } from 'react-toastify';

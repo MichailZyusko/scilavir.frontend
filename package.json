@@ -12,8 +12,8 @@
     "fix": "eslint . --ext .ts,.tsx --fix"
   },
   "dependencies": {
+    "@clerk/clerk-react": "^5.13.1",
     "@clerk/localizations": "^3.4.0",
-    "@clerk/nextjs": "^6.0.2",
     "@reduxjs/toolkit": "^2.0.1",
     "@types/react-dom": "18.2.18",
     "axios": "^1.6.2",

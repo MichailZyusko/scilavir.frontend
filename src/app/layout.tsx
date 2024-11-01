@@ -1,10 +1,11 @@
+'use client';
+
 import { Footer } from '@/ui-kit/nav/footer';
 import { Header } from '@/ui-kit/nav/header';
 import { PropsWithChildren } from 'react';
-import { Metadata } from 'next';
 import './globals.css';
 import { Inter } from 'next/font/google';
-import { ClerkProvider } from '@clerk/nextjs';
+import { ClerkProvider } from '@clerk/clerk-react';
 import { ruRU } from '@clerk/localizations';
 import { twMerge } from 'tailwind-merge';
 import { ClerkTokenProvider } from '@/context/auth';
@@ -19,7 +20,7 @@ const inter = Inter({
 
 export default function RootLayout({ children }: PropsWithChildren) {
   return (
-    <ClerkProvider dynamic localization={ruRU}>
+    <ClerkProvider localization={ruRU} publishableKey={process.env.NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY!}>
       <html lang="ru">
         <ClerkTokenProvider>
           <Providers>
@@ -43,7 +44,3 @@ export default function RootLayout({ children }: PropsWithChildren) {
     </ClerkProvider>
   );
 }
-
-export const metadata: Metadata = {
-  title: 'Мир бумаги',
-};

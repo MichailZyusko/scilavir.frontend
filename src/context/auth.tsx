@@ -1,7 +1,7 @@
 'use client';
 
 import axios from 'src/api/axios';
-import { useAuth } from '@clerk/nextjs';
+import { useAuth } from '@clerk/clerk-react';
 import {
   createContext,
   PropsWithChildren,

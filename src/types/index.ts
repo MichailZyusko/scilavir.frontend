@@ -1,7 +1,41 @@
-export type TUser = {
-  user_metadata: {
-    role: string
-  }
+export type User = {
+  id: string;
+  passwordEnabled: boolean;
+  totpEnabled: boolean;
+  backupCodeEnabled: boolean;
+  twoFactorEnabled: boolean;
+  banned: boolean;
+  locked: boolean;
+  createdAt: number;
+  updatedAt: number;
+  imageUrl: string;
+  hasImage: boolean;
+  primaryEmailAddressId: string | null;
+  primaryPhoneNumberId: string | null;
+  primaryWeb3WalletId: string | null;
+  lastSignInAt: number | null;
+  externalId: string | null;
+  username: string | null;
+  firstName: string | null;
+  lastName: string | null;
+  publicMetadata: UserPublicMetadata;
+  privateMetadata: UserPrivateMetadata;
+  unsafeMetadata: UserUnsafeMetadata;
+  emailAddresses: {
+    id: string;
+    emailAddress: string;
+  }[];
+  phoneNumbers: {
+    id: string;
+    phoneNumber: string;
+    reservedForSecondFactor: boolean;
+    defaultSecondFactor: boolean;
+  }[];
+  lastActiveAt: number | null;
+  createOrganizationEnabled: boolean;
+  createOrganizationsLimit: number | null;
+  deleteSelfEnabled: boolean;
+  legalAcceptedAt: number | null;
 };
 
 export type TProduct = {

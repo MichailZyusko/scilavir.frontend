@@ -1,10 +1,10 @@
 'use client';
 
 import { useClerkToken } from '@/context/auth';
+import { User } from '@/types';
 import { Button } from '@/ui-kit/buttons';
 import { FileInput, SelectInput, TextInput } from '@/ui-kit/inputs';
 import { Loader } from '@/ui-kit/spinners';
-import { User } from '@clerk/nextjs/dist/types/server';
 import { useEffect, useState } from 'react';
 import { useForm, FormProvider, FieldValues } from 'react-hook-form';
 import { toast } from 'react-toastify';

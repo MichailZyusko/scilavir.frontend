@@ -10,3 +10,4 @@
 # Fix TODO's
 # Add ReactQuery
 # Remove rerendering
+# Add email in order

@@ -6,7 +6,7 @@
 import { Navbar } from 'flowbite-react';
 import Link from 'next/link';
 import Image from 'next/image';
-import { SignedIn, SignedOut, UserButton } from '@clerk/nextjs';
+import { SignedIn, SignedOut, UserButton } from '@clerk/clerk-react';
 import { useForm, FormProvider } from 'react-hook-form';
 import { useRef, useState } from 'react';
 import { TProduct } from '@/types';
