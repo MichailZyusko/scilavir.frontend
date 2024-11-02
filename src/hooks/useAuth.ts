@@ -6,6 +6,10 @@ import { useRouter } from 'next/navigation';
 import { useEffect, useState } from 'react';
 import { UserService } from '@/api/services/users.service';
 
+/*
+  * DEPRECATED
+  * TODO: Remove this hook later
+*/
 export const useAuth = () => {
   const [user, setUser] = useState(null);
   const router = useRouter();

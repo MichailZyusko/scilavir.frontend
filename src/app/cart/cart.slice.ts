@@ -3,12 +3,12 @@ import type { RootState } from '../../redux/store';
 
 // Define a type for the slice state
 type CartState = {
-  cart: Map<string, number>;
+  cart: Record<string, number>;
 };
 
 // Define the initial state using that type
 const initialState: CartState = {
-  cart: new Map<string, number>(),
+  cart: {},
 };
 
 export const cartSlice = createSlice({
@@ -16,26 +16,32 @@ export const cartSlice = createSlice({
   initialState,
   reducers: {
     setProductsCount: (state, action: PayloadAction<{ id: string, quantity: number }>) => {
-      state.cart.set(action.payload.id, action.payload.quantity);
+      state.cart[action.payload.id] = action.payload.quantity;
     },
     increaseProductCounts: (state, action: PayloadAction<{ id: string }>) => {
-      const quantity = state.cart.get(action.payload.id);
+      const quantity = state.cart[action.payload.id];
 
       if (quantity) {
-        state.cart.set(action.payload.id, quantity + 1);
+        state.cart[action.payload.id] = quantity + 1;
       } else {
-        state.cart.set(action.payload.id, 1);
+        state.cart[action.payload.id] = 1;
       }
     },
     decreaseProductCounts: (state, action: PayloadAction<{ id: string }>) => {
-      const quantity = state.cart.get(action.payload.id);
+      const quantity = state.cart[action.payload.id];
 
-      if (quantity) {
-        state.cart.set(action.payload.id, quantity - 1);
+      // Delete product from cart if quantity is 1
+      if (quantity === 1) {
+        delete state.cart[action.payload.id];
+      } else if (quantity) {
+        state.cart[action.payload.id] = quantity - 1;
       }
     },
-    removeProductFromCart: (state, action: PayloadAction<{ id: string, quantity: number }>) => {
-      state.cart.delete(action.payload.id);
+    removeProductFromCart: (state, action: PayloadAction<{ id: string }>) => {
+      delete state.cart[action.payload.id];
+    },
+    clearCart: (state) => {
+      state.cart = {};
     },
   },
 });
@@ -45,6 +51,7 @@ export const {
   decreaseProductCounts,
   removeProductFromCart,
   setProductsCount,
+  clearCart,
 } = cartSlice.actions;
 
 // Other code such as selectors can use the imported `RootState` type

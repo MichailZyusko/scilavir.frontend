@@ -7,67 +7,111 @@ import { useEffect, useState } from 'react';
 import { AddToCartButton } from '@/ui-kit/buttons/add-to-cart';
 import { round } from '@/utils';
 import { Button } from '@/ui-kit/buttons';
-import { TProduct } from '@/types';
+import { PaginatedResponse, TProduct } from '@/types';
 import { useClerkToken } from '@/context/auth';
 import { toast } from 'react-toastify';
 import { Loader } from '@/ui-kit/spinners';
 import { useSelector } from 'react-redux';
-import { selectCart } from './cart.slice';
-
-type TCartItem = {
-  quantity: number;
-  product: TProduct;
-};
+import { useUser } from '@clerk/nextjs';
+import { useAppDispatch } from '@/redux/hooks';
+import { clearCart, selectCart } from './cart.slice';
 
 type TState = {
-  cart: TCartItem[];
+  products: TProduct[];
   isLoading: boolean;
 };
 export default function CartPage() {
-  const { cart: myCart } = useSelector(selectCart);
+  const { cart } = useSelector(selectCart);
+  const { isSignedIn, isLoaded: isUserInfoReady } = useUser();
   const { updateClerkToken } = useClerkToken();
+  const dispatch = useAppDispatch();
   const [state, setState] = useState<TState>({
-    cart: [],
+    products: [],
     isLoading: true,
   });
 
+  // TODO: fetch products from backend only when added new product to cart or deleted
   useEffect(() => {
+    // !TODO: add logic when we store data as well on backend
     (async () => {
-      await updateClerkToken();
-      const { data } = await axios.get('/cart');
+      const idsToFetch = Object.keys(cart);
+
+      if (idsToFetch.length === 0) {
+        setState({
+          ...state,
+          isLoading: false,
+        });
+        return;
+      }
+
+      const {
+        data: { data: products },
+      } = await axios.get<PaginatedResponse<TProduct>>('/products', {
+        params: {
+          ids: idsToFetch,
+        },
+      });
+
+      const cartFromLocalStorage = products.map((product) => ({
+        ...product,
+        quantity: cart[product.id],
+      }));
 
       setState({
         ...state,
-        cart: data,
+        products: cartFromLocalStorage,
         isLoading: false,
       });
     })();
-  }, []);
+  }, [cart]);
 
-  const { isLoading, cart } = state;
+  const { isLoading, products } = state;
 
   const submitOrder = async () => {
-    await updateClerkToken();
+    if (!isSignedIn) {
+      toast.error('Для оформления заказа необходимо авторизоваться');
+      return;
+    }
 
-    const { status } = await toast.promise(axios.post('/orders'), {
-      pending: 'Оформляем заказ...',
-      success: 'Заказ успешно оформлен',
-      error: 'Ошибка при оформлении заказа',
-    });
-
-    if (status === 201) {
+    try {
       setState({
         ...state,
-        cart: [],
+        isLoading: true,
       });
+
+      await updateClerkToken();
+      const orderPromise = axios.post('/orders', {
+        cart,
+      });
+
+      const { status } = await toast.promise(orderPromise, {
+        pending: 'Оформляем заказ...',
+        success: 'Заказ успешно оформлен',
+        error: 'Ошибка при оформлении заказа',
+      });
+
+      if (status === 201) {
+        dispatch(clearCart());
+        setState({
+          ...state,
+          products: [],
+        });
+      }
+    } catch (error) {
+      toast.error('Ошибка при оформлении заказа');
+    } finally {
+      setState((prevState) => ({
+        ...prevState,
+        isLoading: false,
+      }));
     }
   };
 
-  if (isLoading) {
+  if (isLoading || !isUserInfoReady) {
     return <Loader />;
   }
 
-  if (cart.length === 0) {
+  if (products.length === 0) {
     return (
       <main className="flex flex-auto flex-col items-center justify-center px-44 mb-16">
         <h1 className="text-2xl font-semibold">Корзина пуста</h1>
@@ -81,35 +125,31 @@ export default function CartPage() {
   return (
     <main className="px-44 mb-16">
       <div className="mb-8">
-        {cart.map(({ quantity: q, product: { id, ...product } }) => {
-          const quantity = myCart.get(id) ?? q;
-
-          return (
-            <div className="mb-8 flex h-40">
-              {product.images && (
-                <div className="flex-shrink-0 mr-4 h-full w-40">
-                  <Image
-                    src={product.images[0]}
-                    style={{ objectFit: 'cover' }}
-                    width={300}
-                    height={300}
-                    alt={product.name}
-                  />
-                </div>
-              )}
-              <div className="flex flex-col justify-between w-full h-full">
-                <h2 className="text-lg font-semibold">{product.name}</h2>
-                <div className="flex justify-between items-center mt-auto">
-                  <AddToCartButton productId={id} quantity={quantity} />
-                  <p className="text-right w-24">
-                    {round(product.price * (quantity || 1))}
+        {products.map((product) => (
+          <div className="mb-8 flex h-40">
+            {product.images && (
+              <div className="flex-shrink-0 mr-4 h-full w-40">
+                <Image
+                  src={product.images[0]}
+                  style={{ objectFit: 'cover' }}
+                  width={300}
+                  height={300}
+                  alt={product.name}
+                />
+              </div>
+            )}
+            <div className="flex flex-col justify-between w-full h-full">
+              <h2 className="text-lg font-semibold">{product.name}</h2>
+              <div className="flex justify-between items-center mt-auto">
+                <AddToCartButton productId={product.id} />
+                <p className="text-right w-24">
+                  {round(product.price * (product.quantity || 1))}
 &nbsp; BYN
-                  </p>
-                </div>
+                </p>
               </div>
             </div>
-          );
-        })}
+          </div>
+        ))}
       </div>
 
       <div>

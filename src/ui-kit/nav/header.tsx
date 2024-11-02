@@ -43,7 +43,7 @@ export function Header() {
               </Link>
               <Link href="/sign-in">
                 <SignedIn>
-                  <UserButton afterSignOutUrl="/" />
+                  <UserButton />
                 </SignedIn>
                 <SignedOut>
                   <Image src="/images/profile.svg" width={24} height={24} alt="logo" />

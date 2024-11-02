@@ -98,7 +98,7 @@ export default function ProductPage({ params: { id } }: TProps) {
     return null;
   }
 
-  const quantity = cart.get(product.id) ?? product?.quantity;
+  const quantity = cart[product.id];
 
   const images = product.images.map((image) => ({
     original: image,
@@ -139,10 +139,7 @@ export default function ProductPage({ params: { id } }: TProps) {
               {' '}
               BYN
             </h2>
-            <AddToCartButton
-              productId={product.id}
-              quantity={quantity}
-            />
+            <AddToCartButton productId={product.id} />
           </div>
         </div>
       </div>

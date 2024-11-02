@@ -10,3 +10,4 @@
 # Fix TODO's
 # Add ReactQuery
 # Remove rerendering
+# Store favorite products in redux-persist

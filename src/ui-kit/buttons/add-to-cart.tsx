@@ -1,6 +1,4 @@
-import axios from '@/api/axios';
 import { useEffect } from 'react';
-import { useClerkToken } from '@/context/auth';
 import { toast } from 'react-toastify';
 import { useAppDispatch } from '@/redux/hooks';
 import {
@@ -14,44 +12,49 @@ import { Button } from '.';
 
 type TProps = {
   productId: string;
-  quantity?: number;
 };
-export function AddToCartButton({ productId, quantity: q }: TProps) {
+export function AddToCartButton({ productId }: TProps) {
   const { cart } = useSelector(selectCart);
   const dispatch = useAppDispatch();
-  const { updateClerkToken } = useClerkToken();
 
-  const quantity = cart.get(productId) ?? q;
+  const quantity = cart[productId];
 
   useEffect(() => {
-    dispatch(
-      setProductsCount({
-        id: productId,
-        quantity: quantity ?? 0,
-      }),
-    );
-    (async () => {
-      await updateClerkToken();
-
-      if (quantity === 0) {
-        await axios({
-          url: `/cart/${productId}`,
-          method: 'DELETE',
-        });
-        return;
-      }
-
-      if (!quantity) return;
-
-      await axios({
-        url: '/cart',
-        method: 'POST',
-        data: {
-          productId,
+    if (quantity) {
+      dispatch(
+        setProductsCount({
+          id: productId,
           quantity,
-        },
-      });
-    })();
+        }),
+      );
+    }
+
+    // !TODO: uncomment when we will support storing cart state on backend
+    // (async () => {
+    //   await updateClerkToken();
+
+    //   // If user is not signed in, that means we store cart in local storage only
+    //   if (!isSignedIn) return;
+
+    //   if (quantity === 0) {
+    //     await axios({
+    //       url: `/cart/${productId}`,
+    //       method: 'DELETE',
+    //     });
+    //     return;
+    //   }
+
+    //   if (!quantity) return;
+
+    //   await axios({
+    //     url: '/cart',
+    //     method: 'POST',
+    //     data: {
+    //       productId,
+    //       quantity,
+    //     },
+    //   });
+    // })();
   }, [quantity, productId]);
 
   const addToCartHandler = async (e: React.MouseEvent<HTMLButtonElement>) => {

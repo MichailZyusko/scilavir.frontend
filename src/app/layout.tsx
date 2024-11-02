@@ -33,6 +33,7 @@ export default function RootLayout({ children }: PropsWithChildren) {
               <ToastContainer
                 autoClose={3000}
                 position="top-center"
+                limit={3}
               />
               {children}
               <Footer />

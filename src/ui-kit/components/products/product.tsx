@@ -6,22 +6,24 @@ import { useClerkToken } from '@/context/auth';
 import axios from '@/api/axios';
 import { toast } from 'react-toastify';
 import { AddToCartButton } from '@/ui-kit/buttons/add-to-cart';
-import { selectCart } from '@/app/cart/cart.slice';
-import { useSelector } from 'react-redux';
+import { useUser } from '@clerk/nextjs';
 
 export function Product({
   name, price, images, id, ...props
 }: TProduct) {
   const { updateClerkToken } = useClerkToken();
-  const { cart } = useSelector(selectCart);
+  const { isSignedIn, isLoaded } = useUser();
   const [isHovered, setIsHovered] = useState(false);
   const [isFavorite, setIsFavorite] = useState(props.isFavorite);
 
-  const quantity = cart.get(id) ?? props.quantity;
-
-  const changeFavoriteState = async (e: React.MouseEvent<HTMLImageElement>) => {
+  const changeFavoriteState = async (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
+
     if (!id) return;
+    if (!isSignedIn) {
+      toast.error('Вы должны быть авторизованы, чтобы добавить товар в избранное');
+      return;
+    }
 
     await updateClerkToken();
 
@@ -64,14 +66,15 @@ export function Product({
           />
           )}
           <div>
-            <Image
-              onClick={changeFavoriteState}
-              src={isFavorite ? '/images/favorite-active.svg' : '/images/favorite.svg'}
-              width={32}
-              height={32}
-              alt="favorite"
-              className="absolute right-0 top-0 z-10 cursor-pointer w-auto h-auto"
-            />
+            <button type="button" onClick={changeFavoriteState} disabled={!isLoaded}>
+              <Image
+                src={isFavorite ? '/images/favorite-active.svg' : '/images/favorite.svg'}
+                width={32}
+                height={32}
+                alt="favorite"
+                className="absolute right-0 top-0 z-10 w-auto h-auto"
+              />
+            </button>
           </div>
         </div>
         <h2 className="text-lg font-semibold leading-5">{name}</h2>
@@ -82,10 +85,7 @@ export function Product({
         </p>
         {isHovered && (
           <div className="absolute bottom-0 right-0">
-            <AddToCartButton
-              productId={id}
-              quantity={quantity}
-            />
+            <AddToCartButton productId={id} />
           </div>
         )}
       </Link>
