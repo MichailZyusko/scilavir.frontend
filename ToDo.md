@@ -11,3 +11,4 @@
 # Add ReactQuery
 # Remove rerendering
 # Store favorite products in redux-persist
+# PErsist sorting options in page query params 

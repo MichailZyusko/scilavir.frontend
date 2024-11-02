@@ -10,6 +10,8 @@ import { SortStrategy } from '@/enums';
 import { useClerkToken } from '@/context/auth';
 import { DEFAULT_PAGE_SIZE } from '@/constants';
 import { Paginator } from '@/ui-kit/components/paginator';
+import { useUser } from '@clerk/nextjs';
+import { toast } from 'react-toastify';
 
 type TState = {
   products: TProduct[];
@@ -21,7 +23,7 @@ type TState = {
 
 export default function FavoritePage() {
   const { updateClerkToken } = useClerkToken();
-
+  const { isSignedIn, isLoaded } = useUser();
   const [state, setState] = useState<TState>({
     products: [],
     sort: SortStrategy.ALPHABETICAL_ASC,
@@ -34,9 +36,18 @@ export default function FavoritePage() {
     sort, isLoading, currentPage, totalPages,
   } = state;
 
+  // TODO: Add error handling
   useEffect(() => {
     (async () => {
-      setState({ ...state, isLoading: true });
+      if (!isLoaded) {
+        return;
+      }
+
+      if (!isSignedIn) {
+        toast.error('Необходимо авторизоваться для просмотра истории заказов');
+        return;
+      }
+
       await updateClerkToken();
 
       const { data: productsResponse } = await axios<PaginatedResponse<TProduct>>({
@@ -56,9 +67,9 @@ export default function FavoritePage() {
         isLoading: false,
       });
     })();
-  }, [sort, currentPage]);
+  }, [sort, currentPage, isLoaded]);
 
-  if (isLoading) {
+  if (isLoading || !isLoaded) {
     return <Loader />;
   }
 

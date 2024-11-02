@@ -10,6 +10,8 @@ import { TProduct } from '@/types';
 import { Product } from '@/ui-kit/components/products/product';
 import { Loader } from '@/ui-kit/spinners';
 import { formatDate } from '@/utils';
+import { useUser } from '@clerk/nextjs';
+import { toast } from 'react-toastify';
 
 const customTheme: CustomFlowbiteTheme = {
   accordion: {
@@ -65,13 +67,24 @@ type TState = {
 
 export default function OrdersPage() {
   const { updateClerkToken } = useClerkToken();
+  const { isSignedIn, isLoaded } = useUser();
   const [state, setState] = useState<TState>({
     orders: [],
     isLoading: true,
   });
 
+  // TODO: Add error handling
   useEffect(() => {
     (async () => {
+      if (!isLoaded) {
+        return;
+      }
+
+      if (!isSignedIn) {
+        toast.error('Необходимо авторизоваться для просмотра истории заказов');
+        return;
+      }
+
       await updateClerkToken();
 
       const { data: orders } = await axios.get<TOrder[]>('/orders/history');
@@ -82,9 +95,9 @@ export default function OrdersPage() {
         isLoading: false,
       });
     })();
-  }, []);
+  }, [isLoaded]);
 
-  if (state.isLoading) {
+  if (state.isLoading || !isLoaded) {
     return <Loader />;
   }
 
