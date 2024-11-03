@@ -34,6 +34,7 @@ export default function RootLayout({ children }: PropsWithChildren) {
                 autoClose={3000}
                 position="top-center"
                 limit={3}
+                stacked
               />
               {children}
               <Footer />

@@ -8,14 +8,14 @@ import { AddToCartButton } from '@/ui-kit/buttons/add-to-cart';
 import { round } from '@/utils';
 import { Button } from '@/ui-kit/buttons';
 import { PaginatedResponse, TProduct } from '@/types';
-import { useClerkToken } from '@/context/auth';
 import { toast } from 'react-toastify';
 import { Loader } from '@/ui-kit/spinners';
 import { useSelector } from 'react-redux';
 import { useUser } from '@clerk/nextjs';
 import { useAppDispatch } from '@/redux/hooks';
 import RemoveProductIcon from 'public/images/icons/close.svg';
-import { clearCart, removeProductFromCart, selectCart } from './cart.slice';
+import { useRouter } from 'next/navigation';
+import { removeProductFromCart, selectCart } from './cart.slice';
 
 type TState = {
   products: TProduct[];
@@ -24,12 +24,12 @@ type TState = {
 export default function CartPage() {
   const { cart } = useSelector(selectCart);
   const { isSignedIn, isLoaded: isUserInfoReady } = useUser();
-  const { updateClerkToken } = useClerkToken();
   const dispatch = useAppDispatch();
   const [state, setState] = useState<TState>({
     products: [],
     isLoading: true,
   });
+  const router = useRouter();
 
   // TODO: fetch products from backend only when added new product to cart or deleted
   useEffect(() => {
@@ -74,38 +74,7 @@ export default function CartPage() {
       return;
     }
 
-    try {
-      setState({
-        ...state,
-        isLoading: true,
-      });
-
-      await updateClerkToken();
-      const orderPromise = axios.post('/orders', {
-        cart,
-      });
-
-      const { status } = await toast.promise(orderPromise, {
-        pending: 'Оформляем заказ...',
-        success: 'Заказ успешно оформлен',
-        error: 'Ошибка при оформлении заказа',
-      });
-
-      if (status === 201) {
-        dispatch(clearCart());
-        setState({
-          ...state,
-          products: [],
-        });
-      }
-    } catch (error) {
-      toast.error('Ошибка при оформлении заказа');
-    } finally {
-      setState((prevState) => ({
-        ...prevState,
-        isLoading: false,
-      }));
-    }
+    router.push('/cart/order');
   };
 
   const onRemoveProductHandler = (productId: string) => {
@@ -140,7 +109,7 @@ export default function CartPage() {
 
   return (
     <main className="px-44 mb-16">
-      <div className='flex flex-col mx-auto'>
+      <div className="flex flex-col mx-auto">
         <div className="flex flex-col my-10 gap-8">
           {products.map((product) => {
             const quantity = cart[product.id];
@@ -182,15 +151,15 @@ export default function CartPage() {
           })}
         </div>
 
-        <div className='ml-auto'>
+        <div className="ml-auto">
           <div className="flex justify-between w-full">
             <h3 className="font-bold">ВСЕГО</h3>
             <p className="font-bold">
-              {totalPrice}
+              {round(totalPrice)}
             &nbsp;BYN
             </p>
           </div>
-          <p className='mb-4 text-gray'>
+          <p className="mb-4 text-gray">
             {totalCount}
               &nbsp;шт.
           </p>
