@@ -1,16 +1,16 @@
-"use client";
+'use client';
 
-import axios from "@/api/axios";
-import Link from "next/link";
-import { Button } from "@/ui-kit/buttons";
-import { useClerkToken } from "@/context/auth";
-import { toast } from "react-toastify";
-import { Loader } from "@/ui-kit/spinners";
-import { useDispatch, useSelector } from "react-redux";
-import { useUser } from "@clerk/nextjs";
-import OrderForm from "@/ui-kit/components/cart/order-form";
-import { FieldValues } from "react-hook-form";
-import { clearCart, selectCart } from "../cart.slice";
+import axios from '@/api/axios';
+import Link from 'next/link';
+import { Button } from '@/ui-kit/buttons';
+import { useClerkToken } from '@/context/auth';
+import { toast } from 'react-toastify';
+import { Loader } from '@/ui-kit/spinners';
+import { useDispatch, useSelector } from 'react-redux';
+import { useUser } from '@clerk/nextjs';
+import OrderForm from '@/ui-kit/components/cart/order-form';
+import { FieldValues } from 'react-hook-form';
+import { clearCart, selectCart } from '../cart.slice';
 
 export default function CartPage() {
   const { cart } = useSelector(selectCart);
@@ -35,27 +35,27 @@ export default function CartPage() {
 
   const onSubmitHandler = async (orderDetails: FieldValues) => {
     if (!isSignedIn) {
-      toast.error("Для оформления заказа необходимо авторизоваться");
+      toast.error('Для оформления заказа необходимо авторизоваться');
       return;
     }
 
     console.log({ orderDetails });
 
-    // await updateClerkToken();
-    // const orderPromise = axios.post('/orders', {
-    //   cart,
-    //   orderDetails,
-    // });
+    await updateClerkToken();
+    const orderPromise = axios.post('/orders', {
+      cart,
+      orderDetails,
+    });
 
-    // const { status } = await toast.promise(orderPromise, {
-    //   pending: 'Оформляем заказ...',
-    //   success: 'Заказ успешно оформлен',
-    //   error: 'Ошибка при оформлении заказа',
-    // });
+    const { status } = await toast.promise(orderPromise, {
+      pending: 'Оформляем заказ...',
+      success: 'Заказ успешно оформлен',
+      error: 'Ошибка при оформлении заказа',
+    });
 
-    // if (status === 201) {
-    //   dispatch(clearCart());
-    // }
+    if (status === 201) {
+      dispatch(clearCart());
+    }
   };
 
   return (

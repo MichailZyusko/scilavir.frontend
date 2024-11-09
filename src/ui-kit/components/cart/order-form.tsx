@@ -1,10 +1,11 @@
-import { FieldValues, useForm } from "react-hook-form";
-import { ErrorMessage } from "@hookform/error-message";
+import { FieldValues, useForm } from 'react-hook-form';
+import { ErrorMessage } from '@hookform/error-message';
 
 type TProps = {
   onSubmitHandler: (data: FieldValues) => Promise<void>;
 };
 
+// !TODO: split into multiple components
 export default function OrderForm({ onSubmitHandler }: TProps) {
   const {
     register,
@@ -14,14 +15,15 @@ export default function OrderForm({ onSubmitHandler }: TProps) {
   } = useForm();
 
   // Получаем значения из формы
-  const deliveryType = watch("deliveryType");
-  const buyerType = watch("buyerType");
-  const paymentType = watch("paymentType");
+  const deliveryType = watch('deliveryType');
+  const buyerType = watch('buyerType');
+  const paymentType = watch('paymentType');
 
   return (
     <form
       onSubmit={handleSubmit(onSubmitHandler)}
-      className="p-8 space-y-12 max-w-full w-full mx-auto bg-white shadow-lg rounded-lg">
+      className="p-8 space-y-12 max-w-full w-full mx-auto bg-white shadow-lg rounded-lg"
+    >
       {/* 1 / 3 Способ доставки */}
       <div className="space-y-4">
         <div className="text-lg font-bold mb-4 text-gray-700">1 / 3</div>
@@ -30,21 +32,23 @@ export default function OrderForm({ onSubmitHandler }: TProps) {
         </h2>
         <div className="grid grid-cols-2 gap-6 mt-4">
           {[
-            { value: "physical", label: "Физ. лицо" },
-            { value: "legal", label: "Юр. лицо" },
+            { value: 'physical', label: 'Физ. лицо' },
+            { value: 'legal', label: 'Юр. лицо' },
           ].map(({ value, label }) => (
             <label
+              htmlFor="buyerType"
               key={value}
               className={`flex items-center justify-center border-2 rounded-lg p-4 cursor-pointer transition-all transform hover:scale-105 ${
                 buyerType === value
-                  ? "bg-black text-white border-black shadow-md"
-                  : "bg-white border-cccccc"
-              } hover:border-black hover:shadow-lg`}>
+                  ? 'bg-black text-white border-black shadow-md'
+                  : 'bg-white border-cccccc'
+              } hover:border-black hover:shadow-lg`}
+            >
               <input
                 type="radio"
                 value={value}
-                {...register("buyerType", {
-                  required: "Выберите тип покупателя",
+                {...register('buyerType', {
+                  required: 'Выберите тип покупателя',
                 })}
                 className="hidden"
               />
@@ -62,22 +66,24 @@ export default function OrderForm({ onSubmitHandler }: TProps) {
 
         <div className="grid grid-cols-3 gap-6 mt-4">
           {[
-            { value: "post", label: "Почта" },
-            { value: "pickup", label: "Самовывоз" },
-            { value: "courier", label: "Курьер" },
+            { value: 'post', label: 'Почта' },
+            { value: 'pickup', label: 'Самовывоз' },
+            { value: 'courier', label: 'Курьер' },
           ].map(({ value, label }) => (
             <label
+              htmlFor="deliveryType"
               key={value}
               className={`flex items-center justify-center border-2 rounded-lg p-4 cursor-pointer transition-all transform hover:scale-105 ${
                 deliveryType === value
-                  ? "bg-black text-white border-black shadow-md"
-                  : "bg-white border-cccccc"
-              } hover:border-black hover:shadow-lg`}>
+                  ? 'bg-black text-white border-black shadow-md'
+                  : 'bg-white border-cccccc'
+              } hover:border-black hover:shadow-lg`}
+            >
               <input
                 type="radio"
                 value={value}
-                {...register("deliveryType", {
-                  required: "Выберите тип доставки",
+                {...register('deliveryType', {
+                  required: 'Выберите тип доставки',
                 })}
                 className="hidden"
               />
@@ -93,28 +99,30 @@ export default function OrderForm({ onSubmitHandler }: TProps) {
           )}
         />
 
-        {deliveryType === "post" && (
+        {deliveryType === 'post' && (
           <div className="mt-6">
             <h4 className="text-lg font-medium text-gray-800 mb-2">
               Почтовая компания
             </h4>
             <div className="grid grid-cols-2 gap-6">
               {[
-                { value: "belpochta", label: "Белпочта" },
-                { value: "europochta", label: "Европочта" },
+                { value: 'belpochta', label: 'Белпочта' },
+                { value: 'europochta', label: 'Европочта' },
               ].map(({ value, label }) => (
                 <label
+                  htmlFor="postCompany"
                   key={value}
                   className={`flex items-center justify-center border-2 rounded-lg p-4 cursor-pointer transition-all transform hover:scale-105 ${
-                    watch("postCompany") === value
-                      ? "bg-black text-white border-black shadow-md"
-                      : "bg-white border-cccccc"
-                  } hover:border-black hover:shadow-lg`}>
+                    watch('postCompany') === value
+                      ? 'bg-black text-white border-black shadow-md'
+                      : 'bg-white border-cccccc'
+                  } hover:border-black hover:shadow-lg`}
+                >
                   <input
                     type="radio"
                     value={value}
-                    {...register("postCompany", {
-                      required: "Выберите почтовую компанию",
+                    {...register('postCompany', {
+                      required: 'Выберите почтовую компанию',
                     })}
                     className="hidden"
                   />
@@ -134,7 +142,7 @@ export default function OrderForm({ onSubmitHandler }: TProps) {
           </div>
         )}
 
-        {deliveryType === "pickup" && (
+        {deliveryType === 'pickup' && (
           <div className="mt-6">
             <span className="text-lg font-medium text-gray-700">
               Адрес: г. Лида, ул. Кирова, 29
@@ -142,7 +150,7 @@ export default function OrderForm({ onSubmitHandler }: TProps) {
           </div>
         )}
 
-        {deliveryType === "courier" && (
+        {deliveryType === 'courier' && (
           <div className="mt-6">
             <span className="text-lg font-medium text-gray-700">
               Минимальный заказ: 350 BYN
@@ -150,12 +158,12 @@ export default function OrderForm({ onSubmitHandler }: TProps) {
           </div>
         )}
 
-        {deliveryType !== "pickup" && (
+        {deliveryType !== 'pickup' && (
           <div className="mt-6">
             <input
               type="text"
               placeholder="Адрес"
-              {...register("address", { required: "Введите адрес" })}
+              {...register('address', { required: 'Введите адрес' })}
               className="w-full border border-cccccc rounded-lg px-4 py-3 focus:outline-none focus:border-black focus:ring-2 focus:ring-black transition shadow-sm hover:shadow-md"
             />
             <ErrorMessage
@@ -178,7 +186,7 @@ export default function OrderForm({ onSubmitHandler }: TProps) {
           <input
             type="text"
             placeholder="Имя"
-            {...register("firstName", { required: "Введите имя" })}
+            {...register('firstName', { required: 'Введите имя' })}
             className="w-full border border-cccccc rounded-lg px-4 py-3 focus:outline-none focus:border-black focus:ring-2 focus:ring-black transition shadow-sm hover:shadow-md"
           />
           <ErrorMessage
@@ -192,7 +200,7 @@ export default function OrderForm({ onSubmitHandler }: TProps) {
           <input
             type="text"
             placeholder="Фамилия"
-            {...register("lastName", { required: "Введите фамилию" })}
+            {...register('lastName', { required: 'Введите фамилию' })}
             className="w-full border border-cccccc rounded-lg px-4 py-3 focus:outline-none focus:border-black focus:ring-2 focus:ring-black transition shadow-sm hover:shadow-md"
           />
           <ErrorMessage
@@ -206,14 +214,14 @@ export default function OrderForm({ onSubmitHandler }: TProps) {
           <input
             type="text"
             placeholder="Отчество"
-            {...register("middleName")}
+            {...register('middleName')}
             className="w-full border border-cccccc rounded-lg px-4 py-3 focus:outline-none focus:border-black focus:ring-2 focus:ring-black transition shadow-sm hover:shadow-md"
           />
 
           <input
             type="email"
             placeholder="E-mail"
-            {...register("email", { required: "Введите e-mail" })}
+            {...register('email', { required: 'Введите e-mail' })}
             className="w-full border border-cccccc rounded-lg px-4 py-3 focus:outline-none focus:border-black focus:ring-2 focus:ring-black transition shadow-sm hover:shadow-md"
           />
           <ErrorMessage
@@ -227,7 +235,7 @@ export default function OrderForm({ onSubmitHandler }: TProps) {
           <input
             type="tel"
             placeholder="Телефон"
-            {...register("phone", { required: "Введите телефон" })}
+            {...register('phone', { required: 'Введите телефон' })}
             className="w-full border border-cccccc rounded-lg px-4 py-3 focus:outline-none focus:border-black focus:ring-2 focus:ring-black transition shadow-sm hover:shadow-md"
           />
           <ErrorMessage
@@ -246,22 +254,24 @@ export default function OrderForm({ onSubmitHandler }: TProps) {
         <h2 className="text-2xl font-semibold text-gray-800">Оплата</h2>
         <div className="grid grid-cols-3 gap-6 mt-4">
           {[
-            { value: "cash", label: "Наличные" },
-            { value: "card", label: "Карта" },
-            { value: "account", label: "Расчетный счет" },
+            { value: 'cash', label: 'Наличные' },
+            { value: 'card', label: 'Карта' },
+            { value: 'account', label: 'Расчетный счет' },
           ].map(({ value, label }) => (
             <label
               key={value}
+              htmlFor="paymentType"
               className={`flex items-center justify-center border-2 rounded-lg p-4 cursor-pointer transition-all transform hover:scale-105 ${
                 paymentType === value
-                  ? "bg-black text-white border-black shadow-md"
-                  : "bg-white border-cccccc"
-              } hover:border-black hover:shadow-lg`}>
+                  ? 'bg-black text-white border-black shadow-md'
+                  : 'bg-white border-cccccc'
+              } hover:border-black hover:shadow-lg`}
+            >
               <input
                 type="radio"
                 value={value}
-                {...register("paymentType", {
-                  required: "Выберите тип оплаты",
+                {...register('paymentType', {
+                  required: 'Выберите тип оплаты',
                 })}
                 className="hidden"
               />
@@ -282,7 +292,8 @@ export default function OrderForm({ onSubmitHandler }: TProps) {
       <div className="text-center">
         <button
           type="submit"
-          className="bg-black text-white py-4 px-8 text-2xl font-semibold rounded-lg transition hover:bg-gray-800 transform hover:scale-105 hover:shadow-lg">
+          className="bg-black text-white py-4 px-8 text-2xl font-semibold rounded-lg transition hover:bg-gray-800 transform hover:scale-105 hover:shadow-lg"
+        >
           Оформить заказ
         </button>
       </div>
