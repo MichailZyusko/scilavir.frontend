@@ -34,6 +34,7 @@ export const store = configureStore({
   }),
 });
 
+// !FIXME: redux-persist failed to create sync storage falling back to noop storage. on server side
 export const persistor = persistStore(store);
 
 const makeStore = () => store;

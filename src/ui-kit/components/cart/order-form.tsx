@@ -1,3 +1,5 @@
+/* eslint-disable jsx-a11y/label-has-associated-control */
+
 import { FieldValues, useForm } from 'react-hook-form';
 import { ErrorMessage } from '@hookform/error-message';
 
@@ -36,7 +38,6 @@ export default function OrderForm({ onSubmitHandler }: TProps) {
             { value: 'legal', label: 'Юр. лицо' },
           ].map(({ value, label }) => (
             <label
-              htmlFor="buyerType"
               key={value}
               className={`flex items-center justify-center border-2 rounded-lg p-4 cursor-pointer transition-all transform hover:scale-105 ${
                 buyerType === value
@@ -71,7 +72,6 @@ export default function OrderForm({ onSubmitHandler }: TProps) {
             { value: 'courier', label: 'Курьер' },
           ].map(({ value, label }) => (
             <label
-              htmlFor="deliveryType"
               key={value}
               className={`flex items-center justify-center border-2 rounded-lg p-4 cursor-pointer transition-all transform hover:scale-105 ${
                 deliveryType === value
@@ -110,7 +110,6 @@ export default function OrderForm({ onSubmitHandler }: TProps) {
                 { value: 'europochta', label: 'Европочта' },
               ].map(({ value, label }) => (
                 <label
-                  htmlFor="postCompany"
                   key={value}
                   className={`flex items-center justify-center border-2 rounded-lg p-4 cursor-pointer transition-all transform hover:scale-105 ${
                     watch('postCompany') === value
@@ -260,7 +259,6 @@ export default function OrderForm({ onSubmitHandler }: TProps) {
           ].map(({ value, label }) => (
             <label
               key={value}
-              htmlFor="paymentType"
               className={`flex items-center justify-center border-2 rounded-lg p-4 cursor-pointer transition-all transform hover:scale-105 ${
                 paymentType === value
                   ? 'bg-black text-white border-black shadow-md'
