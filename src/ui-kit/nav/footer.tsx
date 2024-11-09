@@ -36,7 +36,7 @@ export function Footer() {
           <li className="flex flex-col">
             <div className="mb-auto">
               <span className="text-white ">
-                <a href="tel:+375299357710">+8 (0154) 62-99-77</a>
+                <a href="tel:+80154629977">+8 (0154) 62-99-77</a>
               </span>
             </div>
             <div className="flex justify-between items-center">
@@ -90,14 +90,14 @@ export function Footer() {
         </div>
         <div className="mb-10 flex gap-24 justify-center font-semibold text-xl text-white">
           <a
-            download="политика конфиденциальности.pdf"
-            href="scilavir.frontend/public/images/about-us.svg"
+            download="политика конфиденциальности.docx"
+            href="/files/privacy-policy.docx"
           >
             Политика конфиденциальности
           </a>
           <a
-            download="пользовательское соглашение.pdf"
-            href="scilavir.frontend/public/images/about-us.svg"
+            download="пользовательское соглашение.docx"
+            href="/files/user-agreement.docx"
           >
             Пользовательское соглашение
           </a>

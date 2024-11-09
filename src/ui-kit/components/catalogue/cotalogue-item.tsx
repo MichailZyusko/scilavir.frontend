@@ -14,14 +14,14 @@ export function CatalogueItem({ item, type }: TProps) {
 
   return (
     <Link
-      className={twMerge('bg-cover w-full bg-gray flex flex-col justify-between p-8', styles?.className)}
+      className={twMerge('bg-cover w-full bg-gray flex flex-col justify-between p-8 border-2 border-black', styles?.className)}
       key={item.id}
       style={styles?.style}
       href={`/${type === 'group' ? 'groups' : 'categories'}/${item.id}`}
     >
       <div>
         <h3 className="text-xl font-semibold">{item.name}</h3>
-        <p>Текст</p>
+        <p>{item.description}</p>
       </div>
 
       <div>

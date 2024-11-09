@@ -2,7 +2,7 @@ import Link from 'next/link';
 
 export function Banner() {
   return (
-    <div className="bg-banner bg-[#3B1D01] bg-opacity-50 bg-blend-multiply">
+    <div className="bg-banner bg-[#3B1D01] bg-opacity-50 bg-blend-multiply bg-cover">
       <div className="container mx-auto h-80 flex justify-around items-center">
         <p className="text-4xl text-white font-light">
           <i>Наша</i>

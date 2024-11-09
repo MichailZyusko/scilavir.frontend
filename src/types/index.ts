@@ -28,6 +28,7 @@ export type TCategory = {
 export type TGroup = {
   id: string;
   name: string;
+  description: string;
   minPrice: number | null;
   image: string;
 };
