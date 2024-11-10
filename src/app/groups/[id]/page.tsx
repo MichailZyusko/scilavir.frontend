@@ -10,6 +10,7 @@ import { useClerkToken } from '@/context/auth';
 import { Loader } from '@/ui-kit/spinners';
 import { DEFAULT_PAGE_SIZE } from '@/constants';
 import { Paginator } from '@/ui-kit/components/paginator';
+import { parseAsStringEnum, useQueryState } from 'nuqs';
 
 type TGroup = {
   id: string;
@@ -19,7 +20,6 @@ type TGroup = {
 type TState = {
   products: TProduct[];
   group: TGroup | null;
-  sort: SortStrategy;
   isLoading: boolean;
   currentPage: number;
   totalPages: number;
@@ -33,17 +33,21 @@ type TProps = {
 
 export default function GroupsPage({ params: { id: groupId = '' } }: TProps) {
   const { updateClerkToken } = useClerkToken();
+  const [sort, setSort] = useQueryState<SortStrategy>(
+    'sort',
+    parseAsStringEnum<SortStrategy>(Object.values(SortStrategy))
+      .withDefault(SortStrategy.ALPHABETICAL_ASC)
+  );
   const [state, setState] = useState<TState>({
     products: [],
     group: null,
-    sort: SortStrategy.PRICE_ASC,
     isLoading: true,
     currentPage: 0,
     totalPages: 1,
   });
 
   const {
-    sort, currentPage, totalPages, isLoading,
+    currentPage, totalPages, isLoading,
   } = state;
 
   useEffect(() => {
@@ -92,22 +96,22 @@ export default function GroupsPage({ params: { id: groupId = '' } }: TProps) {
           inline
         >
           <Dropdown.Item
-            onClick={() => setState({ ...state, sort: SortStrategy.ALPHABETICAL_ASC })}
+            onClick={() => setSort(SortStrategy.ALPHABETICAL_ASC)}
           >
             А ➔ Я
           </Dropdown.Item>
           <Dropdown.Item
-            onClick={() => setState({ ...state, sort: SortStrategy.ALPHABETICAL_DESC })}
+            onClick={() => setSort(SortStrategy.ALPHABETICAL_DESC)}
           >
             Я ➔ А
           </Dropdown.Item>
           <Dropdown.Item
-            onClick={() => setState({ ...state, sort: SortStrategy.PRICE_ASC })}
+            onClick={() => setSort(SortStrategy.PRICE_ASC)}
           >
             Сначала дешевые
           </Dropdown.Item>
           <Dropdown.Item
-            onClick={() => setState({ ...state, sort: SortStrategy.PRICE_DESC })}
+            onClick={() => setSort(SortStrategy.PRICE_DESC)}
           >
             Сначала дорогие
           </Dropdown.Item>

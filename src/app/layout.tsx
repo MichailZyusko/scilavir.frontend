@@ -11,6 +11,7 @@ import { ClerkTokenProvider } from '@/context/auth';
 import { ToastContainer } from 'react-toastify';
 import Providers from './providers';
 import 'react-toastify/dist/ReactToastify.css';
+import { NuqsAdapter } from 'nuqs/adapters/next/app'
 
 const inter = Inter({
   subsets: ['cyrillic', 'latin'],
@@ -36,7 +37,9 @@ export default function RootLayout({ children }: PropsWithChildren) {
                 limit={3}
                 stacked
               />
-              {children}
+              <NuqsAdapter>
+                {children}
+              </NuqsAdapter>
               <Footer />
             </body>
           </Providers>
