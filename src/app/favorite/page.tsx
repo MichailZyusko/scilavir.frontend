@@ -26,8 +26,8 @@ export default function FavoritePage() {
   const { isSignedIn, isLoaded } = useUser();
   const [sort, setSort] = useQueryState<SortStrategy>(
     'sort',
-    parseAsStringEnum<SortStrategy>(Object.values(SortStrategy))  
-      .withDefault(SortStrategy.ALPHABETICAL_ASC)
+    parseAsStringEnum<SortStrategy>(Object.values(SortStrategy))
+      .withDefault(SortStrategy.ALPHABETICAL_ASC),
   );
   const [state, setState] = useState<TState>({
     products: [],

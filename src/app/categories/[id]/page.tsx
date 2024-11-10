@@ -32,7 +32,7 @@ export default function CategoryPage({ params: { id: categoryId = '' } }: TProps
   const [sort, setSort] = useQueryState<SortStrategy>(
     'sort',
     parseAsStringEnum<SortStrategy>(Object.values(SortStrategy))
-      .withDefault(SortStrategy.ALPHABETICAL_ASC)
+      .withDefault(SortStrategy.ALPHABETICAL_ASC),
   );
   const [state, setState] = useState<TState>({
     products: [],
