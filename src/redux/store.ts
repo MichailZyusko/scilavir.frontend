@@ -16,6 +16,7 @@ const persistConfig = {
   storage,
   // Add any reducers you want to persist here
   whitelist: ['authReducer', 'cartReducer'],
+  timeout: 1000,
 };
 
 const persistedReducer = persistReducer(persistConfig, rootReducer);
@@ -33,6 +34,7 @@ export const store = configureStore({
   }),
 });
 
+// !FIXME: redux-persist failed to create sync storage falling back to noop storage. on server side
 export const persistor = persistStore(store);
 
 const makeStore = () => store;

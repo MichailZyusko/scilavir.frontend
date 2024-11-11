@@ -9,6 +9,7 @@ import { ruRU } from '@clerk/localizations';
 import { twMerge } from 'tailwind-merge';
 import { ClerkTokenProvider } from '@/context/auth';
 import { ToastContainer } from 'react-toastify';
+import { NuqsAdapter } from 'nuqs/adapters/next/app';
 import Providers from './providers';
 import 'react-toastify/dist/ReactToastify.css';
 
@@ -36,7 +37,9 @@ export default function RootLayout({ children }: PropsWithChildren) {
                 limit={3}
                 stacked
               />
-              {children}
+              <NuqsAdapter>
+                {children}
+              </NuqsAdapter>
               <Footer />
             </body>
           </Providers>
