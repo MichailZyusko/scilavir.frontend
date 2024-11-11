@@ -39,8 +39,6 @@ export default function CartPage() {
       return;
     }
 
-    console.log({ orderDetails });
-
     await updateClerkToken();
     const orderPromise = axios.post('/orders', {
       cart,
