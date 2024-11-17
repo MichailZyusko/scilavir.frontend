@@ -1,3 +1,5 @@
+/* eslint-disable jsx-a11y/click-events-have-key-events */
+/* eslint-disable jsx-a11y/interactive-supports-focus */
 import {
   Dispatch, InputHTMLAttributes, SetStateAction, useEffect, useRef,
 } from 'react';
@@ -49,27 +51,29 @@ export function SearchInput({
   }, [search]);
 
   return (
-    <div ref={ref} className="flex items-center w-[600px]">
+    <div
+      role="button"
+      ref={ref}
+      className="flex items-center w-[600px]"
+      onClick={() => {
+        setIsFocused(true);
+        setIsModalOpened(true);
+        reset({ name: 'search' });
+      }}
+    >
       <Image
         src="/images/search.svg"
-        width={24}
-        height={24}
+        width={28}
+        height={28}
         alt="search"
-        onClick={() => {
-          setIsFocused(true);
-          setIsModalOpened(true);
-          reset({ name: 'search' });
-        }}
         className="cursor-pointer mr-2.5"
       />
-      {isFocused && (
-        <input
-          placeholder="Карандаш"
-          {...inputProps}
-          {...register('search')}
-          className="border-b-2 border-b-gray-700 outline-none text-gray-900 text-sm block w-1/2 p-2 pt-0"
-        />
-      )}
+      <input
+        placeholder="Карандаш"
+        {...inputProps}
+        {...register('search')}
+        className="border-b-2 border-b-gray-700 outline-none text-gray-900 text-sm block w-1/2 p-2 pt-0"
+      />
     </div>
   );
 }

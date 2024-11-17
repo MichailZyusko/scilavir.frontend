@@ -1,4 +1,4 @@
-import { FAQ } from '@/ui-kit/components/faq';
+import { Maps } from '@/ui-kit/components/maps/maps';
 import { AboutUs } from '@/ui-kit/components/overview/about-us';
 import { Banner } from '@/ui-kit/components/overview/banner';
 import { PopularGroups } from '@/ui-kit/components/overview/popular-categories';
@@ -11,7 +11,7 @@ export default async function Home() {
       <ProsList />
       <PopularGroups />
       <AboutUs />
-      <FAQ />
+      <Maps />
     </main>
   );
 }

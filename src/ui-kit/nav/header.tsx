@@ -23,7 +23,7 @@ export function Header() {
   const [isSearchListFocused, setIsSearchListFocused] = useFocusElement(ref);
 
   return (
-    <header className="w-full mt-10">
+    <header className="w-full my-8">
       <FormProvider {...hookFormMethods}>
         <div className="container mx-auto px-4">
           <div className="flex justify-between">
@@ -36,21 +36,27 @@ export function Header() {
             </div>
             <div className="flex items-center gap-2.5">
               <Link href="/favorite">
-                <Image src="/images/favorite.svg" width={24} height={24} alt="favorite" />
+                <Image src="/images/favorite.svg" width={28} height={28} alt="favorite" />
               </Link>
               <Link href="/orders">
-                <Image src="/images/orders.svg" width={24} height={24} alt="orders" />
+                <Image src="/images/orders.svg" width={28} height={28} alt="orders" />
               </Link>
               <Link href="/sign-in">
                 <SignedIn>
-                  <UserButton />
+                  <UserButton
+                    appearance={{
+                      elements: {
+                        userButtonBox: 'w-8 h-8 flex items-center justify-center ',
+                      },
+                    }}
+                  />
                 </SignedIn>
                 <SignedOut>
-                  <Image src="/images/profile.svg" width={24} height={24} alt="logo" />
+                  <Image src="/images/profile.svg" width={28} height={28} alt="logo" />
                 </SignedOut>
               </Link>
               <Link href="/cart">
-                <Image src="/images/cart.svg" width={24} height={24} alt="cart" />
+                <Image src="/images/cart.svg" width={28} height={28} alt="cart" />
               </Link>
             </div>
           </div>
@@ -59,19 +65,19 @@ export function Header() {
               <Image src="/images/logo.svg" width={250} height={125} alt="logo" priority />
             </Link>
           </div>
-          <div className="flex items-center justify-center">
+          <div className="flex items-center justify-center ">
             <Navbar>
               <Navbar.Collapse>
-                <Navbar.Link href="/catalogue">
+                <Navbar.Link href="/catalogue" className="text-lg">
                   КАТАЛОГ
                 </Navbar.Link>
-                <Navbar.Link href="/#about-us">
+                <Navbar.Link href="/#about-us" className="text-lg">
                   О НАС
                 </Navbar.Link>
-                <Link href="/delivery-and-payment">
+                <Link href="/delivery-and-payment" className="text-lg">
                   ДОСТАВКА И ОПЛАТА
                 </Link>
-                <Link href="/#contacts">
+                <Link href="/#contacts" className="text-lg">
                   КОНТАКТЫ
                 </Link>
               </Navbar.Collapse>
