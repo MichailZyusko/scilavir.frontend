@@ -1,14 +1,14 @@
-import { useEffect } from "react";
-import { toast } from "react-toastify";
-import { useAppDispatch } from "@/redux/hooks";
+import { useEffect } from 'react';
+import { toast } from 'react-toastify';
+import { useAppDispatch } from '@/redux/hooks';
 import {
   decreaseProductCounts,
   increaseProductCounts,
   selectCart,
   setProductsCount,
-} from "@/app/cart/cart.slice";
-import { useSelector } from "react-redux";
-import { Button } from ".";
+} from '@/app/cart/cart.slice';
+import { useSelector } from 'react-redux';
+import { Button } from '.';
 
 type TProps = {
   productId: string;
@@ -25,7 +25,7 @@ export function AddToCartButton({ productId }: TProps) {
         setProductsCount({
           id: productId,
           quantity,
-        })
+        }),
       );
     }
 
@@ -61,16 +61,16 @@ export function AddToCartButton({ productId }: TProps) {
     e.preventDefault();
 
     dispatch(increaseProductCounts({ id: productId }));
-    toast.success("Товар добавлен в корзину");
+    toast.success('Товар добавлен в корзину');
   };
 
   const removeFromCartHandler = async (
-    e: React.MouseEvent<HTMLButtonElement>
+    e: React.MouseEvent<HTMLButtonElement>,
   ) => {
     e.preventDefault();
 
     dispatch(decreaseProductCounts({ id: productId }));
-    toast.error("Товар удален из корзины");
+    toast.error('Товар удален из корзины');
   };
 
   return (
