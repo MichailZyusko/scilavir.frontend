@@ -84,7 +84,12 @@ export default function CategoryPage({ params: { id: categoryId = '' } }: TProps
       <h1 className="w-full text-3xl text-center font-semibold mb-5">{state.category?.name}</h1>
       <div className="flex justify-between mb-2.5">
         <Dropdown
-          label="Сортировать"
+          label={(
+            <div className="relative inline-block">
+              Сортировать
+              <div className="absolute left-0 bottom-[-2px] w-full h-[1px] border-t border-dashed border-gray-400" />
+            </div>
+          )}
           inline
         >
           <Dropdown.Item

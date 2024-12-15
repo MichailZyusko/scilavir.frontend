@@ -5,14 +5,39 @@ import { YMaps, Map, Placemark } from '@pbe/react-yandex-maps';
 // !TODO: Replace with real data
 export function Maps() {
   return (
-    <section className="flex items-center justify-around mt-10">
-      <div>
-        <pre>
-          Name: Мир Бумаги
-          Address: ул. Кирова, 6
-          Phone: +375 29 123 45 67
-          Email: jhone.duo@gmail.com
-        </pre>
+    <section className="container mx-auto px-4 flex items-center justify-between mt-10">
+      <div className="bg-white p-8 rounded-lg shadow-2xl max-w-md w-full">
+        <div
+          className="h-32 flex items-center justify-center rounded-t-lg text-white text-3xl font-bold"
+          style={{
+            backgroundImage: 'url(/images/for-info-background.png)',
+            backgroundSize: 'cover',
+            backgroundPosition: 'center',
+          }}
+        >
+          Мир Бумаги
+        </div>
+        <div className="p-6 space-y-4 text-gray-700">
+          <div>
+            <span className="font-semibold text-gray-900">Address:</span>
+            {' '}
+            ул. Кирова, 29
+          </div>
+          <div>
+            <span className="font-semibold text-gray-900">Phone:</span>
+            {' '}
+            <a href="tel:+375291234567" className="text-blue-600 hover:underline">
+              +375 29 123 45 67
+            </a>
+          </div>
+          <div>
+            <span className="font-semibold text-gray-900">Email:</span>
+            {' '}
+            <a href="mailto:jhone.duo@gmail.com" className="text-blue-600 hover:underline">
+              jhone.duo@gmail.com
+            </a>
+          </div>
+        </div>
       </div>
       <YMaps>
         <Map

@@ -54,7 +54,7 @@ export const GROUPS_AND_CATEGORIES_MAPPER = new Map<string, Record<string, any>>
       className: 'div1',
       style: {
         gridArea: 'div1',
-        backgroundImage: "url('/images/for-office.jpg')",
+        backgroundImage: "url('/images/for-paper.jpg')",
       },
     },
   ],
@@ -65,7 +65,7 @@ export const GROUPS_AND_CATEGORIES_MAPPER = new Map<string, Record<string, any>>
       className: 'div2',
       style: {
         gridArea: 'div2',
-        backgroundImage: "url('/images/for-art.jpg')",
+        backgroundImage: "url('/images/for-organizers.jpg')",
         height: 600,
       },
     },
@@ -77,7 +77,7 @@ export const GROUPS_AND_CATEGORIES_MAPPER = new Map<string, Record<string, any>>
       className: 'div3',
       style: {
         gridArea: 'div3',
-        backgroundImage: "url('/images/for-office.jpg')",
+        backgroundImage: "url('/images/for-present.jpg')",
       },
     },
   ],
@@ -88,7 +88,7 @@ export const GROUPS_AND_CATEGORIES_MAPPER = new Map<string, Record<string, any>>
       className: 'div4',
       style: {
         gridArea: 'div4',
-        backgroundImage: "url('/images/for-art.jpg')",
+        backgroundImage: "url('/images/for-creation.jpg')",
         height: 600,
       },
     },
@@ -100,7 +100,7 @@ export const GROUPS_AND_CATEGORIES_MAPPER = new Map<string, Record<string, any>>
       className: 'div5',
       style: {
         gridArea: 'div5',
-        backgroundImage: "url('/images/for-office.jpg')",
+        backgroundImage: "url('/images/for-physical_equipment.jpg')",
       },
     },
   ],
@@ -111,7 +111,7 @@ export const GROUPS_AND_CATEGORIES_MAPPER = new Map<string, Record<string, any>>
       className: 'div6',
       style: {
         gridArea: 'div6',
-        backgroundImage: "url('/images/for-office.jpg')",
+        backgroundImage: "url('/images/for-diaries_notebooks.jpg')",
       },
     },
   ],
@@ -122,7 +122,7 @@ export const GROUPS_AND_CATEGORIES_MAPPER = new Map<string, Record<string, any>>
       className: 'div7',
       style: {
         gridArea: 'div7',
-        backgroundImage: "url('/images/for-printing.jpg')",
+        backgroundImage: "url('/images/for-demonstration_equipment.jpg')",
         height: 290,
       },
     },
@@ -134,7 +134,7 @@ export const GROUPS_AND_CATEGORIES_MAPPER = new Map<string, Record<string, any>>
       className: 'div8',
       style: {
         gridArea: 'div8',
-        backgroundImage: "url('/images/for-office.jpg')",
+        backgroundImage: "url('/images/for-stationery.jpg')",
       },
     },
   ],
@@ -145,7 +145,7 @@ export const GROUPS_AND_CATEGORIES_MAPPER = new Map<string, Record<string, any>>
       className: 'div9',
       style: {
         gridArea: 'div9',
-        backgroundImage: "url('/images/for-art.jpg')",
+        backgroundImage: "url('/images/for-writing_instruments_graphics.jpg')",
         height: 600,
       },
     },
@@ -157,7 +157,7 @@ export const GROUPS_AND_CATEGORIES_MAPPER = new Map<string, Record<string, any>>
       className: 'div10',
       style: {
         gridArea: 'div10',
-        backgroundImage: "url('/images/for-office.jpg')",
+        backgroundImage: "url('/images/for-folders_pencil-cases_cases.jpg')",
       },
     },
   ],
