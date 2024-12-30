@@ -33,8 +33,8 @@ export function Maps() {
           <div>
             <span className="font-semibold text-gray-900">Email:</span>
             {' '}
-            <a href="mailto:jhone.duo@gmail.com" className="text-blue-600 hover:underline">
-              jhone.duo@gmail.com
+            <a href="mailto:mir.bumagi@mail.ru" className="text-blue-600 hover:underline">
+              mir.bumagi@mail.ru
             </a>
           </div>
         </div>
