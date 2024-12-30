@@ -117,6 +117,7 @@ export default function GroupsPage({ params: { id: groupId = '' } }: TProps) {
           </Dropdown.Item>
         </Dropdown>
       </div>
+
       <div className="grid grid-cols-4 gap-8">
         {state.products.map(({ id, ...product }) => <Product key={id} id={id} {...product} />)}
       </div>
